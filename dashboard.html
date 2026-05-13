@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agency System — Live Status</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 32px 24px; }
+  .header { max-width: 900px; margin: 0 auto 32px; }
+  .header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+  .header .meta { font-size: 13px; color: #6b6b6b; margin-top: 4px; }
+  .section { max-width: 900px; margin: 0 auto 32px; }
+  .section h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #6b6b6b; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6b6b6b; padding: 10px 16px; text-align: left; background: #fafafa; border-bottom: 1px solid #ebebeb; }
+  td { font-size: 14px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+  .badge-option_period { background: #fff3cd; color: #856404; }
+  .badge-under_contract { background: #d1ecf1; color: #0c5460; }
+  .badge-active { background: #d4edda; color: #155724; }
+  .badge-pending_close { background: #cce5ff; color: #004085; }
+  .badge-closed { background: #e2e3e5; color: #383d41; }
+  .badge-terminated { background: #f8d7da; color: #721c24; }
+  .urgent { color: #c0392b; font-weight: 600; }
+  .upcoming { color: #e67e22; font-weight: 500; }
+  .ok { color: #27ae60; }
+  .pending { color: #7f8c8d; }
+  .deal-card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; overflow: hidden; }
+  .deal-card-header { padding: 14px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+  .deal-card-header .deal-title { font-size: 15px; font-weight: 600; }
+  .deal-card-header .deal-price { font-size: 14px; color: #6b6b6b; }
+  .deal-body { padding: 0; }
+  .deadline-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #f8f8f8; font-size: 13px; }
+  .deadline-row:last-child { border-bottom: none; }
+  .deadline-label { color: #3d3d3d; }
+  .deadline-date { color: #6b6b6b; margin-left: 8px; }
+  .risk-banner { background: #fff5f5; border-left: 3px solid #e74c3c; padding: 10px 20px; font-size: 13px; color: #c0392b; font-weight: 500; }
+  .footer { max-width: 900px; margin: 40px auto 0; font-size: 12px; color: #aaa; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Agency System — Live Status</h1>
+  <div class="meta">Diana's Austin RE Team · Austin metro residential · As of 2026-05-13</div>
+</div>
+
+<!-- CASES INDEX -->
+<div class="section">
+  <h2>Active Cases</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Case ID</th>
+        <th>Client</th>
+        <th>Property</th>
+        <th>Status</th>
+        <th>Agent</th>
+        <th>Last Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code style="font-size:12px">2026-04-28-Henderson-buyer</code></td>
+        <td>James + Sarah Henderson</td>
+        <td>4521 Speedway Ave, Austin 78751</td>
+        <td><span class="badge badge-option_period">option_period</span></td>
+        <td>Diana</td>
+        <td><span class="urgent">2026-05-13 ⚠</span></td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px">2026-05-13-Patel-buyer</code></td>
+        <td>Tom + wife Patel</td>
+        <td>78704 (Bouldin / South Lamar)</td>
+        <td><span class="badge badge-closed">closed</span></td>
+        <td>Diana</td>
+        <td><span class="ok">2026-07-15</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- HENDERSON DEAL DETAIL -->
+<div class="section">
+  <h2>Deal Detail — Henderson (Active)</h2>
+
+  <div class="deal-card">
+    <div class="deal-card-header">
+      <div>
+        <div class="deal-title">James + Sarah Henderson — 4521 Speedway Ave, Austin 78751</div>
+        <div style="font-size:13px; color:#6b6b6b; margin-top:2px">TREC 20-18 · Contract: 2026-05-05 · Target close: 2026-06-20 · Agent: Diana</div>
+      </div>
+      <div class="deal-price">$695,000</div>
+    </div>
+
+    <div class="risk-banner">⚠️ URGENT — Competing offer received 2026-05-13. Response deadline: tomorrow 2026-05-14 at 5pm. Option period ends 2026-05-15 (2 days).</div>
+
+    <div class="deal-body">
+      <div class="deadline-row">
+        <span class="deadline-label">Option period end / Inspection deadline</span>
+        <span><span class="urgent">2026-05-15 · 2 days ⚠️ URGENT</span><span class="deadline-date">Buyer proceeding as-is after inspection 2026-05-08</span></span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">Financing contingency</span>
+        <span><span class="upcoming">2026-05-26 · 13 days</span><span class="deadline-date">Capitol Federal · 21-day conventional</span></span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">Appraisal deadline</span>
+        <span><span class="upcoming">2026-05-26 · 13 days</span><span class="deadline-date">Appraiser assigned 2026-05-06</span></span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">Title commitment due</span>
+        <span><span class="ok">2026-05-25 · 12 days</span><span class="deadline-date">Lonestar Title</span></span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">Final walkthrough</span>
+        <span><span class="ok">2026-06-19 · 37 days</span><span class="deadline-date">Convention — 1 day before close</span></span>
+      </div>
+      <div class="deadline-row">
+        <span class="deadline-label">Closing</span>
+        <span><span class="ok">2026-06-20 · 38 days</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENT CHECKLIST -->
+  <table>
+    <thead>
+      <tr><th>Document</th><th>Status</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Earnest money ($6,950)</td><td><span class="ok">✅ Received</span></td><td>Lonestar Title 2026-05-06</td></tr>
+      <tr><td>Option fee ($500)</td><td><span class="ok">✅ Received</span></td><td>Lonestar Title 2026-05-06</td></tr>
+      <tr><td>Inspection report</td><td><span class="ok">✅ Received</span></td><td>Minor cosmetic items; buyer proceeding as-is</td></tr>
+      <tr><td>Updated pre-approval letter</td><td><span class="ok">✅ Received</span></td><td>Capitol Federal $720K — 2026-05-07</td></tr>
+      <tr><td>Survey</td><td><span class="pending">⏳ Pending</span></td><td>Ordered by Lonestar Title</td></tr>
+      <tr><td>Title commitment</td><td><span class="pending">⏳ Pending</span></td><td>Due 2026-05-25</td></tr>
+      <tr><td>Loan commitment letter</td><td><span class="pending">⏳ Pending</span></td><td>Due 2026-05-26</td></tr>
+      <tr><td>Appraisal</td><td><span class="pending">⏳ Pending</span></td><td>Appraiser assigned; due 2026-05-26</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Built by Nico Patron · agency-system · Clief Notes comp-4 · Austin metro residential · TREC 20-18 ·
+  <a href="README.md" style="color:#aaa">README</a> ·
+  <a href="DEMO.md" style="color:#aaa">Run DEMO</a>
+</div>
+
+</body>
+</html>
