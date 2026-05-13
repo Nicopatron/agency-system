@@ -87,26 +87,79 @@ qualified_lead:
 
 ---
 
-## Start in 10 minutes
+## Getting Started
 
-You don't need all 5 folders to feel how this works. Try this first.
+**Prerequisites:** This folder is agent-agnostic — works with any AI that reads markdown. Three documented paths:
 
-**Want to see the full system run first?** Open [`DEMO.md`](./DEMO.md) — paste it into any capable model (Claude, ChatGPT, Gemini, Codex) and watch a 3-step pipeline produce a real estate email draft in under 2 minutes. No setup. [`LIVE-RUN.md`](./LIVE-RUN.md) has the reference output if you want to compare.
+- **Path A: Claude account** (free or paid) — browser-based, easiest first try
+- **Path B: Claude Code** — local CLI agent
+- **Path C: Codex CLI / Cursor / Windsurf / Zed / Roo Code / Aider / Cline / Continue** — any agent that auto-reads `AGENTS.md` (compatibility table below)
 
-Or try the minimal version. Create an AI workspace (Claude Projects, ChatGPT custom GPT, Gemini workspace, or any tool that supports custom instructions + attached files) with just two files:
+### Evaluating cold without Austin RE knowledge?
+
+Open [`DEMO.md`](./DEMO.md) and paste it into any capable model. It runs a 3-step pipeline (lead intake → property research → email draft) in under 2 minutes. No setup. [`LIVE-RUN.md`](./LIVE-RUN.md) has the reference output to compare against. The system either follows its own contract or it doesn't — auditable in 30 seconds. Terms are in [Quick terms](#quick-terms) above.
+
+### Try these variations (for evaluators going deeper)
+
+After the canonical Patel input, these poke the contract to confirm it's calibrated, not memorized:
+
+1. **Change Patel's budget from $750K to $500K** → `02_property_research` shifts scope to different sub-areas (Galindo, East Austin at that bracket); `research_brief.confidence` may drop if comparables thin out
+2. **Remove must-haves from a Henderson input** → `intake_completeness` drops to 4; confidence cap propagates to 02 and 03; `03_client_communication` includes the must-have question as the single direct follow-up
+3. **Paste a thin lead (no budget, no timeline, area = "somewhere nice")** → refusal triggers from `01_lead_qualifier` with a gap list and specific recovery questions; no `qualified_lead` produced
+4. **Get a `qualified_lead` from 01, then paste it into 02** → typed contract passes directly; `02` scopes the research exactly by `01`'s `research_request.scope` field, no manual translation
+5. **After a Patel routing, paste a `deal_event` into 03** → specialist switches from first-touch archetype to inspection-issue or competing-offer archetype; voice match notes and output shape change
+
+The contract is in each specialist's `handoff.md`. The output shapes are in `examples.md`. Each variation traces to specific files; nothing is hidden in prompt engineering.
+
+### Path A — Claude Project (~3 min)
+
+1. Clone or download this folder.
+2. Open claude.ai → New Project.
+3. Create 5 workspaces, one per specialist folder. Name them `00-orchestrator`, `01-lead-qualifier`, `02-property-research`, `03-client-communication`, `04-transaction-coordinator`.
+4. For each workspace: upload `identity.md`, `rules.md`, `examples.md`, `handoff.md` into **Project Knowledge**. For 02 and 04, also include `domain-fact-pending.md`. Add `_config/team-standards.md` to every workspace.
+5. For **03_client_communication**: have each agent set up their `voice-profiles/<agent_name>.md` once (template + Diana's filled example included). Takes ~20 min per agent, refreshes every ~90 days.
+6. For **04_transaction_coordinator**: confirm TREC contract version with your broker. Default is **TREC 20-18** (One to Four Family Residential, effective 2025-01-03). `domain-fact-pending.md` lists day-counts already verified against current TREC + Austin 2026 market data.
+7. Open a new chat in a workspace and paste your situation: a lead, a deal event, or a question.
+8. Ask: *"Act as 01_lead_qualifier and produce a qualified_lead."*
+
+To iterate: *"Pass this to 02_property_research and produce a research_brief."* *"Now pass both to 03_client_communication and draft the first-touch email in Diana's voice."*
+
+If you don't have a real lead, paste the Patel web form fill from `onboarding/patel-scenario.md § Stage 1` to test cold.
+
+### Path B — Claude Code (local)
 
 ```
-00_orchestrator/identity.md
-01_lead_qualifier/identity.md
+git clone https://github.com/Nicopatron/agency-system.git
+cd agency-system
 ```
 
-Then paste this into the workspace:
+Open the folder in Claude Code. Tell it:
 
-> "New web lead: Tom and his wife are relocating from SF in 60 days. $750K budget. Interested in 78704."
+> "Read this folder — it's a real estate agency operating system for Austin residential. I have a lead: [paste situation]. Act as 01_lead_qualifier and produce the qualified_lead."
 
-Ask the model: *"Act as 00_orchestrator and produce a routed_request to 01_lead_qualifier. Then act as 01_lead_qualifier and produce the qualified_lead. Show both outputs."*
+Claude Code reads `CLAUDE.md` → `AGENTS.md` automatically. Same output contract as Path A.
 
-You'll see the typed contract pass from one specialist to the next. The schema in `01_lead_qualifier/handoff.md` keeps them aligned. When that makes sense, come back and set up all 5.
+### Path C — Codex CLI / Cursor / Windsurf / other agents
+
+This folder includes an `AGENTS.md` file following the [agents.md](https://agents.md) open convention. Most CLI agents auto-discover it on session start.
+
+```
+git clone https://github.com/Nicopatron/agency-system.git
+cd agency-system
+```
+
+| Agent | Auto-reads AGENTS.md? | Notes |
+|-------|----------------------|-------|
+| Codex CLI (OpenAI) | ✅ Native | Reads on session start |
+| Cursor | ✅ Native | Replaces deprecated `.cursorrules` |
+| Windsurf | ✅ Native | Stable since 2025 |
+| Zed AI | ✅ Native | Fallback chain: `.rules → .cursorrules → .clinerules → AGENTS.md` |
+| Roo Code | ✅ Native | Confirmed Jan 2026 |
+| Aider | ⚠️ Manual | `aider --read AGENTS.md` or add to `.aider.conf.yml` |
+| Cline / Continue | ⚠️ Manual | Paste `AGENTS.md` contents into chat at session start |
+| Claude Code | ✅ Via CLAUDE.md redirect | `CLAUDE.md` in repo points to `AGENTS.md` |
+
+Once loaded, paste your situation. Same output contract as Path A and Path B.
 
 ---
 
@@ -143,15 +196,37 @@ Full step-by-step walkthrough with inputs and outputs at every stage: [`onboardi
 
 ---
 
-## Setup before first use (one-time, ~30 min)
+## The flow on every paste
 
-**Model compatibility:** This system was built on Claude but works with any capable model — GPT-4o, Gemini 1.5 Pro, Llama 3, Codex, or equivalent. The folder structure, YAML schemas, and markdown rules contain no model-specific syntax. For best results use a model with 32K+ context window and strong instruction-following.
-
-1. Open your AI workspace (Claude Projects, ChatGPT custom GPT, Gemini workspace, or any tool that supports custom instructions + attached files)
-2. Create 5 workspaces, one per specialist folder. Name them `00-orchestrator`, `01-lead-qualifier`, `02-property-research`, `03-client-communication`, `04-transaction-coordinator`
-3. For each workspace: drop the folder's four files (`identity.md`, `rules.md`, `examples.md`, `handoff.md`) into the workspace's instructions or attached files. For 02 and 04, also include the `domain-fact-pending.md` catch file
-4. For **03_client_communication**: have each agent set up their `voice-profiles/<agent_name>.md` once. The folder includes a template + Diana's filled example. Takes ~20 min per agent and refreshes every ~90 days
-5. For **04_transaction_coordinator**: confirm current TREC contract version with your broker. The current default is **TREC 20-18** (One to Four Family Residential, effective 2025-01-03; colloquially called "TREC 1-4"). The `04_transaction_coordinator/domain-fact-pending.md` lists day-counts already verified against current TREC + Austin 2026 market data
+```
+Paste: lead / deal event / request
+              |
+              v
+     +-----------------+
+     | 00_orchestrator |  ← optional (senior agents go direct)
+     |  route + triage |
+     +-----------------+
+              |
+              v
+     +-----------------+      intake_completeness < 4
+     |   Intake gate   | ─────────────────────────→  Refusal output
+     | (handoff.md per |                             (gap list, no draft)
+     |   specialist)   |  ← each specialist/handoff.md
+     +-----------------+
+              |
+              v
+   +-----------------------------+
+   |     Specialist synthesis    |
+   |  01 → qualified_lead        |
+   |  02 → research_brief        |
+   |  03 → comm_draft            |
+   |  04 → deal_state update     |
+   +-----------------------------+
+              |
+              v
+     Typed handoff output
+     (YAML — next specialist reads this exact schema)
+```
 
 ---
 
