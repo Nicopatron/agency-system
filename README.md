@@ -2,9 +2,20 @@
 
 > Boutique real estate operations in 5 specialists working together. Built so the newest agent on your team can pick it up in a day.
 
+## Quick terms
+
+**TREC 20-18** — Texas standard residential purchase contract (One to Four Family). The default used throughout; confirm your version with your broker.
+**Option period** — inspection window (~7 days) during which the buyer can terminate for any reason and get earnest money back.
+**Earnest money** — deposit held in escrow when a contract executes; forfeited if the buyer backs out outside the option period.
+**Comps** — comparable closed sales used to estimate market value and support pricing.
+**intake_completeness** — a 0–5 score tracking how complete a prospect's intake is; gates downstream specialist work.
+**Confidence** — a 0–100 score assigned by each specialist; downstream specialists cap their own at the upstream value, so uncertainty propagates honestly.
+
+---
+
 It's Tuesday at 10:45pm. A client texted asking where the option period stands. You're mid-dinner. You pull up your phone, realize you need to dig through three Google Docs and two email threads to answer a yes/no question. You answer — and you realize this is the fourth time this week someone on your team had to reconstruct context that already existed somewhere.
 
-Your team does 70 transactions a year. Everyone's good at their part. Nobody can pick up someone else's part without a 15-minute briefing. When Diana's sick, the lead that came in at 9am sits until she's back. When Marcus onboarded last month, he spent his first week asking the same questions over Slack.
+Your team does 70 transactions a year. At 15–20 minutes of context reconstruction per handoff, that's 350+ hours a year of your team repeating itself. Everyone's good at their part. Nobody can pick up someone else's part without a 15-minute briefing. When Diana's sick, the lead that came in at 9am sits until she's back. When Marcus onboarded last month, he spent his first week asking the same questions over Slack.
 
 This changes that.
 
@@ -38,6 +49,41 @@ agency-system/
 Each specialist folder contains: `identity.md` (who they are), `rules.md` (how they operate), `examples.md` (worked interactions, 3-4 per folder), `handoff.md` (the typed contract — what they receive, what they produce, failure modes).
 
 `_config/team-standards.md` is the shared quality floor. Voice profiles make each agent sound like themselves. Team standards make every agent operate at Diana's standard. Generic content in `team-standards.md` produces generic outputs everywhere — Diana must complete this file before the system goes live.
+
+---
+
+## What the system produces
+
+A Patel scenario — compressed from the full walkthrough in [`onboarding/patel-scenario.md`](./onboarding/patel-scenario.md).
+
+**01_lead_qualifier** → typed `qualified_lead` (excerpt):
+
+```yaml
+qualified_lead:
+  lead_id: "2026-05-13-Patel-buyer"
+  client_type: "buyer"
+  budget: { min_usd: 650000, max_usd: 750000, financing: "conventional" }
+  timeline: { decision_window_days: 45, target_close: "2026-06-30" }
+  location_preferences: { primary_areas: ["78704"], must_haves: [], deal_breakers: [] }
+  intake_completeness: 4    # must-haves not yet captured; gates downstream
+  confidence: 80            # caps every downstream specialist
+```
+
+**03_client_communication** → email draft in Diana's voice (subject: "78704 — quick notes before we talk"):
+
+> Hi Tom and Priya,
+>
+> Thanks for reaching out about 78704. Quick notes before we set a call.
+>
+> Your range works in 78704, but inventory there at $650-750K skews to 2BR condos and townhomes in Bouldin Creek. For single-family at that price-point, you'd also want to look at outer South Lamar or the Galindo sub-area — same school catchments, slightly less walkable, more house for the money.
+>
+> The market in 78704 has been in contraction for ~4 years — median $/sqft down 19.3% YoY (March 2026). Negotiation room is real here.
+>
+> One question before we talk: what's your one must-have, and one deal-breaker?
+>
+> — Diana
+
+`confidence: 65` (capped at upstream research_brief; reduced for comparables below threshold). Each output includes a `send_checklist` — claims the agent must verify before send. Full pipeline output including `02_property_research` and `04_transaction_coordinator` in [`LIVE-RUN.md`](./LIVE-RUN.md).
 
 ---
 
