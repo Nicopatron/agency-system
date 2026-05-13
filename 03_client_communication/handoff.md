@@ -81,6 +81,11 @@ signing_agent_fallback:
   flag_for_review: true
 ```
 
+**Acceptance criteria:**
+
+- [ ] `voice_profile_ref.profile_file_path` is populated OR `signing_agent_fallback` block is provided
+- [ ] If neither is present → REFUSE with `reason: "voice_profile_missing"`; direct agent to `voice-profiles/_template.md` (~20 min one-time setup) or request a `signing_agent_fallback` block for juniors
+
 ---
 
 ## Outputs I produce
