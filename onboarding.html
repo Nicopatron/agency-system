@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diana's Agency System — An Operating Manual</title>
+<meta name="description" content="Boutique real estate operations in six specialists. Built so the newest agent on your team can pick it up in a day.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,0..100;1,9..144,400..700,0..100&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     E-Growth-derived design system — adapted for static site
+     ========================================================= */
+  :root {
+    --bg:                 #FAF6F1;
+    --bg-elevated:        #F2EDE5;
+    --bg-paper:           #FFFFFF;
+
+    --fg1:                #1A1512;
+    --fg2:                #4A4340;
+    --fg3:                #8A8178;
+    --fg4:                #C9C1B6;
+
+    --accent:             #FF4D00;
+    --accent-ink:         #CC3D00;
+    --accent-soft:        rgba(255, 77, 0, 0.08);
+
+    --surface-1:          rgba(26, 21, 18, 0.03);
+    --surface-2:          rgba(26, 21, 18, 0.05);
+    --surface-3:          rgba(26, 21, 18, 0.08);
+
+    --border-subtle:      rgba(26, 21, 18, 0.06);
+    --border-default:     rgba(26, 21, 18, 0.10);
+    --border-strong:      rgba(26, 21, 18, 0.20);
+    --border-accent:      rgba(255, 77, 0, 0.40);
+
+    --code-bg:            #1A1512;
+    --code-fg:            #F2EDE5;
+
+    /* YAML syntax — muted on dark warm */
+    --y-key:              #F2C77A;
+    --y-str:              #B8C8A6;
+    --y-num:              #FF8A4C;
+    --y-cmt:              #8A8178;
+    --y-sym:              #F2C77A;
+
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-sans:    'Manrope', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-xl: 24px;
+    --r-pill: 9999px;
+
+    --shadow-sm: 0 1px 2px rgba(26, 21, 18, 0.06);
+    --shadow-md: 0 8px 24px rgba(26, 21, 18, 0.08);
+    --shadow-card: 0 1px 2px rgba(26, 21, 18, 0.04), 0 12px 40px rgba(26, 21, 18, 0.08);
+
+    --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 160ms;
+    --dur-base: 300ms;
+    --dur-slow: 600ms;
+
+    --w-content: 1280px;
+    --nav-h: 88px;
+  }
+
+  * { box-sizing: border-box; }
+  *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg1);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    font-feature-settings: "ss01";
+  }
+
+  ::selection { background: rgba(255, 77, 0, 0.18); color: var(--fg1); }
+
+  a { color: var(--fg1); text-decoration: none; }
+  a:hover { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    background: var(--accent-soft);
+    color: var(--fg1);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* =========================================================
+     Typography utilities
+     ========================================================= */
+  .h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.6vw, 4.8rem);
+    font-variation-settings: "opsz" 144, "wght" 540, "SOFT" 30;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--fg1);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-variation-settings: "opsz" 96, "wght" 540, "SOFT" 30;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--fg1);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    font-variation-settings: "opsz" 36, "wght" 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--fg1);
+    margin: 0;
+  }
+
+  .h4 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-variation-settings: "opsz" 24, "wght" 600;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .lead {
+    font-size: clamp(1.0625rem, 1.4vw, 1.18rem);
+    line-height: 1.65;
+    color: var(--fg2);
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .eyebrow-quiet { color: var(--fg3); }
+
+  .italic-emph {
+    font-style: italic;
+    color: var(--accent);
+    font-variation-settings: "opsz" 144, "wght" 540, "SOFT" 50;
+  }
+
+  /* =========================================================
+     Layout
+     ========================================================= */
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px);
+    max-width: var(--w-content);
+  }
+
+  section {
+    padding: clamp(72px, 10vw, 128px) 0;
+    position: relative;
+  }
+
+  .section-alt {
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-head { margin-bottom: clamp(40px, 6vw, 64px); max-width: 700px; }
+  .section-head .eyebrow { display: block; margin-bottom: 16px; }
+  .section-head .h2 + .lead { margin-top: 20px; }
+
+  /* =========================================================
+     Glass Navbar — pill
+     ========================================================= */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    transition: padding var(--dur-base) var(--ease-out);
+    pointer-events: none;
+  }
+  nav.top[data-scrolled="true"] { padding: 10px 16px; }
+
+  nav.top .pill {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 10px 14px 10px 22px;
+    border-radius: var(--r-pill);
+    transition: box-shadow var(--dur-base) var(--ease-out),
+                background var(--dur-base) var(--ease-out),
+                border-color var(--dur-base) var(--ease-out);
+    background: rgba(250, 246, 241, 0.65);
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  nav.top[data-scrolled="true"] .pill {
+    background: rgba(250, 246, 241, 0.92);
+    border-color: var(--border-subtle);
+    box-shadow: 0 1px 2px rgba(26, 21, 18, 0.04), 0 8px 28px rgba(26, 21, 18, 0.08);
+  }
+
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--fg1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-brand .pip {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .nav-anchors {
+    display: none;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 768px) { .nav-anchors { display: flex; } }
+
+  .nav-anchors a {
+    font-family: var(--font-sans);
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--fg2);
+    transition: color var(--dur-base);
+  }
+  .nav-anchors a:hover { color: var(--fg1); }
+
+  .nav-cta {
+    display: none;
+    background: var(--fg1);
+    color: var(--bg);
+    padding: 9px 18px;
+    border-radius: var(--r-pill);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: transform var(--dur-fast), background var(--dur-base);
+  }
+  @media (min-width: 768px) { .nav-cta { display: inline-flex; align-items: center; gap: 6px; } }
+  .nav-cta:hover { transform: scale(1.03); background: #2C2520; color: var(--bg); }
+  .nav-cta .arr { transition: transform var(--dur-fast); }
+  .nav-cta:hover .arr { transform: translate(2px, -2px); }
+
+  /* =========================================================
+     Hero — split asymmetric
+     ========================================================= */
+  .hero {
+    padding: calc(var(--nav-h) + 56px) 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 77, 0, 0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .hero-inner {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 72px;
+    }
+  }
+
+  .hero-copy { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    border-radius: var(--r-pill);
+    background: var(--surface-1);
+    border: 1px solid var(--border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg2);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .hero-badge .pip {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.6vw, 5rem);
+    font-variation-settings: "opsz" 144, "wght" 520, "SOFT" 30;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--fg1);
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hero-title .accent-dot {
+    color: var(--accent);
+    display: inline-block;
+    transform: translateX(-4px);
+  }
+
+  .hero-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 36, "wght" 420;
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    line-height: 1.45;
+    color: var(--fg2);
+    max-width: 540px;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .hero-sub em {
+    font-style: italic;
+    color: var(--accent);
+    font-variation-settings: "opsz" 36, "wght" 500;
+  }
+
+  .hero-frame {
+    color: var(--fg2);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0;
+  }
+  .hero-frame strong {
+    color: var(--fg1);
+    font-weight: 600;
+  }
+
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: var(--r-pill);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out),
+                background var(--dur-base) var(--ease-out),
+                border-color var(--dur-base) var(--ease-out),
+                color var(--dur-base) var(--ease-out);
+    line-height: 1;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-primary { background: var(--fg1); color: var(--bg); }
+  .btn-primary:hover { background: #2C2520; color: var(--bg); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--fg1);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-secondary:hover { border-color: var(--fg1); background: var(--surface-1); color: var(--fg1); }
+
+  .btn .arr { display: inline-block; transition: transform var(--dur-fast); }
+  .btn:hover .arr { transform: translateX(2px); }
+  .btn-primary:hover .arr-up { transform: translate(2px, -2px); }
+
+  .hero-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--fg3);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  .hero-meta .sep { color: var(--fg4); }
+
+  /* Hero code-preview carousel */
+  .hero-preview {
+    position: relative;
+    background: var(--bg-paper);
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    min-height: 460px;
+  }
+  .hero-preview::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hp-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface-1);
+    z-index: 1;
+  }
+  .hp-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+  }
+  .hp-tab-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border-default);
+  }
+  .hp-tab-active .pip {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .hp-meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--fg3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hp-stage {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+  .hp-frame {
+    position: absolute;
+    inset: 0;
+    padding: 22px 24px;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 320ms var(--ease-out);
+    pointer-events: none;
+  }
+  .hp-frame.active { opacity: 1; pointer-events: auto; }
+
+  .hp-frame .hp-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hp-frame .hp-arrow {
+    color: var(--fg3);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    margin: 12px 0 6px;
+  }
+  .hp-frame pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--fg1);
+    white-space: pre;
+    background: transparent;
+  }
+  .hp-frame .y-key { color: #B7461A; font-weight: 500; }
+  .hp-frame .y-str { color: #4A4340; }
+  .hp-frame .y-num { color: var(--accent); font-weight: 500; }
+  .hp-frame .y-cmt { color: var(--fg3); font-style: italic; }
+
+  .hp-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-top: 1px solid var(--border-subtle);
+    background: var(--surface-1);
+  }
+  .hp-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .hp-dot {
+    width: 22px; height: 4px;
+    background: var(--border-default);
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0;
+    transition: background var(--dur-base);
+  }
+  .hp-dot.active { background: var(--accent); }
+  .hp-dot:hover { background: var(--border-strong); }
+  .hp-dot.active:hover { background: var(--accent-ink); }
+
+  .hp-pause {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--fg3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: color var(--dur-base);
+  }
+  .hp-pause:hover { color: var(--fg1); }
+
+  /* =========================================================
+     How it works — 4 cards grid
+     ========================================================= */
+  .principles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media (min-width: 640px) { .principles { grid-template-columns: 1fr 1fr; gap: 20px; } }
+  @media (min-width: 1024px) { .principles { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
+
+  .principle {
+    padding: 28px 26px;
+    background: var(--bg-paper);
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color var(--dur-base) var(--ease-out),
+                background var(--dur-base) var(--ease-out),
+                transform var(--dur-base) var(--ease-out);
+  }
+  .principle:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+  .principle-num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .principle h3 { color: var(--fg1); }
+  .principle p { color: var(--fg2); font-size: 0.93rem; line-height: 1.6; margin: 0; }
+
+  /* =========================================================
+     Two-col main + sidebar layout
+     ========================================================= */
+  .main-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  @media (min-width: 1024px) {
+    .main-shell {
+      grid-template-columns: minmax(0, 7fr) minmax(280px, 4fr);
+      gap: 80px;
+      align-items: start;
+    }
+  }
+
+  .main-content { min-width: 0; }
+
+  /* Sidebar TOC — sticky right rail */
+  aside.toc {
+    position: relative;
+    align-self: start;
+  }
+  @media (min-width: 1024px) {
+    aside.toc {
+      position: sticky;
+      top: calc(var(--nav-h) + 32px);
+    }
+  }
+
+  .toc-inner {
+    background: var(--bg-paper);
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-lg);
+    padding: 24px 22px;
+  }
+
+  .toc-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg3);
+    margin: 0 0 16px;
+  }
+
+  .toc-list { list-style: none; padding: 0; margin: 0; }
+
+  .toc-row {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    padding: 12px 14px 12px 12px;
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--fg1);
+    cursor: pointer;
+    transition: background var(--dur-base) var(--ease-out),
+                color var(--dur-base) var(--ease-out);
+    border-left: 2px solid transparent;
+  }
+  .toc-row + .toc-row { margin-top: 2px; }
+  .toc-row:hover { background: var(--surface-1); color: var(--fg1); }
+  .toc-row.active {
+    background: var(--accent-soft);
+    border-left-color: var(--accent);
+  }
+
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    padding-top: 2px;
+  }
+
+  .toc-name { font-weight: 600; font-size: 0.94rem; line-height: 1.3; color: var(--fg1); }
+  .toc-tag  { font-size: 0.78rem; color: var(--fg3); margin-top: 2px; line-height: 1.4; }
+  .toc-row.active .toc-name { color: var(--accent-ink); }
+
+  /* Mobile: sidebar collapses to chip row */
+  @media (max-width: 1023px) {
+    aside.toc { order: -1; margin-bottom: 8px; }
+    .toc-inner { padding: 16px; }
+    .toc-list {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+    .toc-row {
+      flex-shrink: 0;
+      grid-template-columns: auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid var(--border-default);
+      border-left: 2px solid var(--border-default);
+    }
+    .toc-row + .toc-row { margin-top: 0; }
+    .toc-tag { display: none; }
+    .toc-name { font-size: 0.85rem; }
+  }
+
+  /* =========================================================
+     Specialists — asymmetric per-row layout
+     ========================================================= */
+  .specialist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: clamp(36px, 5vw, 48px) 0;
+    border-top: 1px solid var(--border-subtle);
+    scroll-margin-top: var(--nav-h);
+  }
+  .specialist:last-of-type { border-bottom: 1px solid var(--border-subtle); }
+
+  @media (min-width: 768px) {
+    .specialist {
+      grid-template-columns: minmax(180px, 1fr) minmax(0, 1.6fr);
+      gap: 36px;
+    }
+  }
+
+  .specialist-head { display: flex; flex-direction: column; gap: 8px; }
+  .specialist-numeral {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 144, "wght" 400, "SOFT" 30;
+    font-size: clamp(3.4rem, 7vw, 5.4rem);
+    color: var(--accent);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+    margin: 0;
+  }
+  .specialist-name {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 60, "wght" 600;
+    font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+    line-height: 1.1;
+    color: var(--fg1);
+    margin: 8px 0 0;
+    letter-spacing: -0.015em;
+  }
+  .specialist-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "wght" 400;
+    color: var(--fg2);
+    font-size: 1.02rem;
+    line-height: 1.45;
+    margin: 8px 0 0;
+    max-width: 320px;
+  }
+
+  .specialist-body { min-width: 0; }
+
+  .specialist dl {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px clamp(14px, 2vw, 22px);
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .specialist dt {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--fg3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-top: 5px;
+  }
+  .specialist dd {
+    color: var(--fg2);
+    margin: 0;
+  }
+  .specialist dd strong { color: var(--fg1); font-weight: 600; }
+
+  @media (max-width: 540px) {
+    .specialist dl { grid-template-columns: 1fr; gap: 2px 0; }
+    .specialist dt { padding-top: 14px; }
+    .specialist dt:first-child { padding-top: 0; }
+  }
+
+  .specialist details { margin-top: 22px; }
+  .specialist summary {
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    user-select: none;
+    padding: 6px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color var(--dur-base);
+  }
+  .specialist summary:hover { color: var(--accent-ink); }
+  .specialist summary::-webkit-details-marker { display: none; }
+  .specialist summary::before {
+    content: "+";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    font-size: 11px;
+    line-height: 1;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .specialist details[open] summary::before {
+    content: "−";
+    transform: rotate(180deg);
+  }
+  .specialist .deep {
+    margin-top: 16px;
+    padding: 18px 22px;
+    background: var(--bg-elevated);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .specialist .deep dl { font-size: 0.9rem; }
+
+  /* =========================================================
+     Demo — scenario picker + panels
+     ========================================================= */
+  .demo-picker {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    margin-bottom: 28px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .demo-picker::-webkit-scrollbar { display: none; }
+
+  .pick-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--r-pill);
+    background: var(--surface-1);
+    border: 1px solid var(--border-default);
+    color: var(--fg2);
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--dur-base) var(--ease-out);
+    white-space: nowrap;
+  }
+  .pick-btn:hover { color: var(--fg1); border-color: var(--border-strong); }
+  .pick-btn .letter {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--accent);
+    transition: color var(--dur-base);
+  }
+  .pick-btn.active {
+    background: var(--fg1);
+    color: var(--bg);
+    border-color: var(--fg1);
+  }
+  .pick-btn.active .letter { color: var(--accent); }
+
+  .scenario-stage {
+    position: relative;
+    min-height: 420px;
+  }
+  .scenario {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms var(--ease-out);
+    display: none;
+  }
+  .scenario.active {
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+    animation: fadeUp 320ms var(--ease-out);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .scenario-head { margin-bottom: 18px; }
+  .scenario-head h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 60, "wght" 540;
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+    margin: 6px 0 8px;
+    letter-spacing: -0.015em;
+  }
+  .scenario-desc {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 24, "wght" 420;
+    color: var(--fg2);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 620px;
+  }
+
+  .scenario-route {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg2);
+    margin: 18px 0 22px;
+    padding: 10px 14px;
+    border: 1px dashed var(--border-default);
+    border-radius: var(--r-sm);
+    background: var(--surface-1);
+    line-height: 1.6;
+  }
+  .scenario-route .arrow { color: var(--accent); font-weight: 600; margin: 0 4px; }
+  .scenario-route .stage { color: var(--fg1); font-weight: 500; }
+
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 768px) { .panels { grid-template-columns: 1fr 1fr; gap: 18px; } }
+
+  .panel {
+    background: var(--bg-paper);
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .panel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 2;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface-1);
+  }
+  .panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg3);
+  }
+  .panel-label .name { color: var(--fg1); margin-left: 6px; }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--fg2);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all var(--dur-base);
+  }
+  .copy-btn:hover { color: var(--fg1); border-color: var(--border-strong); background: var(--bg); }
+  .copy-btn.copied { color: var(--accent); border-color: var(--accent); }
+
+  .panel pre {
+    margin: 0;
+    padding: 16px 18px 18px;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    white-space: pre;
+    flex: 1;
+  }
+  .panel pre::-webkit-scrollbar { height: 6px; width: 6px; }
+  .panel pre::-webkit-scrollbar-thumb { background: rgba(242, 199, 122, 0.3); border-radius: 3px; }
+
+  .y-key { color: var(--y-key); }
+  .y-str { color: var(--y-str); }
+  .y-num { color: var(--y-num); font-weight: 500; }
+  .y-cmt { color: var(--y-cmt); font-style: italic; }
+  .y-sym { color: var(--y-sym); }
+
+  /* Confidence row — discrete tokens */
+  .confidence {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--fg2);
+    flex-wrap: wrap;
+  }
+  .conf-label {
+    font-size: 0.7rem;
+    color: var(--fg3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .conf-dots {
+    color: var(--accent);
+    letter-spacing: 2px;
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+  .conf-dots .empty { color: var(--border-strong); }
+  .conf-num { color: var(--fg1); font-weight: 600; font-size: 0.85rem; }
+
+  /* Verdict block (Scenario C) */
+  .verdict {
+    margin-top: 12px;
+    padding: 16px;
+    background: rgba(255, 77, 0, 0.04);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-md);
+  }
+  .verdict-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .verdict-head .label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg3);
+  }
+  .verdict-stamp {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: #2D6A4F;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .criteria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 18px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--fg1);
+  }
+  .criteria div { padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+  .criteria .pass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #2D6A4F;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  .advisor {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "wght" 420;
+    color: var(--fg2);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  /* Pull-quote scenario note */
+  .scenario-note {
+    margin-top: 24px;
+    padding: 4px 0 4px 22px;
+    border-left: 2px solid var(--accent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 24, "wght" 440;
+    color: var(--fg2);
+    font-size: 1.08rem;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+  }
+  .scenario-note strong {
+    font-style: normal;
+    color: var(--fg1);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.88em;
+    letter-spacing: 0.02em;
+    margin-right: 4px;
+  }
+
+  /* =========================================================
+     Setup — accordion (single-open)
+     ========================================================= */
+  .paths { display: flex; flex-direction: column; }
+
+  .path {
+    border-top: 1px solid var(--border-subtle);
+  }
+  .path:last-of-type { border-bottom: 1px solid var(--border-subtle); }
+
+  .path summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 24px 4px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 14px;
+    align-items: baseline;
+    user-select: none;
+    transition: background var(--dur-base);
+  }
+  .path summary:hover { background: var(--surface-1); }
+  .path summary::-webkit-details-marker { display: none; }
+
+  .path-name {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36, "wght" 540;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    color: var(--fg1);
+    line-height: 1.2;
+  }
+  .path-name .letter {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85em;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+  .path-meta {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+    text-align: right;
+    min-width: 0;
+  }
+  .path-meta .sep { margin: 0 6px; opacity: 0.5; }
+  @media (max-width: 640px) { .path-meta { display: none; } }
+
+  .path-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    color: var(--fg1);
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform var(--dur-base) var(--ease-out),
+                background var(--dur-base);
+    background: transparent;
+  }
+  .path[open] summary { background: var(--surface-1); }
+  .path[open] .path-toggle {
+    background: var(--fg1);
+    color: var(--bg);
+    transform: rotate(45deg);
+  }
+
+  .path-body {
+    padding: 4px 4px 36px;
+    color: var(--fg2);
+    line-height: 1.7;
+    animation: pathBodyIn 360ms var(--ease-out);
+  }
+  @keyframes pathBodyIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .path-body p { margin: 0 0 18px; max-width: 640px; }
+
+  .path-body ol {
+    list-style: none;
+    counter-reset: pathstep;
+    padding: 0;
+    margin: 0;
+  }
+  .path-body ol li {
+    counter-increment: pathstep;
+    padding: 12px 0 12px 44px;
+    position: relative;
+    font-size: 0.96rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .path-body ol li:last-child { border-bottom: 0; }
+  .path-body ol li::before {
+    content: counter(pathstep, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+
+  .cmd {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 14px 18px;
+    margin: 12px 0;
+    overflow-x: auto;
+    border-radius: var(--r-md);
+    line-height: 1.65;
+    border: 1px solid var(--border-default);
+    position: relative;
+  }
+  .cmd::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: var(--r-md) var(--r-md) 0 0;
+  }
+  .cmd .prompt { color: var(--y-key); }
+  .cmd .str { color: var(--y-str); }
+
+  .compat {
+    margin-top: 22px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .compat-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    padding: 10px 4px;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.92rem;
+    align-items: baseline;
+  }
+  .compat-name { color: var(--fg1); }
+  .compat-status {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: right;
+    padding: 3px 10px;
+    border-radius: var(--r-sm);
+  }
+  .compat-status.native { color: #2D6A4F; background: rgba(45, 106, 79, 0.08); }
+  .compat-status.manual { color: var(--accent-ink); background: var(--accent-soft); }
+
+  /* =========================================================
+     Day 1 timeline
+     ========================================================= */
+  .timeline {
+    position: relative;
+    padding-left: clamp(28px, 4vw, 40px);
+    margin-left: 8px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 12px; bottom: 12px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent) 0%, var(--border-default) 100%);
+  }
+
+  .tl-row {
+    padding: 22px 0;
+    position: relative;
+  }
+  .tl-row::before {
+    content: "";
+    position: absolute;
+    left: calc(-1 * (clamp(28px, 4vw, 40px) - 8px) - 12px);
+    top: 32px;
+    width: 11px;
+    height: 11px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .tl-row + .tl-row { border-top: 1px solid var(--border-subtle); }
+
+  .tl-time {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 36, "wght" 540;
+    font-size: 1.25rem;
+    color: var(--accent);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .tl-time .dur {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--fg3);
+    margin-left: 12px;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .tl-act {
+    color: var(--fg1);
+    font-size: 0.97rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .tl-act strong { font-weight: 600; }
+  .tl-goal {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "wght" 420;
+    color: var(--fg2);
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+
+  .voice-aside {
+    margin-top: 36px;
+    padding: 24px 28px;
+    background: var(--bg-paper);
+    border: 1px solid var(--border-default);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    color: var(--fg2);
+    font-size: 0.97rem;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .voice-aside .lbl {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* =========================================================
+     Footer
+     ========================================================= */
+  footer {
+    padding: 64px 0 56px;
+    border-top: 1px solid var(--border-default);
+    background: var(--bg-elevated);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--fg1);
+    margin-bottom: 12px;
+  }
+  .footer-brand .pip { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+  .footer-tag {
+    color: var(--fg2);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-width: 380px;
+    margin: 0;
+  }
+
+  .footer-col h5 {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg3);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col li { margin-bottom: 8px; font-size: 0.88rem; }
+  .footer-col a { color: var(--fg2); transition: color var(--dur-base); }
+  .footer-col a:hover { color: var(--accent); }
+
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-default);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .footer-meta .sep { color: var(--fg4); margin: 0 8px; }
+
+  /* =========================================================
+     Reduced motion
+     ========================================================= */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAVBAR ============== -->
+<nav class="top" data-scrolled="false">
+  <div class="pill">
+    <a href="#top" class="nav-brand">
+      <span class="pip"></span>
+      agency-system
+    </a>
+    <ul class="nav-anchors">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#specialists">Specialists</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#day-one">Day 1</a></li>
+    </ul>
+    <a href="https://github.com/Nicopatron/agency-system" target="_blank" rel="noopener" class="nav-cta">
+      Get the files <span class="arr">↗</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-copy">
+        <span class="hero-badge">
+          <span class="pip"></span>
+          Austin TX · TREC 20-18 · Six Specialists
+        </span>
+
+        <h1 class="hero-title">Diana&rsquo;s agency<br>system<span class="accent-dot">.</span></h1>
+
+        <p class="hero-sub">Boutique real estate operations in <em>six</em> specialists. Built so the newest agent on your team can pick it up <em>in a day</em>.</p>
+
+        <p class="hero-frame">It&rsquo;s Tuesday, 10:45&nbsp;p.m. A client texts asking where the option period stands. You&rsquo;re mid-dinner; you dig through three Google&nbsp;Docs and two email threads to answer a yes/no question. <strong>This system changes that.</strong> Each folder is one specialist. Together they cover lead intake through live deal tracking &mdash; handing off through structured contracts, not handwaved prose.</p>
+
+        <div class="hero-ctas">
+          <a href="https://github.com/Nicopatron/agency-system" target="_blank" rel="noopener" class="btn btn-primary">
+            Get the files <span class="arr arr-up">↗</span>
+          </a>
+          <a href="#how" class="btn btn-secondary">
+            See how it works first <span class="arr">→</span>
+          </a>
+        </div>
+
+        <p class="hero-meta">
+          <span>MIT License</span><span class="sep">·</span>
+          <span>v1.0</span><span class="sep">·</span>
+          <span>2026-05-15</span><span class="sep">·</span>
+          <span>Austin metro</span>
+        </p>
+      </div>
+
+      <div class="hero-preview" id="heroPreview">
+        <div class="hp-head">
+          <div class="hp-tabs">
+            <span class="hp-tab-active" id="hpTitle">
+              <span class="pip"></span>
+              <span id="hpStage">01_lead_qualifier</span>
+            </span>
+          </div>
+          <span class="hp-meta" id="hpScenarioLabel">Scenario A</span>
+        </div>
+
+        <div class="hp-stage">
+
+          <div class="hp-frame active" data-frame="0">
+            <div class="hp-label">→ qualified_lead</div>
+<pre><span class="y-key">qualified_lead</span>:
+  <span class="y-key">lead_id</span>: <span class="y-str">"2026-05-13-Patel-buyer"</span>
+  <span class="y-key">client_type</span>: <span class="y-str">"buyer"</span>
+  <span class="y-key">budget</span>:
+    <span class="y-key">min_usd</span>: <span class="y-num">650000</span>
+    <span class="y-key">max_usd</span>: <span class="y-num">750000</span>
+    <span class="y-key">financing</span>: <span class="y-str">"conventional"</span>
+  <span class="y-key">timeline</span>:
+    <span class="y-key">decision_window_days</span>: <span class="y-num">45</span>
+  <span class="y-key">location_preferences</span>:
+    <span class="y-key">primary_areas</span>: [<span class="y-str">"78704"</span>]
+    <span class="y-key">must_haves</span>: []   <span class="y-cmt"># not yet captured</span>
+  <span class="y-key">intake_completeness</span>: <span class="y-num">4</span>
+  <span class="y-key">confidence</span>: <span class="y-num">80</span> <span class="y-cmt"># caps downstream</span></pre>
+          </div>
+
+          <div class="hp-frame" data-frame="1">
+            <div class="hp-label">→ research_brief</div>
+<pre><span class="y-key">research_brief</span>:
+  <span class="y-key">research_id</span>: <span class="y-str">"2026-05-13-78704-scan"</span>
+  <span class="y-key">type</span>: <span class="y-str">"neighborhood_scan"</span>
+  <span class="y-key">findings</span>:
+    - <span class="y-key">claim</span>: <span class="y-str">"78704 at $650-750K
+        skews to 2BR condos;
+        SFH → outer South Lamar"</span>
+      <span class="y-key">evidence</span>: <span class="y-str">"Redfin Mar 2026"</span>
+      <span class="y-key">confidence</span>: <span class="y-num">80</span>
+    - <span class="y-key">claim</span>: <span class="y-str">"Median $/sqft: $468
+        — DOWN 19.3% YoY"</span>
+      <span class="y-key">confidence</span>: <span class="y-num">80</span>
+  <span class="y-key">confidence</span>: <span class="y-num">65</span> <span class="y-cmt"># −15 comps&lt;3</span></pre>
+          </div>
+
+          <div class="hp-frame" data-frame="2">
+            <div class="hp-label">→ comm_draft + verdict</div>
+<pre><span class="y-key">comm_draft</span>:
+  <span class="y-key">subject</span>: <span class="y-str">"78704 — quick notes
+            before we talk"</span>
+  <span class="y-key">body</span>: <span class="y-sym">|</span>
+    Hi Tom and Priya,
+    Thanks for reaching out.
+    Your range works in 78704,
+    but inventory at $650-750K
+    skews toward smaller condos.
+    Travis Heights and Zilker
+    are right next door — more
+    room at the same price.
+    — Diana
+  <span class="y-key">confidence</span>: <span class="y-num">65</span>
+
+<span class="y-key">quality_verdict</span>:
+  <span class="y-key">verdict</span>: <span class="y-str">"approved"</span>  <span class="y-cmt"># 4/4 pass</span></pre>
+          </div>
+
+          <div class="hp-frame" data-frame="3">
+            <div class="hp-label">→ deal_state · day 1</div>
+<pre><span class="y-key">deal_state</span>:
+  <span class="y-key">deal_id</span>: <span class="y-str">"PatelBouldin"</span>
+  <span class="y-key">status</span>: <span class="y-str">"option_period"</span>
+  <span class="y-key">contract_date</span>: <span class="y-str">"2026-05-20"</span>
+  <span class="y-key">target_close</span>: <span class="y-str">"2026-06-30"</span>
+  <span class="y-key">current_day_in_contract</span>: <span class="y-num">1</span>
+  <span class="y-key">risks</span>:
+    - <span class="y-key">flag</span>: <span class="y-str">"Lender clarity —
+        pre-qual was SF bank;
+        not confirmed for close"</span>
+      <span class="y-key">severity</span>: <span class="y-str">"medium"</span>
+      <span class="y-key">action</span>: <span class="y-str">"Confirm within 48h"</span></pre>
+          </div>
+
+        </div>
+
+        <div class="hp-foot">
+          <div class="hp-dots" id="hpDots">
+            <button class="hp-dot active" data-dot="0" aria-label="Scenario A"></button>
+            <button class="hp-dot" data-dot="1" aria-label="Scenario B"></button>
+            <button class="hp-dot" data-dot="2" aria-label="Scenario C"></button>
+            <button class="hp-dot" data-dot="3" aria-label="Scenario D"></button>
+          </div>
+          <button class="hp-pause" id="hpPause" aria-label="Pause carousel">
+            <svg width="9" height="11" viewBox="0 0 9 11" fill="currentColor"><rect x="0" y="0" width="3" height="11"/><rect x="6" y="0" width="3" height="11"/></svg>
+            <span id="hpPauseLabel">Pause</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section id="how" class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Architecture</span>
+      <h2 class="h2">Four ideas that make it<br>a system, not a folder of <em class="italic-emph">prompts</em>.</h2>
+    </div>
+
+    <div class="principles">
+      <article class="principle">
+        <span class="principle-num">01.</span>
+        <h3 class="h3">One start point.</h3>
+        <p>The orchestrator routes ambiguous requests to the right specialist. Senior agents who know where they&rsquo;re going skip it and go direct.</p>
+      </article>
+
+      <article class="principle">
+        <span class="principle-num">02.</span>
+        <h3 class="h3">Context travels.</h3>
+        <p>Every handoff is a typed YAML packet. The output of one specialist is the exact input shape the next one accepts &mdash; no translation layer.</p>
+      </article>
+
+      <article class="principle">
+        <span class="principle-num">03.</span>
+        <h3 class="h3">Nothing reaches the agent unreviewed.</h3>
+        <p>Every draft passes through quality review before the agent sees it &mdash; checked against four criteria. Approve, revise, or escalate.</p>
+      </article>
+
+      <article class="principle">
+        <span class="principle-num">04.</span>
+        <h3 class="h3">Voice stays yours.</h3>
+        <p>Each agent sets up a voice profile once at onboarding (~20 min). The communication specialist reads it at draft time. Diana sounds like Diana.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MAIN SHELL: content + sticky sidebar ============== -->
+<div class="container" style="padding-top: clamp(72px, 10vw, 128px);">
+  <div class="main-shell">
+
+    <!-- LEFT: main content -->
+    <div class="main-content">
+
+      <!-- ============== SPECIALISTS ============== -->
+      <section id="specialists" style="padding: 0 0 clamp(72px, 10vw, 128px);">
+        <div class="section-head">
+          <span class="eyebrow">The Six</span>
+          <h2 class="h2">What each specialist <em class="italic-emph">owns</em>.</h2>
+          <p class="lead">One folder per specialist. Each carries an <code>identity.md</code>, <code>rules.md</code>, <code>examples.md</code>, and a typed <code>handoff.md</code>. Click into any specialist to see operational discipline.</p>
+        </div>
+
+        <article class="specialist" id="specialist-00">
+          <div class="specialist-head">
+            <div class="specialist-numeral">00</div>
+            <h3 class="specialist-name">Orchestrator</h3>
+            <p class="specialist-tagline">Front door &mdash; routes ambiguous requests to the right specialist.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd>Raw paste &mdash; any forwarded client email, hallway note, or &ldquo;what do I do with this&rdquo;.</dd>
+              <dt>Produces</dt><dd><strong>routed_request</strong> YAML with intent, target specialist, prepared input, and a confidence anchor that caps everything downstream.</dd>
+              <dt>Use when</dt><dd>Junior agent on any request, or compound request (new lead arrives with a property question pinned to it).</dd>
+              <dt>Skip when</dt><dd>Senior agent with a clear request type &mdash; go direct to the target specialist.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Owns</dt><dd>Five intent classes &middot; routing matrix &middot; multi-stage chain sequencing.</dd>
+                  <dt>Refusal</dt><dd>Out-of-scope requests (legal, broker arbitration, non-Austin) refuse cleanly and escalate to Diana plus the right external channel.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-01">
+          <div class="specialist-head">
+            <div class="specialist-numeral">01</div>
+            <h3 class="specialist-name">Lead Qualifier</h3>
+            <p class="specialist-tagline">Turns raw prospect signals into a structured <code>qualified_lead</code>.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd>Raw lead signals &mdash; web form, referral, cold call, open house signup, past-client tap.</dd>
+              <dt>Produces</dt><dd><strong>qualified_lead</strong> YAML with five-input intake score and confidence cap that propagates downstream.</dd>
+              <dt>Use when</dt><dd>Any new prospect arrives, regardless of source.</dd>
+              <dt>Refuses when</dt><dd>Fewer than three of five intake inputs captured. Returns gap list and recovery questions.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Gate</dt><dd>Five inputs: intent &middot; budget &middot; timeline &middot; location &middot; constraints.</dd>
+                  <dt>Confidence</dt><dd>5/5 caps at 95 &middot; 4/5 caps at 80 &middot; 3/5 caps at 65 &middot; ≤2/5 refuses outright.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-02">
+          <div class="specialist-head">
+            <div class="specialist-numeral">02</div>
+            <h3 class="specialist-name">Property Research</h3>
+            <p class="specialist-tagline">Structured <code>research_brief</code> on Austin properties, neighborhoods, and market data.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd><code>qualified_lead</code> from 01, or a <code>routed_request</code> from 00 with intent <em>property_question</em>.</dd>
+              <dt>Produces</dt><dd><strong>research_brief</strong> &mdash; comparables, findings (each with evidence and confidence), recommendation for communication.</dd>
+              <dt>Use when</dt><dd>Need comps, a neighborhood scan, a specific-property CMA, or market-segment context.</dd>
+              <dt>Coverage</dt><dd>Austin metro only &mdash; Travis, Hays, Williamson, Bastrop. Anything outside refuses with a referral.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Owns</dt><dd>Source citation on every claim &middot; Fair Housing rule on schools (links to TEA only) &middot; <code>domain-fact-pending.md</code> catch file.</dd>
+                  <dt>Penalties</dt><dd>−15 if comparables count below 3 &middot; −10 if school ratings unverifiable &middot; −10 if data older than 60 days.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-03">
+          <div class="specialist-head">
+            <div class="specialist-numeral">03</div>
+            <h3 class="specialist-name">Client Communication</h3>
+            <p class="specialist-tagline">Drafts in the agent&rsquo;s voice &mdash; reads the cached <code>voice_profile.md</code>, never auto-sends.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd>Output from any other specialist &mdash; <code>qualified_lead</code>, <code>research_brief</code>, <code>deal_event</code>, or a direct <code>routed_request</code>.</dd>
+              <dt>Produces</dt><dd><strong>comm_draft</strong> with send checklist. For acceptance comms, also a <code>deal_seed</code> initializing 04.</dd>
+              <dt>Use when</dt><dd>Anything client-facing &mdash; first touch, inspection issue, competing offer, financing update.</dd>
+              <dt>Refuses when</dt><dd>No <code>voice_profile.md</code> available and no <code>signing_agent_fallback</code> invoked.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Routes to</dt><dd>05_quality_review automatically before the agent sees the draft. No exceptions.</dd>
+                  <dt>Forbidden</dt><dd>leverage, unlock, navigate, streamline, empower, seamless, synergy, circle back, reach out, best practices.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-04">
+          <div class="specialist-head">
+            <div class="specialist-numeral">04</div>
+            <h3 class="specialist-name">Transaction Coordinator</h3>
+            <p class="specialist-tagline">Tracks active deals from contract to close &mdash; surfaces risks 48h <em>before</em> deadlines.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd><code>deal_seed</code> from 03, or <code>deal_update</code> blocks (status checks, new events).</dd>
+              <dt>Produces</dt><dd><strong>deal_state</strong> &mdash; parties, key dates, doc checklist, risk register, history. Emits <code>deal_event</code> when comms are needed.</dd>
+              <dt>Use when</dt><dd>Contract is executed. Does not touch pre-acceptance work &mdash; that belongs to 01, 02, and 03.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Owns</dt><dd>TREC 20-18 milestone reference &middot; <code>current_day_in_contract</code> &middot; append-only history log.</dd>
+                  <dt>Risk flags</dt><dd>Option period expiring without inspection booked &middot; financing contingency approaching with lender silent &middot; appraisal-gap risk.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-05">
+          <div class="specialist-head">
+            <div class="specialist-numeral">05</div>
+            <h3 class="specialist-name">Quality Review</h3>
+            <p class="specialist-tagline">Last specialist before a draft reaches the agent. Returns notes; never rewrites.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd><code>comm_draft</code> with <code>drafted_by: "03_client_communication"</code> &mdash; no other input shape accepted.</dd>
+              <dt>Produces</dt><dd><strong>quality_verdict</strong> &mdash; verdict (approved / revise / escalate) plus per-criterion notes.</dd>
+              <dt>Four criteria</dt><dd><strong>Specificity</strong> &middot; <strong>Clarity</strong> &middot; <strong>Brevity</strong> (≤200 words) &middot; <strong>Voice</strong> (matches profile).</dd>
+              <dt>Loop-back</dt><dd>Revise routes back to 03 with notes. Maximum two cycles. Then escalates to Diana.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Escalation log</dt><dd>Every escalation logged in <code>escalation-log.md</code>. Diana reviews periodically &rarr; promotes patterns to <code>team-standards.md</code>.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+      </section>
+
+      <!-- ============== DEMO ============== -->
+      <section id="demo" style="padding: 0 0 clamp(72px, 10vw, 128px);">
+        <div class="section-head">
+          <span class="eyebrow">Live Pipeline · The Patels</span>
+          <h2 class="h2">One lead, four <em class="italic-emph">specialists</em>.</h2>
+          <p class="lead">Tom and Priya Patel are relocating from San Francisco to Austin. Their inquiry travels through the system end to end. Pick a stage:</p>
+        </div>
+
+        <div class="demo-picker" role="tablist">
+          <button class="pick-btn active" data-scenario="0" role="tab" aria-selected="true">
+            <span class="letter">A</span> New buyer lead
+          </button>
+          <button class="pick-btn" data-scenario="1" role="tab" aria-selected="false">
+            <span class="letter">B</span> Neighborhood research
+          </button>
+          <button class="pick-btn" data-scenario="2" role="tab" aria-selected="false">
+            <span class="letter">C</span> First-touch + quality gate
+          </button>
+          <button class="pick-btn" data-scenario="3" role="tab" aria-selected="false">
+            <span class="letter">D</span> Under contract, day 1
+          </button>
+        </div>
+
+        <div class="scenario-stage">
+
+          <!-- Scenario A -->
+          <div class="scenario active" data-scenario="0">
+            <div class="scenario-head">
+              <h3>A new buyer lead arrives.</h3>
+              <p class="scenario-desc">Tom Patel fills out the website contact form on a Monday morning. Diana pastes the raw text into the lead qualifier.</p>
+            </div>
+            <div class="scenario-route">
+              <span class="arrow">→</span> <span class="stage">01_lead_qualifier</span> &nbsp;&middot;&nbsp; produces <span class="stage">qualified_lead</span>
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Input <span class="name">raw form</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre>"My wife and I are relocating
+to Austin in about 60 days for
+my job at a tech company
+downtown. Budget around $750K.
+We've been looking online at
+78704 — Bouldin Creek and
+South Lamar area. Both buyers,
+conventional financing pre-
+qual'd through our SF bank.
+Not sure if 78704 is really
+where we should focus or if we
+should look elsewhere — would
+love a conversation.
+— Tom Patel"</pre>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Output <span class="name">qualified_lead</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">qualified_lead</span>:
+  <span class="y-key">lead_id</span>: <span class="y-str">"2026-05-13-Patel-buyer"</span>
+  <span class="y-key">client_type</span>: <span class="y-str">"buyer"</span>
+  <span class="y-key">budget</span>:
+    <span class="y-key">min_usd</span>: <span class="y-num">650000</span>
+    <span class="y-key">max_usd</span>: <span class="y-num">750000</span>
+    <span class="y-key">financing</span>: <span class="y-str">"conventional"</span>
+  <span class="y-key">timeline</span>:
+    <span class="y-key">decision_window_days</span>: <span class="y-num">45</span>
+    <span class="y-key">target_close</span>: <span class="y-str">"2026-07-15"</span>
+  <span class="y-key">location_preferences</span>:
+    <span class="y-key">primary_areas</span>: [<span class="y-str">"78704"</span>]
+    <span class="y-key">must_haves</span>: []   <span class="y-cmt"># not yet captured</span>
+    <span class="y-key">deal_breakers</span>: [] <span class="y-cmt"># not yet captured</span>
+  <span class="y-key">intake_completeness</span>: <span class="y-num">4</span>
+  <span class="y-key">confidence</span>: <span class="y-num">80</span>     <span class="y-cmt"># caps all downstream</span></pre>
+              </div>
+            </div>
+            <div class="confidence">
+              <span class="conf-label">Confidence</span>
+              <span class="conf-dots">●●●●●●●●<span class="empty">○○</span></span>
+              <span class="conf-num">80&thinsp;/&thinsp;100</span>
+            </div>
+            <p class="scenario-note"><strong>Why 80, not 95.</strong> Four of five intake inputs are captured &mdash; must-haves and deal-breakers are still missing. Every downstream specialist will cap its own confidence at eighty until that fifth input is collected. The system flags it; it doesn&rsquo;t silently assume.</p>
+          </div>
+
+          <!-- Scenario B -->
+          <div class="scenario" data-scenario="1">
+            <div class="scenario-head">
+              <h3>The neighborhood scan.</h3>
+              <p class="scenario-desc">The qualified lead carries a research request inline. It travels straight to property research; no manual translation.</p>
+            </div>
+            <div class="scenario-route">
+              <span class="arrow">→</span> <span class="stage">02_property_research</span> &nbsp;&middot;&nbsp; produces <span class="stage">research_brief</span>
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Input <span class="name">from Scenario A</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">qualified_lead</span>:
+  <span class="y-key">lead_id</span>: <span class="y-str">"2026-05-13-Patel-buyer"</span>
+  <span class="y-key">budget</span>:
+    <span class="y-key">min_usd</span>: <span class="y-num">650000</span>
+    <span class="y-key">max_usd</span>: <span class="y-num">750000</span>
+  <span class="y-key">research_request</span>:
+    <span class="y-key">type</span>: <span class="y-str">"neighborhood_scan"</span>
+    <span class="y-key">scope</span>: <span class="y-str">"78704 + 2-3 comparable
+      areas at $650-750K; commute
+      notes for downtown tech
+      worker; SF→Austin transplant
+      context"</span>
+  <span class="y-key">confidence</span>: <span class="y-num">80</span></pre>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Output <span class="name">research_brief</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">research_brief</span>:
+  <span class="y-key">research_id</span>: <span class="y-str">"2026-05-13-78704-scan"</span>
+  <span class="y-key">type</span>: <span class="y-str">"neighborhood_scan"</span>
+  <span class="y-key">findings</span>:
+    - <span class="y-key">claim</span>: <span class="y-str">"78704 at $650-750K
+        skews to 2BR condos;
+        SFH → outer South Lamar
+        or Galindo"</span>
+      <span class="y-key">evidence</span>: <span class="y-str">"Redfin Mar 2026"</span>
+      <span class="y-key">confidence</span>: <span class="y-num">80</span>
+    - <span class="y-key">claim</span>: <span class="y-str">"Median $/sqft: $468
+        — DOWN 19.3% YoY.
+        Buyer's market."</span>
+      <span class="y-key">confidence</span>: <span class="y-num">80</span>
+  <span class="y-key">recommendation_for_comm</span>: <span class="y-str">"Flag
+    small footprint; introduce
+    Travis Heights + Zilker; ask
+    missing must-have"</span>
+  <span class="y-key">confidence</span>: <span class="y-num">65</span> <span class="y-cmt"># −15 comps&lt;3</span></pre>
+              </div>
+            </div>
+            <div class="confidence">
+              <span class="conf-label">Confidence</span>
+              <span class="conf-dots">●●●●●●<span class="empty">●○○○</span></span>
+              <span class="conf-num">65&thinsp;/&thinsp;100</span>
+            </div>
+            <p class="scenario-note"><strong>Why it dropped from 80 to 65.</strong> The brief is capped at the upstream qualified lead&rsquo;s eighty, then reduced by fifteen because comparables count is below the three-comp threshold. The system degrades confidence honestly downstream, instead of masking the gap.</p>
+          </div>
+
+          <!-- Scenario C -->
+          <div class="scenario" data-scenario="2">
+            <div class="scenario-head">
+              <h3>First-touch email &mdash; with a quality gate.</h3>
+              <p class="scenario-desc">Communication drafts the email in Diana&rsquo;s voice. Quality review checks all four criteria <em>before</em> the agent sees the draft.</p>
+            </div>
+            <div class="scenario-route">
+              <span class="arrow">→</span> <span class="stage">03_client_communication</span> <span class="arrow">→</span> <span class="stage">05_quality_review</span> <span class="arrow">→</span> agent
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Output <span class="name">comm_draft</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">comm_draft</span>:
+  <span class="y-key">draft_id</span>: <span class="y-str">"Patel-first-touch"</span>
+  <span class="y-key">type</span>: <span class="y-str">"email"</span>
+  <span class="y-key">subject</span>: <span class="y-str">"78704 — quick notes
+            before we talk"</span>
+  <span class="y-key">body</span>: <span class="y-sym">|</span>
+    Hi Tom and Priya,
+
+    Thanks for reaching out.
+    Quick notes before we set
+    a call:
+
+    Your range works in 78704,
+    but inventory at $650-750K
+    skews toward smaller condos.
+    Travis Heights and Zilker
+    are right next door — more
+    room at the same price.
+
+    Before the call: what's
+    your one must-have, and
+    one deal-breaker?
+
+    — Diana
+  <span class="y-key">confidence</span>: <span class="y-num">65</span></pre>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Quality gate <span class="name">criteria check</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+                <div style="padding: 16px 18px;">
+                  <div class="verdict">
+                    <div class="verdict-head">
+                      <span class="label">Verdict</span>
+                      <span class="verdict-stamp">✓ approved</span>
+                    </div>
+                    <div class="criteria">
+                      <div><span class="pass">✓</span>Specificity</div>
+                      <div><span class="pass">✓</span>Clarity</div>
+                      <div><span class="pass">✓</span>Brevity &mdash; 87&nbsp;w</div>
+                      <div><span class="pass">✓</span>Voice &mdash; Diana</div>
+                    </div>
+                    <div class="advisor">
+                      Advisor flag: 78704 $/sqft figure originates from <code>domain-fact-pending</code>. Verify against MLS before send.
+                    </div>
+                  </div>
+<pre style="margin-top: 14px; background: var(--code-bg); border-radius: var(--r-sm); padding: 12px 14px;"><span class="y-cmt"># routing</span>
+<span class="y-key">on_approved</span>: <span class="y-str">"agent_review_and_send"</span>
+<span class="y-key">reviewed_by</span>: <span class="y-str">"05_quality_review"</span></pre>
+                </div>
+              </div>
+            </div>
+            <p class="scenario-note"><strong>The gate is the point.</strong> 05 read all four criteria before this draft reached the agent. The advisor flag surfaces the unverified MLS figure for the agent to verify or soften. Approved is not auto-sent &mdash; it means ready for agent review.</p>
+          </div>
+
+          <!-- Scenario D -->
+          <div class="scenario" data-scenario="3">
+            <div class="scenario-head">
+              <h3>Under contract, day one.</h3>
+              <p class="scenario-desc">Two weeks later, the offer is accepted. Communication produces a <code>deal_seed</code>; the transaction coordinator initializes the deal state and immediately surfaces a financing risk.</p>
+            </div>
+            <div class="scenario-route">
+              <span class="arrow">→</span> <span class="stage">04_transaction_coordinator</span> &nbsp;&middot;&nbsp; produces <span class="stage">deal_state</span>
+            </div>
+            <div class="panels">
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Input <span class="name">deal_seed from 03</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">deal_seed</span>:
+  <span class="y-key">parties</span>:
+    <span class="y-key">buyer</span>: <span class="y-str">"Tom and Priya Patel"</span>
+    <span class="y-key">buyer_agent</span>: <span class="y-str">"Diana"</span>
+  <span class="y-key">property</span>:
+    <span class="y-key">address</span>: <span class="y-str">"78704 Bouldin Creek"</span>
+    <span class="y-key">contract_price_usd</span>: <span class="y-num">710000</span>
+    <span class="y-key">earnest_money_usd</span>: <span class="y-num">7100</span>
+    <span class="y-key">option_fee_usd</span>: <span class="y-num">300</span>
+  <span class="y-key">contract_date</span>: <span class="y-str">"2026-05-20"</span>
+  <span class="y-key">target_close</span>: <span class="y-str">"2026-06-30"</span>
+  <span class="y-key">contract_version</span>: <span class="y-str">"TREC 20-18"</span></pre>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <div class="panel-label">Output <span class="name">deal_state · day 1</span></div>
+                  <button class="copy-btn" data-copy>Copy</button>
+                </div>
+<pre><span class="y-key">deal_state</span>:
+  <span class="y-key">deal_id</span>: <span class="y-str">"PatelBouldin"</span>
+  <span class="y-key">status</span>: <span class="y-str">"option_period"</span>
+  <span class="y-key">contract_date</span>: <span class="y-str">"2026-05-20"</span>
+  <span class="y-key">target_close</span>: <span class="y-str">"2026-06-30"</span>
+  <span class="y-key">current_day_in_contract</span>: <span class="y-num">1</span>
+  <span class="y-key">doc_checklist</span>:
+    - <span class="y-key">item</span>: <span class="y-str">"Earnest money ($7,100)"</span>
+      <span class="y-key">status</span>: <span class="y-str">"pending"</span>
+    - <span class="y-key">item</span>: <span class="y-str">"Option fee receipt ($300)"</span>
+      <span class="y-key">status</span>: <span class="y-str">"pending"</span>
+    - <span class="y-key">item</span>: <span class="y-str">"Lender pre-approval"</span>
+      <span class="y-key">status</span>: <span class="y-str">"pending"</span>
+  <span class="y-key">risks</span>:
+    - <span class="y-key">flag</span>: <span class="y-str">"Lender clarity — pre-qual
+        was SF bank; not confirmed
+        for actual close"</span>
+      <span class="y-key">severity</span>: <span class="y-str">"medium"</span>
+      <span class="y-key">action</span>: <span class="y-str">"Confirm lender within
+        48h; introduce title co."</span></pre>
+              </div>
+            </div>
+            <p class="scenario-note"><strong>Proactive, not reactive.</strong> The SF bank pre-qualification was the only financing signal in the file. Day&nbsp;1, the system flagged it. If lender clarity goes unresolved to day&nbsp;20 of a 21-day financing contingency, the deal is at risk. The flag is created <em>before</em> it becomes a missed deadline &mdash; that is the entire point of this folder existing.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============== SETUP ============== -->
+      <section id="setup" style="padding: 0 0 clamp(72px, 10vw, 128px);">
+        <div class="section-head">
+          <span class="eyebrow">Getting Started</span>
+          <h2 class="h2">Five paths.<br>All produce the same <em class="italic-emph">contracts</em>.</h2>
+          <p class="lead">Pick the one that matches your workflow. The output discipline is identical &mdash; only the surface changes.</p>
+        </div>
+
+        <div class="paths" id="paths">
+
+          <details class="path">
+            <summary>
+              <span class="path-name"><span class="letter">A</span>Claude Projects</span>
+              <span class="path-meta">~5 min<span class="sep">·</span>best role separation</span>
+              <span class="path-toggle">+</span>
+            </summary>
+            <div class="path-body">
+              <p>Six Claude Projects, one per specialist. Clearest role separation &mdash; recommended for teams who want each agent to work in their own focused workspace.</p>
+              <ol>
+                <li>Clone or download this folder.</li>
+                <li>Open <em>claude.ai &rarr; New Project</em>. Create six projects named <code>00-orchestrator</code>, <code>01-lead-qualifier</code>, <code>02-property-research</code>, <code>03-client-communication</code>, <code>04-transaction-coordinator</code>, <code>05-quality-review</code>.</li>
+                <li>For each project, upload <code>identity.md</code>, <code>rules.md</code>, <code>examples.md</code>, <code>handoff.md</code> into Project Knowledge. Always include <code>_config/team-standards.md</code>.</li>
+                <li>Extras: 02 and 04 add <code>domain-fact-pending.md</code>; 05 adds <code>../escalation-log.md</code>.</li>
+                <li>For 03, each agent sets up their own <code>voice-profiles/&lt;name&gt;.md</code> from the template. About twenty minutes per agent; refresh every ninety days.</li>
+                <li>Open a chat in any workspace, paste your situation, and ask: <em>&ldquo;Act as 01_lead_qualifier and produce a qualified_lead.&rdquo;</em></li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="path">
+            <summary>
+              <span class="path-name"><span class="letter">B</span>Claude Code</span>
+              <span class="path-meta">~2 min<span class="sep">·</span>full file access</span>
+              <span class="path-toggle">+</span>
+            </summary>
+            <div class="path-body">
+              <p>Run the system locally via Claude Code. Best for technical agents who want to inspect files, run variations, and iterate fast.</p>
+              <ol>
+                <li>Clone the repository:
+                  <div class="cmd"><span class="prompt">$</span> git clone https://github.com/Nicopatron/agency-system.git
+<span class="prompt">$</span> cd agency-system</div>
+                </li>
+                <li>Open the folder in Claude Code. It auto-reads <code>CLAUDE.md</code> &rarr; <code>AGENTS.md</code>.</li>
+                <li>Tell it the situation and the specialist:
+                  <div class="cmd"><span class="prompt">&rsaquo;</span> <span class="str">"Read this folder. New lead: [paste Patel text].
+   Act as 01_lead_qualifier and produce the qualified_lead."</span></div>
+                </li>
+                <li>Continue the chain: <em>&ldquo;Pass this to 02_property_research and produce a research_brief.&rdquo;</em></li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="path">
+            <summary>
+              <span class="path-name"><span class="letter">C</span>Codex / Cursor / Windsurf</span>
+              <span class="path-meta">~2 min<span class="sep">·</span>agent-agnostic</span>
+              <span class="path-toggle">+</span>
+            </summary>
+            <div class="path-body">
+              <p>Any agent that auto-discovers <code>AGENTS.md</code> &mdash; Codex CLI, Cursor, Windsurf, Zed, Roo&nbsp;Code.</p>
+              <ol>
+                <li>Clone the repository:
+                  <div class="cmd"><span class="prompt">$</span> git clone https://github.com/Nicopatron/agency-system.git
+<span class="prompt">$</span> cd agency-system</div>
+                </li>
+                <li>Open in your agent. Most read <code>AGENTS.md</code> on session start.</li>
+                <li>Paste your situation. Same output contract as paths A and B.</li>
+              </ol>
+              <div class="compat">
+                <div class="compat-row"><span class="compat-name">Codex CLI &middot; OpenAI</span><span class="compat-status native">native</span></div>
+                <div class="compat-row"><span class="compat-name">Cursor</span><span class="compat-status native">native</span></div>
+                <div class="compat-row"><span class="compat-name">Windsurf</span><span class="compat-status native">native</span></div>
+                <div class="compat-row"><span class="compat-name">Zed AI</span><span class="compat-status native">native</span></div>
+                <div class="compat-row"><span class="compat-name">Roo Code</span><span class="compat-status native">native</span></div>
+                <div class="compat-row"><span class="compat-name">Aider</span><span class="compat-status manual">manual flag</span></div>
+                <div class="compat-row"><span class="compat-name">Cline / Continue</span><span class="compat-status manual">paste at start</span></div>
+                <div class="compat-row"><span class="compat-name">Claude Code</span><span class="compat-status native">via redirect</span></div>
+              </div>
+            </div>
+          </details>
+
+          <details class="path">
+            <summary>
+              <span class="path-name"><span class="letter">D</span>Single Claude Project</span>
+              <span class="path-meta">~2 min<span class="sep">·</span>easiest setup</span>
+              <span class="path-toggle">+</span>
+            </summary>
+            <div class="path-body">
+              <p>All six specialists in one workspace. Best for evaluators or small teams who want the fastest setup. Slightly less role separation than Path A.</p>
+              <ol>
+                <li>Clone or download this folder.</li>
+                <li>Open Claude Desktop or claude.ai &rarr; New Project. Name it <code>agency-system</code>.</li>
+                <li>Upload the entire folder into Project Knowledge.</li>
+                <li>Paste the contents of <code>_config/single-project-instructions.md</code> into the Instructions field.</li>
+                <li>Start a new chat, paste your situation. The model routes, chains, and produces typed YAML automatically.</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="path">
+            <summary>
+              <span class="path-name"><span class="letter">E</span>DEMO.md</span>
+              <span class="path-meta">0 min<span class="sep">·</span>no setup required</span>
+              <span class="path-toggle">+</span>
+            </summary>
+            <div class="path-body">
+              <p>Evaluate the system in any capable model without cloning anything. Open <code>DEMO.md</code> and paste it &mdash; runs a three-step pipeline in under two minutes.</p>
+              <ol>
+                <li>Open <code>DEMO.md</code> from this folder or the GitHub repository.</li>
+                <li>Copy the contents. Paste into any capable AI model &mdash; Claude, GPT-4o, Gemini. Anything with 32K context.</li>
+                <li>Pipeline runs: lead intake &rarr; property research &rarr; email draft. No file uploads.</li>
+                <li>Compare your output to <code>LIVE-RUN.md</code> &mdash; reference run with Claude Opus. Auditable in thirty seconds.</li>
+              </ol>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- ============== DAY 1 ============== -->
+      <section id="day-one" style="padding: 0 0 clamp(72px, 10vw, 128px);">
+        <div class="section-head">
+          <span class="eyebrow">Onboarding</span>
+          <h2 class="h2">From zero to solo on 01,<br>in <em class="italic-emph">one day</em>.</h2>
+          <p class="lead">The bar is &ldquo;newest agent operational in one day&rdquo;. Here is what that day looks like.</p>
+        </div>
+
+        <div class="timeline">
+
+          <div class="tl-row">
+            <div class="tl-time">Morning <span class="dur">~ 1 hr</span></div>
+            <div class="tl-act">Read this manual top to bottom. Skim each folder&rsquo;s <code>identity.md</code> &mdash; six files, five minutes each.</div>
+            <div class="tl-goal">Understand what each specialist owns. Know when to go direct versus route through the orchestrator.</div>
+          </div>
+
+          <div class="tl-row">
+            <div class="tl-time">Mid-day <span class="dur">~ 2 hrs</span></div>
+            <div class="tl-act">Walk through <a href="./onboarding/patel-scenario.md"><code>onboarding/patel-scenario.md</code></a> end to end. Run each stage yourself; compare your output to the expected output shown.</div>
+            <div class="tl-goal">See one complete lead flow through all six specialists. Understand confidence propagation and the quality gate in action.</div>
+          </div>
+
+          <div class="tl-row">
+            <div class="tl-time">Afternoon <span class="dur">~ 2 hrs</span></div>
+            <div class="tl-act">Pair with a senior agent on a real live lead. Senior copies handoffs between projects; junior reads outputs and asks where divergence happens.</div>
+            <div class="tl-goal">See the system on real data. Build intuition for what &ldquo;good&rdquo; looks like before going solo.</div>
+          </div>
+
+          <div class="tl-row">
+            <div class="tl-time">End of day <span class="dur">~ 30 min</span></div>
+            <div class="tl-act">Junior takes one stage solo &mdash; start with <strong>01_lead_qualifier</strong>. Paste a real or test lead; senior reviews the <code>qualified_lead</code> output.</div>
+            <div class="tl-goal">First solo output. If it produces a clean qualified lead with the right confidence, the agent is ready for Day&nbsp;2.</div>
+          </div>
+
+          <div class="tl-row">
+            <div class="tl-time">Day 2 onwards <span class="dur">ongoing</span></div>
+            <div class="tl-act">Junior runs 01 &rarr; 02 &rarr; 03 on real leads with senior approval at each handoff. By Day 5, solo on routine intake.</div>
+            <div class="tl-goal">Full pipeline fluency. The agent now understands the contract discipline well enough to catch their own mistakes before 05 does.</div>
+          </div>
+
+        </div>
+
+        <div class="voice-aside">
+          <span class="lbl">Set up your voice profile</span>
+          During Day&nbsp;1, each agent should also set up their <code>voice-profiles/&lt;name&gt;.md</code>. Open <code>voice-profiles/_template.md</code>, follow the prompts (sentence style, openings, closings, phrases to avoid), and pull in three to five past emails as reference. About twenty minutes. From that point forward, the communication specialist drafts in <em>your</em> voice &mdash; not the team&rsquo;s generic house style.
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT: sticky sidebar -->
+    <aside class="toc">
+      <div class="toc-inner">
+        <p class="toc-eyebrow">What the system covers</p>
+        <ul class="toc-list" id="tocList">
+          <li><a class="toc-row" href="#specialist-00" data-target="specialist-00">
+            <span class="toc-num">00</span>
+            <div><div class="toc-name">Orchestrator</div><div class="toc-tag">Routing requests</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-01" data-target="specialist-01">
+            <span class="toc-num">01</span>
+            <div><div class="toc-name">Lead Qualifier</div><div class="toc-tag">New prospect intake</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-02" data-target="specialist-02">
+            <span class="toc-num">02</span>
+            <div><div class="toc-name">Property Research</div><div class="toc-tag">Comps + neighborhoods</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-03" data-target="specialist-03">
+            <span class="toc-num">03</span>
+            <div><div class="toc-name">Client Communication</div><div class="toc-tag">Drafts in your voice</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-04" data-target="specialist-04">
+            <span class="toc-num">04</span>
+            <div><div class="toc-name">Transaction Coord.</div><div class="toc-tag">Contract → close</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-05" data-target="specialist-05">
+            <span class="toc-num">05</span>
+            <div><div class="toc-name">Quality Review</div><div class="toc-tag">Gate before send</div></div>
+          </a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="pip"></span>
+          agency-system
+        </div>
+        <p class="footer-tag">Boutique real estate operations in six specialists. Built for Diana&rsquo;s Austin team &mdash; adaptable for any operator working with TREC contracts and a small crew.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Project</h5>
+        <ul>
+          <li><a href="https://github.com/Nicopatron/agency-system" target="_blank" rel="noopener">GitHub repo</a></li>
+          <li><a href="./README.md">README</a></li>
+          <li><a href="./DEMO.md">DEMO.md</a></li>
+          <li><a href="./LIVE-RUN.md">LIVE-RUN.md</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Built by</h5>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/nicopatron" target="_blank" rel="noopener">Nico Patron · LinkedIn</a></li>
+          <li><a href="https://github.com/Nicopatron" target="_blank" rel="noopener">@Nicopatron · GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>Clief Notes Weekly Competition · Week 4</span>
+      <span>Austin metro <span class="sep">·</span> TREC 20-18 <span class="sep">·</span> MIT</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ============== Navbar scroll state ==============
+  const nav = document.querySelector('nav.top');
+  let scrolled = false;
+  function onScroll() {
+    const s = window.scrollY > 40;
+    if (s !== scrolled) {
+      scrolled = s;
+      nav.dataset.scrolled = s ? 'true' : 'false';
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ============== Hero code-preview carousel ==============
+  const heroPreview = document.getElementById('heroPreview');
+  const frames = heroPreview.querySelectorAll('.hp-frame');
+  const dots = heroPreview.querySelectorAll('.hp-dot');
+  const stageLabel = document.getElementById('hpStage');
+  const scenarioLabel = document.getElementById('hpScenarioLabel');
+  const stageNames = ['01_lead_qualifier', '02_property_research', '03_client_communication → 05', '04_transaction_coordinator'];
+  const scenarioNames = ['Scenario A', 'Scenario B', 'Scenario C', 'Scenario D'];
+  let current = 0;
+  let interval = null;
+  let paused = false;
+
+  function showFrame(i) {
+    current = i % frames.length;
+    frames.forEach((f, idx) => f.classList.toggle('active', idx === current));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    stageLabel.textContent = stageNames[current];
+    scenarioLabel.textContent = scenarioNames[current];
+  }
+  function start() {
+    if (reduced || paused) return;
+    stop();
+    interval = setInterval(() => showFrame(current + 1), 5500);
+  }
+  function stop() { if (interval) { clearInterval(interval); interval = null; } }
+
+  dots.forEach((d, i) => d.addEventListener('click', () => { showFrame(i); paused ? null : start(); }));
+  heroPreview.addEventListener('mouseenter', stop);
+  heroPreview.addEventListener('mouseleave', () => { if (!paused) start(); });
+  heroPreview.addEventListener('focusin', stop);
+  heroPreview.addEventListener('focusout', () => { if (!paused) start(); });
+
+  const pauseBtn = document.getElementById('hpPause');
+  const pauseLabel = document.getElementById('hpPauseLabel');
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused;
+    pauseLabel.textContent = paused ? 'Play' : 'Pause';
+    pauseBtn.querySelector('svg').innerHTML = paused
+      ? '<polygon points="0,0 9,5.5 0,11"/>'
+      : '<rect x="0" y="0" width="3" height="11"/><rect x="6" y="0" width="3" height="11"/>';
+    if (paused) stop(); else start();
+  });
+
+  start();
+
+  // ============== Sidebar scroll-spy ==============
+  const tocLinks = document.querySelectorAll('#tocList .toc-row');
+  const tocMap = new Map();
+  tocLinks.forEach(a => tocMap.set(a.dataset.target, a));
+  const specialists = document.querySelectorAll('.specialist[id]');
+
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const link = tocMap.get(entry.target.id);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    specialists.forEach(s => obs.observe(s));
+  }
+
+  // ============== Demo scenario picker ==============
+  const pickBtns = document.querySelectorAll('.pick-btn');
+  const scenarios = document.querySelectorAll('.scenario');
+
+  function showScenario(i, focus) {
+    pickBtns.forEach((b, idx) => {
+      const active = idx === i;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    scenarios.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    history.replaceState(null, '', '#demo-' + ['a','b','c','d'][i]);
+    if (focus) pickBtns[i].focus();
+  }
+
+  pickBtns.forEach((b, i) => {
+    b.addEventListener('click', () => showScenario(i));
+    b.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); showScenario((i + 1) % pickBtns.length, true); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); showScenario((i - 1 + pickBtns.length) % pickBtns.length, true); }
+    });
+  });
+
+  // Initialize from URL hash
+  const hash = location.hash.match(/#demo-([abcd])/);
+  if (hash) {
+    const i = ['a','b','c','d'].indexOf(hash[1]);
+    if (i >= 0) showScenario(i);
+  }
+
+  // ============== Setup accordion (single-open) ==============
+  const paths = document.querySelectorAll('#paths .path');
+  paths.forEach(p => {
+    p.addEventListener('toggle', () => {
+      if (p.open) {
+        paths.forEach(other => { if (other !== p && other.open) other.open = false; });
+      }
+    });
+  });
+
+  // ============== Copy-to-clipboard ==============
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const panel = btn.closest('.panel');
+      const pre = panel.querySelector('pre');
+      if (!pre) return;
+      const text = pre.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      } catch (e) {
+        btn.textContent = 'Copy failed';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
