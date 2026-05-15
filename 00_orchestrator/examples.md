@@ -119,7 +119,7 @@ refusal:
   routing_id: "2026-05-14-1630-jorge-megan-sue-seller-specific-performance"
   reason: "out_of_scope"
   detail: |
-    The agent is asking how to handle a client's legal action question (specific performance against a seller who backed out of a TREC contract). That's legal advice on contract enforcement — outside the team's 5 specialists. 04_transaction_coordinator handles deadline + document tracking during an active deal, not litigation strategy after a deal collapses. None of the other specialists touch legal advice either.
+    The agent is asking how to handle a client's legal action question (specific performance against a seller who backed out of a TREC contract). That's legal advice on contract enforcement — outside the team's 6 specialists. 04_transaction_coordinator handles deadline + document tracking during an active deal, not litigation strategy after a deal collapses. None of the other specialists touch legal advice either.
   next_action: |
     1. Tell Megan that the team's role is real-estate operations, not legal counsel — the team can't advise on whether to file specific performance.
     2. Escalate to Diana — she decides whether the team makes a referral to a Texas real-estate attorney (Diana's network typically has 1-2 attorneys for this exact situation).
@@ -144,4 +144,4 @@ This is the system working as designed. Legal questions go to attorneys, and the
 - `handoff.md` — canonical schemas, routing matrix, decision tree
 - `../01_lead_qualifier/examples.md` Ex1 — how a Patel-style web form lead lands in 01 (shape mirrors Ex2 above)
 - `../02_property_research/examples.md` Ex2 — how the Mueller routed_request from Ex1 above becomes a research_brief
-- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across all 5 specialists
+- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across all 6 specialists

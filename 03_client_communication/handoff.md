@@ -225,7 +225,13 @@ I also reduce confidence by:
 - `−15` if drafting in a situation type the agent's profile has no matching `sample_email_archetypes` entry for
 - `−10` if the agent's `voice_profile.md.last_refreshed` is older than 90 days (refresh trigger met but not yet refreshed)
 
-There is NO downstream specialist after me — my output goes to the agent for human review and send.
+Every `comm_draft` I produce routes to `05_quality_review` before the agent sees it. The quality review checks the draft against Diana's four criteria (specificity, clarity, brevity, voice) and returns a verdict:
+
+- `approved` → agent receives draft via send-checklist for human review and send
+- `revise` → `05_quality_review` sends notes back to me; I revise and re-route to `05` (max 2 revision cycles)
+- `escalate` → Diana steps in directly
+
+I do not send drafts directly to the agent. All drafts route through `05_quality_review` first, no exceptions.
 
 ---
 

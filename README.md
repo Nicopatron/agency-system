@@ -1,6 +1,6 @@
 # agency-system
 
-> Boutique real estate operations in 5 specialists working together. Built so the newest agent on your team can pick it up in a day.
+> Boutique real estate operations in 6 specialists working together. Built so the newest agent on your team can pick it up in a day.
 
 ## Quick terms
 
@@ -27,7 +27,7 @@ Not software. Not a platform. The folders ARE the system.
 
 ---
 
-## The 5 specialists
+## The 6 specialists
 
 ```
 agency-system/
@@ -36,17 +36,19 @@ agency-system/
 ├── 02_property_research/        ← comps, neighborhoods, market data (Austin only)
 ├── 03_client_communication/     ← drafts emails / texts / follow-ups in your voice
 ├── 04_transaction_coordinator/  ← live deal tracking from contract to close
+├── 05_quality_review/           ← gate: every draft checked before agent eyes (approve / revise / escalate)
 ├── _config/
 │   └── team-standards.md        ← Diana's quality floor — loaded by every specialist, every run
 ├── voice-profiles/              ← each agent's voice cached once (per agent, not per draft)
 ├── onboarding/                  ← Day 1 training case
 ├── cases/                       ← one file per case_id; INDEX.md for O(1) orchestrator lookup
+├── escalation-log.md            ← running record of escalations → feeds updates to team-standards.md
 ├── DEMO.md                      ← agent-agnostic live pipeline run (any model, no setup)
 ├── LIVE-RUN.md                  ← reference output from one DEMO run (Claude Opus)
 └── dashboard.html               ← static HTML status view — open with double-click
 ```
 
-Each specialist folder contains: `identity.md` (who they are), `rules.md` (how they operate), `examples.md` (worked interactions, 3-4 per folder), `handoff.md` (the typed contract — what they receive, what they produce, failure modes).
+Each specialist folder contains: `identity.md` (who they are), `rules.md` (how they operate), `examples.md` (worked interactions, 3 per folder), `handoff.md` (the typed contract — what they receive, what they produce, failure modes).
 
 `_config/team-standards.md` is the shared quality floor. Voice profiles make each agent sound like themselves. Team standards make every agent operate at Diana's standard. Generic content in `team-standards.md` produces generic outputs everywhere — Diana must complete this file before the system goes live.
 
@@ -91,9 +93,10 @@ qualified_lead:
 
 **Prerequisites:** This folder is agent-agnostic — works with any AI that reads markdown. Three documented paths:
 
-- **Path A: Claude account** (free or paid) — browser-based, easiest first try
+- **Path A: Claude account** (free or paid) — 5 separate projects, one per specialist
 - **Path B: Claude Code** — local CLI agent
 - **Path C: Codex CLI / Cursor / Windsurf / Zed / Roo Code / Aider / Cline / Continue** — any agent that auto-reads `AGENTS.md` (compatibility table below)
+- **Path D: Single Claude Project** — all specialists in one workspace, 2-min setup
 
 ### Evaluating cold without Austin RE knowledge?
 
@@ -115,8 +118,8 @@ The contract is in each specialist's `handoff.md`. The output shapes are in `exa
 
 1. Clone or download this folder.
 2. Open claude.ai → New Project.
-3. Create 5 workspaces, one per specialist folder. Name them `00-orchestrator`, `01-lead-qualifier`, `02-property-research`, `03-client-communication`, `04-transaction-coordinator`.
-4. For each workspace: upload `identity.md`, `rules.md`, `examples.md`, `handoff.md` into **Project Knowledge**. For 02 and 04, also include `domain-fact-pending.md`. Add `_config/team-standards.md` to every workspace.
+3. Create 6 workspaces, one per specialist folder. Name them `00-orchestrator`, `01-lead-qualifier`, `02-property-research`, `03-client-communication`, `04-transaction-coordinator`, `05-quality-review`.
+4. For each workspace: upload `identity.md`, `rules.md`, `examples.md`, `handoff.md` into **Project Knowledge**. For 02 and 04, also include `domain-fact-pending.md`. For 05_quality_review, also include `../escalation-log.md`. Add `_config/team-standards.md` to every workspace.
 5. For **03_client_communication**: have each agent set up their `voice-profiles/<agent_name>.md` once (template + Diana's filled example included). Takes ~20 min per agent, refreshes every ~90 days.
 6. For **04_transaction_coordinator**: confirm TREC contract version with your broker. Default is **TREC 20-18** (One to Four Family Residential, effective 2025-01-03). `domain-fact-pending.md` lists day-counts already verified against current TREC + Austin 2026 market data.
 7. Open a new chat in a workspace and paste your situation: a lead, a deal event, or a question.
@@ -160,6 +163,18 @@ cd agency-system
 | Claude Code | ✅ Via CLAUDE.md redirect | `CLAUDE.md` in repo points to `AGENTS.md` |
 
 Once loaded, paste your situation. Same output contract as Path A and Path B.
+
+### Path D — Single Claude Project (~2 min)
+
+All 6 specialists in one workspace. Easier setup; slightly less role separation than Path A.
+
+1. Clone or download this folder.
+2. Open Claude Desktop or claude.ai → New Project. Name it `agency-system`.
+3. Upload the **entire folder** into Project Knowledge (or upload all files).
+4. Click **+** on the **Instructions** field and paste the contents of [`_config/single-project-instructions.md`](./_config/single-project-instructions.md).
+5. Start a new chat in the project and paste your situation — no role specification needed.
+
+The model will route, chain specialists, and produce typed YAML automatically. See [`_config/single-project-instructions.md`](./_config/single-project-instructions.md) for the instructions text and tradeoff table.
 
 ---
 
@@ -211,7 +226,7 @@ Paste: lead / deal event / request
      +-----------------+      intake_completeness < 4
      |   Intake gate   | ─────────────────────────→  Refusal output
      | (handoff.md per |                             (gap list, no draft)
-     |   specialist)   |  ← each specialist/handoff.md
+     |   specialist)   |
      +-----------------+
               |
               v
@@ -223,9 +238,18 @@ Paste: lead / deal event / request
    |  04 → deal_state update     |
    +-----------------------------+
               |
-              v
-     Typed handoff output
-     (YAML — next specialist reads this exact schema)
+              v (comm_draft only)
+   +-----------------------------+
+   |    05_quality_review        |
+   |  approve / revise / escalate|
+   +-----------------------------+
+       |           |           |
+    approved     revise     escalate
+       |           |           |
+       v      back to 03    Diana
+    Agent       (notes)     steps in
+    review      ← loop →
+    & send    (max 2 cycles)
 ```
 
 ---
@@ -274,12 +298,13 @@ The orchestrator is optional. Senior agents who know which specialist they need 
 1. **Handoffs are typed contracts, not prose.** Each `handoff.md` includes YAML schemas + acceptance criteria + failure modes. Output schema of one specialist = valid input schema of the next. This makes the system debuggable when something breaks — you know exactly where the contract was violated.
 2. **Voice is cached, not pasted.** Each agent sets up their `voice_profile.md` once at onboarding. The 03 specialist reads the profile, not raw emails. See [`voice-profiles/diana.md`](./voice-profiles/diana.md) for a filled example and [`voice-profiles/_template.md`](./voice-profiles/_template.md) for the blank to copy. This satisfies the "operational in 1 day" bar — a junior agent who hasn't dug up their email archive can still draft on day 1 using `signing_agent_fallback` (drafts in team house style with a review flag).
 3. **Orchestrator is optional.** Routing matrix + decision tree handle ambiguous requests. Senior agents skip; junior agents route. The system doesn't force friction where it isn't needed.
-4. **Single case study threading.** All examples use Diana's team and their clients (the Patels, the Hendersons, Marco the investor) consistently across all 5 folders. New agents internalize a coherent story, not 10 disconnected snippets.
+4. **Single case study threading.** All examples use Diana's team and their clients (the Patels, the Hendersons, Marco the investor) consistently across all 6 folders. New agents internalize a coherent story, not 10 disconnected snippets.
 5. **Confidence propagates.** Each handoff has a `confidence: 0-100` field. Downstream caps its confidence at upstream's. Example: `01` outputs `qualified_lead.confidence: 80` (intake 4/5). `02` reads that and produces `research_brief.confidence: 65` (capped at 80, reduced by 15 for unverified comparables). `03` reads research_brief and caps the draft at 65. Forces honest signal degradation rather than false certainty downstream.
 6. **Refusal discipline per specialist.** Each specialist has an intake gate. Thin leads get refused with a gap list, not drafted with weak output. This is the "too generic to be useful" complaint addressed at the protocol level.
 7. **Self-improving catch files.** `domain-fact-pending.md` in 02 and 04 capture claims the team has cited but not yet verified against authoritative sources. As they get verified, they graduate to `rules.md`. The system gets stronger every deal.
 8. **Agent-agnostic by design.** No model-specific syntax anywhere in the system. The folder structure, YAML schemas, and markdown rules load into Claude, GPT-4o, Gemini, Codex, or any capable model with 32K+ context. The team isn't locked to one provider — and the system can be evaluated by running [`DEMO.md`](./DEMO.md) in any AI workspace.
 9. **Shared quality floor, separate voices.** `_config/team-standards.md` is loaded by every specialist on every run. It contains Diana's quality floor, non-negotiables, client philosophy, and hard moments playbook. Voice profiles make each agent sound like themselves. Team standards make every agent operate at Diana's standard. Neither alone is sufficient — together, they produce a draft Diana would send, in Sara's voice, without Diana reading it.
+10. **Defining the bar and enforcing it are two different jobs.** `_config/team-standards.md` defines Diana's quality bar. `05_quality_review` enforces it — checking every `comm_draft` against four criteria (specificity, clarity, brevity, voice) before the agent sees it. If a draft fails, revision notes go back to `03_client_communication`; after two cycles the specialist escalates to Diana. Escalations are logged in `escalation-log.md` and periodically reviewed to expand the playbook — so situations handled by escalation once get codified so the next one is handled by the system.
 
 ---
 
@@ -307,9 +332,9 @@ The architecture follows Van Clief & McDermott's *Folder Structure as Agentic Ar
 
 ## What I'd add if I had another week
 
-A sixth folder, `05_post_close/`: referrals, reviews, sphere-of-influence nurture. The top boutique teams do 60-80 transactions a year because roughly 40% are referrals from closed deals. The current system ends at closed; that's where the compound actually starts.
+A `06_post_close/` folder: referrals, reviews, sphere-of-influence nurture. The top boutique teams do 60-80 transactions a year because roughly 40% are referrals from closed deals. The current system ends at closed; that's where the compound actually starts.
 
-Also: a `learnings/` folder that consolidates `domain-fact-pending.md` entries across folders as they get verified, so the team can see the evolution of what the system has learned about Austin RE specifically.
+Also: a `learnings/` folder that consolidates `domain-fact-pending.md` entries across folders as they get verified, so the team can see the evolution of what the system has learned about Austin RE specifically. Currently `escalation-log.md` seeds this — escalations become playbook entries — but a dedicated learnings folder would make that evolution visible across all specialists, not just quality review.
 
 ---
 

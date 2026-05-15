@@ -84,7 +84,7 @@ If the situation is ambiguous, ask ONE clarifying question before routing. Do no
 refusal:
   routing_id: "<YYYY-MM-DD-HHMM>-<agent>-<short-slug>"
   reason: "out_of_scope" | "unclassifiable"
-  detail: "<what was asked + why it falls outside the team's 5 specialists, OR why the request is too vague to classify after one clarifying question>"
+  detail: "<what was asked + why it falls outside the team's 6 specialists, OR why the request is too vague to classify after one clarifying question>"
   next_action: "<usually 'escalate to Diana' or 'consult [external — RE attorney, broker, lender]' for out_of_scope; 'bounce to 01 for intake gate' for unclassifiable>"
 ```
 

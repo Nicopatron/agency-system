@@ -1,6 +1,6 @@
 # Day 1 Training Case — The Patels
 
-> **What this is:** a canonical end-to-end walkthrough of how a single lead flows through all 5 specialists. New agents on Diana's team should run this scenario on their first day, compare their own outputs to the ones shown here, and ask their senior pair where the divergence happens.
+> **What this is:** a canonical end-to-end walkthrough of how a single lead flows through all 6 specialists. New agents on Diana's team should run this scenario on their first day, compare their own outputs to the ones shown here, and ask their senior pair where the divergence happens.
 >
 > **Time required:** ~2 hours, ideally with a senior agent in the room.
 >

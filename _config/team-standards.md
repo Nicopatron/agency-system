@@ -12,7 +12,7 @@
 
 ## 1. Quality floor
 
-*What "good enough" means on this team — applied by all five specialists.*
+*What "good enough" means on this team — applied by all six specialists.*
 
 **Response:**
 - Every client communication is acknowledged within 2 business hours, regardless of which agent is assigned. Acknowledgment can be: "Got your message, back to you by [time]." It does not have to be the full answer.
