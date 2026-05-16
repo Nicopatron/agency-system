@@ -1514,7 +1514,7 @@
       <div class="hero-copy">
         <span class="hero-badge">
           <span class="pip"></span>
-          Austin TX · TREC 20-18 · Six Specialists
+          Austin TX · TREC 20-18 · Eight Specialists
         </span>
 
         <h1 class="hero-title">Diana&rsquo;s agency<br>system<span class="accent-dot">.</span></h1>
@@ -1691,9 +1691,9 @@
       <!-- ============== SPECIALISTS ============== -->
       <section id="specialists" style="padding: 0 0 clamp(72px, 10vw, 128px);">
         <div class="section-head">
-          <span class="eyebrow">The Six</span>
+          <span class="eyebrow">The Eight</span>
           <h2 class="h2">What each specialist <em class="italic-emph">owns</em>.</h2>
-          <p class="lead">One folder per specialist. Each carries an <code>identity.md</code>, <code>rules.md</code>, <code>examples.md</code>, and a typed <code>handoff.md</code>. Click into any specialist to see operational discipline.</p>
+          <p class="lead">One folder per specialist. Each carries an <code>identity.md</code>, <code>rules.md</code>, <code>examples.md</code>, and a typed <code>handoff.md</code>. The first six (00&ndash;05) form the inbound pipeline; the last two (06 and 07) are off-pipeline aggregators triggered manually by an agent. Click into any specialist to see operational discipline.</p>
         </div>
 
         <article class="specialist" id="specialist-00">
@@ -1838,6 +1838,56 @@
               <div class="deep">
                 <dl>
                   <dt>Escalation log</dt><dd>Every escalation logged in <code>escalation-log.md</code>. Diana reviews periodically &rarr; promotes patterns to <code>team-standards.md</code>.</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-06">
+          <div class="specialist-head">
+            <div class="specialist-numeral">06</div>
+            <h3 class="specialist-name">Daily Brief</h3>
+            <p class="specialist-tagline">Morning sync &mdash; read-only aggregator across every active workflow.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd>Manual trigger from any team agent (&ldquo;Run morning brief&rdquo;). Off-pipeline &mdash; never invoked via routed_request.</dd>
+              <dt>Produces</dt><dd><strong>morning_brief</strong> in structured markdown &mdash; URGENT (today) &middot; Diana&rsquo;s decision queue &middot; IN PROGRESS &middot; stale alerts (&gt;72h) &middot; pipeline snapshot.</dd>
+              <dt>Use when</dt><dd>Start of every workday, before client touches. The team reads it together &mdash; one rollup replaces four separate CRM scrolls.</dd>
+              <dt>Writes</dt><dd><strong>Nothing.</strong> Pure read aggregation across <code>workflows/*/status.md</code>, <code>action_register.md</code>, <code>audit_log.md</code>, and <code>escalation-log.md</code>.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Owns</dt><dd>72h staleness threshold &middot; slip-color aggregation (🔴 RED / 🟡 YELLOW / 🔵 BLUE / 🟢 GREEN) &middot; pipeline snapshot math &middot; deterministic five-section structure.</dd>
+                  <dt>Never</dt><dd>Writes to any file (read-only by design) &middot; invents action recommendations (every &ldquo;Next:&rdquo; line is pulled from existing workflow state) &middot; runs unattended on a schedule (the daily ritual IS the synchronization).</dd>
+                </dl>
+              </div>
+            </details>
+          </div>
+        </article>
+
+        <article class="specialist" id="specialist-07">
+          <div class="specialist-head">
+            <div class="specialist-numeral">07</div>
+            <h3 class="specialist-name">Nurture Coordinator</h3>
+            <p class="specialist-tagline">Long-horizon cadence for not-ready-yet leads &amp; past clients.</p>
+          </div>
+          <div class="specialist-body">
+            <dl>
+              <dt>Accepts</dt><dd>Manual trigger from agent (&ldquo;Run nurture coordinator&rdquo;), or a <code>qualified_lead</code> from 01 with <code>nurture_intake: true</code> (timeline &gt;6 months out).</dd>
+              <dt>Produces</dt><dd><strong>nurture_touch_plan</strong> &middot; <strong>graduation_candidate</strong> (back to 01 for re-qualification) &middot; <strong>drop_request</strong> (manual confirmation required).</dd>
+              <dt>Use when</dt><dd>Weekly nurture sweep, or specific past-client check-in (e.g., 6-week post-close touch, anniversary, life event triggered).</dd>
+              <dt>Routes to</dt><dd>03_client_communication drafts every touch &mdash; then through 05_quality_review like any other outbound. No bypass.</dd>
+            </dl>
+            <details>
+              <summary>Operational discipline</summary>
+              <div class="deep">
+                <dl>
+                  <dt>Owns</dt><dd>Cadence tiers (monthly / quarterly / annual) &middot; graduation triggers (timeline &lt;90 days, life event, explicit re-engagement, matching listing) &middot; drop criteria (4 consecutive misses, unsubscribe, out-of-area, adversarial termination).</dd>
+                  <dt>Never</dt><dd>Drafts comms (that&rsquo;s 03) &middot; auto-sends &middot; asks for referrals in early touches &middot; proposes generic &ldquo;just checking in&rdquo; without specific reference points from the workflow.</dd>
                 </dl>
               </div>
             </details>
@@ -2323,6 +2373,14 @@ love a conversation.
           <li><a class="toc-row" href="#specialist-05" data-target="specialist-05">
             <span class="toc-num">05</span>
             <div><div class="toc-name">Quality Review</div><div class="toc-tag">Gate before send</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-06" data-target="specialist-06">
+            <span class="toc-num">06</span>
+            <div><div class="toc-name">Daily Brief</div><div class="toc-tag">Morning sync · read-only</div></div>
+          </a></li>
+          <li><a class="toc-row" href="#specialist-07" data-target="specialist-07">
+            <span class="toc-num">07</span>
+            <div><div class="toc-name">Nurture Coordinator</div><div class="toc-tag">Long-horizon cadence</div></div>
           </a></li>
         </ul>
       </div>
