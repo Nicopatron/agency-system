@@ -1,6 +1,6 @@
 # Team Configuration
 
-> Source of truth for who's on Diana's team. Read by `06_daily_brief` (to validate `requested_by`) and `07_nurture_coordinator` (for past-client relationship strength signals). Update when a team member joins, leaves, or changes role.
+> **Inline flag for stranger readers:** Pre-seeded with the illustrative composite team described in `README.md § Design rationale` (Diana + Marcus + Priya + Sam). Replace with your actual team — names, tenure, voice-profile paths, elevation notes. Source of truth for who's on Diana's team. Read by `06_daily_brief` (to validate `requested_by`) and `07_nurture_coordinator` (for past-client relationship strength signals). Update when a team member joins, leaves, or changes role.
 
 `last_updated:` 2026-05-15
 

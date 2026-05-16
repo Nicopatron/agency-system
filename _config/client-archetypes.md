@@ -1,6 +1,6 @@
 # Client Archetypes — operational tone calibration
 
-> Five archetypes the agent can pick at intake-time and apply across every specialist's output. Built for the boutique team's actual cadence (tagging at qualification, applying within seconds, overriding on signal) — not for a clinical framework that requires a behavioral specialist to apply correctly.
+> **Inline flag for stranger readers:** Pre-seeded with five archetypes calibrated for the composite Austin boutique team (see `README.md § Design rationale`). The archetype names + tone signatures below are illustrative defaults — real teams should sharpen them against their own client base after 3-6 months of use, or replace entirely if their book skews to one or two types. Five archetypes the agent can pick at intake-time and apply across every specialist's output. Built for the boutique team's actual cadence (tagging at qualification, applying within seconds, overriding on signal) — not for a clinical framework that requires a behavioral specialist to apply correctly.
 
 This file is read by `02_property_research` (when framing a brief for a known client) and `03_client_communication` (when calibrating tone for a draft) and `07_nurture_coordinator` (when matching cadence to lead profile). It is NOT a behavioral finance treatise — for that, see Morgan Housel's *Psychology of Money* or similar.
 

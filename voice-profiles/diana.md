@@ -1,6 +1,6 @@
 # Voice Profile — Diana
 
-> Filled example for Diana, the boutique RE team owner described in the brief. Used as the canonical reference example for what a profile looks like. New agents on the team copy `_template.md` and fill it for themselves; Diana's profile is set up here so 03_client_communication has a working example from day 1.
+> **Inline flag for stranger readers:** Filled example for Diana, the composite boutique-RE team owner described in the brief (see `README.md § Design rationale — Diana as composite`). Used as the canonical reference example for what a profile looks like — voice patterns below are illustrative, not captured from a real person. New agents on the team copy `_template.md` and fill it from 3-5 of their own past emails; Diana's profile is set up here so `03_client_communication` has a working example from day 1.
 
 ```yaml
 voice_profile:

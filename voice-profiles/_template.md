@@ -1,6 +1,6 @@
 # Voice Profile — <agent_first_name>
 
-> Copy this file as `<agent_first_name>.md` (lowercase, no spaces). Fill in each field by reviewing 3-5 past emails the agent wrote. Set up once at onboarding, refresh every ~90 days.
+> **Inline flag for stranger readers:** This is the pristine seed each new agent fills with their own voice. Copy this file as `<agent_first_name>.md` (lowercase, no spaces). Fill in each field by reviewing 3-5 past emails the agent wrote. Set up once at onboarding, refresh every ~90 days. No client names or PII inside voice files — speech patterns only.
 
 ```yaml
 voice_profile:

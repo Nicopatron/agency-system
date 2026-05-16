@@ -1,5 +1,7 @@
 # team-standards.md — Diana's Operating Standard
 
+> **Inline flag for stranger readers:** Diana is a composite (see `README.md § Design rationale — Diana as composite`). The non-negotiables, philosophy, and hard-moments playbook below are illustrative starter content for a boutique Austin RE team — real teams replace § 1–4 with their own operating standard before going live. The structure (quality floor + non-negotiables + philosophy + hard moments + version header) is the load-bearing part.
+>
 > **This file externalizes Diana.** Not to replace her — to multiply her.
 >
 > Every specialist in this system loads relevant sections of this file on every run. The quality of this file is the quality ceiling for every output the system produces. Generic content here produces generic outputs everywhere.
