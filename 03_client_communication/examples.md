@@ -115,6 +115,7 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "2026-05-13"
   confidence: 65   # capped at research_brief upstream (65)
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Note for the agent
@@ -229,6 +230,7 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "2026-05-25"
   confidence: 80   # voice match high; deal_event urgency is "high" not "urgent" so confidence reflects voice quality
+  handoff_reason: forward_urgent               # deal_event urgency "high" + option-period clock → forward_urgent per AGENTS.md (receiver escalates channels)
 ```
 
 ### Note for the agent
@@ -347,6 +349,7 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "2026-06-04"
   confidence: 95   # qualified_lead upstream 95; voice match high; archetype matched cleanly; no enumerated deductions apply (profile fresh: 50 days from refresh < 90-day threshold; archetype matched; no fallback)
+  handoff_reason: forward_urgent               # competing-offer decision-window Friday EOD → forward_urgent (deadline pressure; receiver escalates channels)
 ```
 
 ### Note for the agent
@@ -456,6 +459,7 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "2026-05-20"
   confidence: 90    # qualified_lead 95 (post-first-call refresh); archetype matched cleanly; no enumerated reductions apply
+  handoff_reason: forward_urgent               # offer-acceptance + Monday closing-prep window → forward_urgent (escalate channels for wire-instructions handoff)
 ```
 
 ```yaml

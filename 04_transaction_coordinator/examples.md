@@ -114,6 +114,7 @@ deal_state:
 
   tracked_by: "04_transaction_coordinator"
   last_update: "2026-05-20"
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Quick scan — Patel Day 1
@@ -213,6 +214,7 @@ deal_state:
       created_at: "2026-05-26T10:00"
 
   last_update: "2026-05-26"
+  handoff_reason: forward_urgent               # option period ends tomorrow + inspection not booked → emit status under deadline pressure
 ```
 
 #### `deal_event` sent to `03_client_communication`
@@ -241,6 +243,7 @@ deal_event:
 
   sent_by: "04_transaction_coordinator"
   sent_date: "2026-05-26"
+  handoff_reason: forward_urgent               # deadline_approaching event + urgency:"high" → forward_urgent (receiver escalates channels per AGENTS.md)
 ```
 
 ### Note for the agent
@@ -311,6 +314,7 @@ deal_state:
       created_at: "2026-06-13T14:30"
 
   last_update: "2026-06-13"
+  handoff_reason: forward_urgent               # financing contingency 3 days past deadline + financing_delay event → emit status under urgent escalation
 ```
 
 #### `deal_event` sent to `03_client_communication`
@@ -340,6 +344,7 @@ deal_event:
 
   sent_by: "04_transaction_coordinator"
   sent_date: "2026-06-13"
+  handoff_reason: forward_urgent               # financing_delay event + urgency:"urgent" + phone_then_email channel → forward_urgent (highest escalation tier)
 ```
 
 ### Note for the agent
@@ -371,7 +376,8 @@ deal_update:
 ```yaml
 refusal:
   deal_id: "lookup-failed"
-  reason: "missing_inputs"
+  handoff_reason: back_data_missing            # closed enum per AGENTS.md — receiver executes next_action (one of 3 identifying-signal capture paths), then re-routes
+  reason: "missing_inputs"                     # 04-specific category; handoff_reason is the cross-specialist type
   detail: |
     The agent's update has no identifying signal I can use to find the right deal_state. The schema requires AT LEAST ONE of: (1) a deal_id, (2) a buyer or seller name, (3) a property address. The text describes "one of our buyers" + "lender pulled the rug" without naming the client or referencing a specific deal. I have no way to disambiguate among active deals — at this team's volume, a non-trivial number could be in financing risk windows at any given time.
   next_action: |

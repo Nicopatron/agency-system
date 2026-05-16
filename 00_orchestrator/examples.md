@@ -32,6 +32,7 @@ routed_request:
   context_notes: |
     Direct from 00, no qualified_lead — agent will route to 01 separately if this client moves to active buying.
   confidence: 90
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
   decision_trace:
     - "Property-specific signal (named neighborhood: Mueller) + market-question phrasing ('good neighborhood for elementary schools'); no new-lead intake signals in the paste"
     - "Existing-client framing with no active-deal context rules out 04; school-rating question is pure 02 research scope"
@@ -84,6 +85,7 @@ routed_request:
     3. After 02 returns research_brief, queue 03_client_communication for first-touch email (Diana voice) acknowledging the inquiry + offering tour windows + flagging anything the brief surfaced (pricing context, lender question, timeline buffer for mid-July close)
     Do NOT prejudge fit even though the listing is specific — 01's intake gate may surface missing pieces (must-haves, deal-breakers, why they like THIS unit vs others in 78745). The tour request stays parked until 01 confirms.
   confidence: 90
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
   decision_trace:
     - "New-lead signals strong ('new lead via the website', source = web form, no prior relationship) + property-mention signals strong (specific address)"
     - "Compound case — precedence rule 3 routes lead_intake first; the property piece queues as 02 downstream from qualified_lead"
@@ -117,6 +119,7 @@ Pasted: 2026-05-14 16:30 CT
 ```yaml
 refusal:
   routing_id: "2026-05-14-1630-jorge-megan-sue-seller-specific-performance"
+  handoff_reason: back_compliance_block        # legal-advice request crosses UPL boundary — escalate to human (Diana) per AGENTS.md receiver-dispatch rule
   reason: "out_of_scope"
   detail: |
     The agent is asking how to handle a client's legal action question (specific performance against a seller who backed out of a TREC contract). That's legal advice on contract enforcement — outside the team's 8 specialists. 04_transaction_coordinator handles deadline + document tracking during an active deal, not litigation strategy after a deal collapses. None of the other specialists touch legal advice either.

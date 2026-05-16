@@ -80,6 +80,7 @@ research_brief:
   researched_by: "02_property_research"
   research_date: "2026-05-13"
   confidence: 65   # capped at upstream 80, reduced by −15 for comparables count < 3 (agent has not yet verified MLS pull)
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Note for the agent
@@ -154,6 +155,7 @@ research_brief:
   researched_by: "02_property_research"
   research_date: "2026-05-14"
   confidence: 75   # capped at upstream 90, reduced by −15 because no comparables block applicable (different scope type)
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Note for the agent
@@ -227,6 +229,7 @@ research_brief:
   researched_by: "02_property_research"
   research_date: "2026-05-09"
   confidence: 60   # capped at upstream 90, reduced by −15 (no comparables) − 10 (rental data unverified) − 5 (public aggregator only on inventory)
+  handoff_reason: forward_normal               # partial-refusal-with-caveats is still a forward handoff (downstream can use the verified portions); ROI section is intentionally not produced, not back-handed
 ```
 
 ### Note for the agent

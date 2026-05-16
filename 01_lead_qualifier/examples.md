@@ -68,6 +68,7 @@ qualified_lead:
   qualified_date: "2026-05-13"
   intake_completeness: 4
   confidence: 80
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Note for the agent
@@ -146,6 +147,7 @@ qualified_lead:
   qualified_date: "2026-05-10"
   intake_completeness: 5
   confidence: 95
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
 ```
 
 ### Note for the agent
@@ -180,7 +182,8 @@ Notes from Jorge:
 ```yaml
 refusal:
   lead_id: "lead_mary-2026-05-12-unverified"
-  reason: "intake_gate_triggered"
+  handoff_reason: back_data_missing            # closed enum per AGENTS.md — receiver executes next_action, captures inputs, re-routes
+  reason: "intake_gate_triggered"              # 01-specific category; handoff_reason is the cross-specialist type
   inputs_missing:
     - "intent (vague: 'thinking about buying' is not commitment)"
     - "budget (no min/max/range/financing approach)"
