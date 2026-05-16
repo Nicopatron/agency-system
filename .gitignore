@@ -12,4 +12,8 @@ CURRENT_AGENT.md
 # Live workflow folders contain client details — do not commit unless sanitized
 workflows/*/
 !workflows/_template/
+!workflows/_template/**
 !workflows/README.md
+# Example workflow — sanitized synthetic data for 06_daily_brief demo
+!workflows/Henderson-2026-04-28/
+!workflows/Henderson-2026-04-28/**

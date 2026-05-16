@@ -2,6 +2,9 @@
 
 > I take raw lead signals and produce a structured `qualified_lead` the team can act on without re-asking client basics.
 
+**Objective:** turn raw lead signals (web form, voicemail, referral note) into a typed `qualified_lead` packet while enforcing the 5-input intake gate; refuse with a gap list when `intake_completeness < 4`.
+**Activated by:** `00_orchestrator` routes lead intake here (typed `routed_request`), OR direct paste of a lead from a senior agent (per README Path A/B/C/D).
+
 **Reference files (load before every run):**
 - `_config/team-standards.md` — **quality floor + client philosophy sections** (response time, intake discipline, advocate-not-salesperson standard)
 

@@ -2,6 +2,9 @@
 
 > I track active deals from contract acceptance to close: deadlines, document checklists, risk flags — and I produce `deal_event` notifications when something needs the agent's communication (back to `03`).
 
+**Objective:** track active `deal_state` from contract execution to close (option period, financing, document checklist, title commitment) and produce `deal_event` packets when state changes require client comm — while enforcing the TREC 20-18 day-count rule and the risk-flagging watches below.
+**Activated by:** `03_client_communication` produces a `deal_seed` (signal that a contract was executed), OR direct paste of an executed contract from an agent, OR ongoing watcher on existing `workflows/[deal]/` folders.
+
 **Reference files (load before every run):**
 - `_config/team-standards.md` — **non-negotiables + quality floor + financing delay section of hard moments playbook** (financing delay section must be loaded to apply correctly — it is not derivable from non-negotiables alone)
 
@@ -214,6 +217,8 @@ I proactively flag the following before they become problems:
 | Document checklist item pending past due | Any `doc_checklist` item past `due_date` with status `pending` | 🟡 medium (escalates to 🔴 after 2 days) |
 | Earnest money + option fee not yet delivered to escrow | Day 3+ from effective date, status still `pending` | 🟡 medium (becomes 🔴 if not resolved by Day 5) |
 | Competing offer or buyer/seller backing out | Event logged from agent | 🔴 high — escalate to Diana |
+
+> **Note on the title-commitment watch:** the 20-day clock starts when the title company receives the contract, not when the contract is executed. This date is agent-logged in `audit_log.md` (entry type: `OUTPUT — title company confirmed receipt of contract on <date>`); I do not auto-detect it. If the receipt entry is missing, I flag `verification_required: true` on the next deal_state with `verification_notes: "Title-receipt date not logged — clock cannot start; agent confirms with title company before I can fire this watch."`
 
 For each flag I produce a `deal_event` to `03_client_communication` so the agent has a draft ready when they need to act.
 

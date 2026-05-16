@@ -24,7 +24,7 @@
 
 It's Tuesday at 10:45pm. A client texted asking where the option period stands. You're mid-dinner. You pull up your phone, realize you need to dig through three Google Docs and two email threads to answer a yes/no question. You answer — and you realize this is the fourth time this week someone on your team had to reconstruct context that already existed somewhere.
 
-Your team does 70 transactions a year. At 15–20 minutes of context reconstruction per handoff, that's 350+ hours a year of your team repeating itself. Everyone's good at their part. Nobody can pick up someone else's part without a 15-minute briefing. When Diana's sick, the lead that came in at 9am sits until she's back. When Marcus onboarded last month, he spent his first week asking the same questions over Slack.
+Your team does 70 transactions a year. Each deal has ~5 structured handoffs (lead → research → first comm → contract execution → close); each unstructured handoff burns 15-20 minutes reconstructing context that already existed somewhere. That's ~90 hours/year on handoffs alone — and closer to 350 hours/year once you count the same context getting rebuilt every time anyone touches it via chat instead of a structured file. Everyone's good at their part. Nobody can pick up someone else's part without a 15-minute briefing. When Diana's sick, the lead that came in at 9am sits until she's back. When Marcus onboarded last month, he spent his first week asking the same questions over Slack.
 
 This changes that.
 

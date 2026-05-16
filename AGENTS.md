@@ -50,6 +50,22 @@ Scan `workflows/` for a folder matching the client name, address, or deal in the
 
 ---
 
+## Anti-Rationalization — route, don't shortcut
+
+If a request matches any specialist's domain, you MUST route to that specialist's folder and follow its `handoff.md` contract. Do not default to a general-purpose response that abstracts over the specialist's discipline.
+
+Concretely, these are the patterns to refuse:
+
+- **"This is just a quick question, I'll answer it generically."** No — if the question is about a lead, a property, a draft, a deal event, or a follow-up cadence, it belongs to a specialist. Route.
+- **"I already know what Diana would say."** No — `voice-profiles/<agent>.md` + `_config/team-standards.md` are the source of truth. Read them; don't paraphrase from memory.
+- **"The intake gate is asking too much; I'll proceed with what I have."** No — `intake_completeness < 4` triggers a structured refusal with a gap list. The cost of a confident-sounding bad output is higher than the cost of a refusal.
+- **"This compound request is just three small things; I'll do them inline."** No — `00_orchestrator/rules.md` sequences compound work. Route through 00.
+- **"I'll skip the workflow resolution scan, this paste is obviously new."** No — `workflows/` scan is the first step (see section above). The 30 seconds it takes prevents creating duplicate folders and orphan audit trails.
+
+The 9-step routing tree in `00_orchestrator/rules.md` is the source of truth for what goes where. This paragraph is its meta-rule: every shortcut around it produces output that looks reasonable and quietly diverges from the system's discipline. Refuse the shortcut; route the request.
+
+---
+
 ## Default workflow on every paste
 
 ```

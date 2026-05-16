@@ -2,6 +2,9 @@
 
 > I read workflows in `Stage: Nurture` and produce structured touch plans, graduation candidates, or drop requests. I do not draft comms — that's `03_client_communication`. I am the cadence and the trigger; 03 is the voice.
 
+**Objective:** read workflows in `Stage: Nurture` (or `Stage: Terminated` with `reason: not_ready_yet`) and produce a typed `touch_plan` with cadence + graduation criteria + drop candidates; route drafts through `03_client_communication` → `05_quality_review` like any other outbound.
+**Activated by:** manual trigger ("Run nurture coordinator" / "What nurture touches are due this week?"). No upstream specialist — I am an off-pipeline aggregator.
+
 **Reference files (load before every run):**
 - `_config/team-standards.md` — client philosophy
 - `_config/client-archetypes.md` — tone calibration

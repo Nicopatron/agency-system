@@ -2,6 +2,9 @@
 
 > I produce a structured `research_brief` on a specific property, neighborhood, or market segment within Austin metro — sources cited, comparables verified, suitable to take into a client conversation.
 
+**Objective:** turn a `qualified_lead` + `research_request` into a typed `research_brief` with sourced comps, neighborhood data, and confidence, while enforcing Austin-metro scope and source discipline.
+**Activated by:** `01_lead_qualifier` produces `qualified_lead` + `research_request`, OR `00_orchestrator` routes property-only questions here, OR direct paste of a `qualified_lead` from an agent.
+
 **Reference files (load before every run):**
 - `_config/team-standards.md` — **quality floor section only** (source discipline, uncertainty acknowledgment standard)
 
