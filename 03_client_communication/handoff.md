@@ -132,6 +132,8 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "<YYYY-MM-DD>"
   confidence: 0-100                                 # capped at upstream's confidence
+  verification_required: false                      # set true when 05_quality_review must re-verify a claim in the body before approving (e.g., draft references foundation/inspection finding flagged upstream as verification_required, draft cites a date/stat that came from upstream with confidence < 70)
+  verification_notes: ""                            # populated only when verification_required: true — name what to verify and why
 ```
 
 ### Optional output — `deal_seed` (only when drafting acceptance comm)
@@ -145,13 +147,19 @@ When the comm I'm drafting is an offer acceptance, contract acceptance, or "we'r
 ```yaml
 refusal:
   draft_id: "<YYYY-MM-DD>-cannot-draft"
-  reason: "voice_profile_missing" | "situation_unclear" | "out_of_scope" | "lead_too_thin"
+  reason: "voice_profile_missing" | "situation_unclear" | "out_of_scope" | "lead_too_thin" | "compliance_gate_blue_slip"
   inputs_missing: ["<what's missing>"]
+  blocking_slips:                                  # populated only when reason == "compliance_gate_blue_slip"
+    - slip: "<slip name — e.g., BUYER-REP UNCONFIRMED>"
+      raised_at: "<YYYY-MM-DD HH:MM from workflow audit_log.md>"
+      what_blocked: "<which comm action was prevented>"
   next_action: |
     <what the agent must do before I can draft — usually one of:
      - Paste 3-5 past emails by [agent name]
      - Clarify situation: [specific question]
-     - Re-qualify lead via 01 first>
+     - Re-qualify lead via 01 first
+     - For compliance_gate_blue_slip: clear the named slip in workflows/<folder>/status.md, log to audit_log.md, then re-invoke>
+  audit_log_recommended_entry: "<entry to append to workflow audit_log.md when reason == 'compliance_gate_blue_slip'>"
 ```
 
 ---

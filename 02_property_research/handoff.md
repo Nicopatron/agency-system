@@ -89,6 +89,8 @@ research_brief:
   researched_by: "02_property_research"
   research_date: "<YYYY-MM-DD>"
   confidence: 0-100                               # CAPPED at upstream's confidence
+  verification_required: false                    # set true when 03 must re-verify before drafting comm (e.g., low confidence + property-specific claim, foundation/inspection flag based on listing-agent verbal claim, school catchment ambiguity)
+  verification_notes: ""                          # populated only when verification_required: true — name what to verify and why
 ```
 
 ### Canonical schema — `refusal`

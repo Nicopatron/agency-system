@@ -83,6 +83,20 @@ deal_state:
   contract_date: "<YYYY-MM-DD>"
   contract_version: "TREC 20-18 (One to Four Family Residential, effective 2025-01-03)" | "<other — flag in caveats>"  # explicit acknowledgment
 
+  intermediary_status: false                       # TRELA §1101.559 — true when same agent represents both buyer and seller
+  intermediary_consent:                            # populated only when intermediary_status: true
+    buyer_consent_on_file: true | false
+    seller_consent_on_file: true | false
+    iabs_reacknowledged: true | false
+    appointed_licensees:                           # if broker appoints separate associates per side
+      buyer_side: "<name | null>"
+      seller_side: "<name | null>"
+    neutrality_log:                                # append-only log of substantive comms with neutrality posture confirmed
+      - date: "<YYYY-MM-DD>"
+        comm_id: "<draft_id>"
+        neutrality_confirmed: true | false
+        notes: "<context>"
+
   target_close: "<YYYY-MM-DD>"
   current_day_in_contract: <number>                # auto-computed: contract_date = Day 1 (signing day); each subsequent calendar day = Day N+1
 
@@ -121,6 +135,8 @@ deal_state:
   tracked_by: "04_transaction_coordinator"
   last_update: "<YYYY-MM-DD>"
   confidence: 0-100                                # aggregate completeness signal — see § Confidence propagation below
+  verification_required: false                     # set true when downstream specialist or agent must re-verify a tracked field (e.g., contract_date is placeholder pending executed contract, milestone marked verbal-only, intermediary status unconfirmed)
+  verification_notes: ""                           # populated only when verification_required: true — name what to verify and why
 ```
 
 ### Canonical schema — `deal_event` (sent to `03_client_communication`)
@@ -145,6 +161,8 @@ deal_event:
 
   sent_by: "04_transaction_coordinator"
   sent_date: "<YYYY-MM-DD>"
+  verification_required: false                      # set true when 03 must re-verify a key fact before drafting (e.g., competing-offer detail came from third-hand report, missed-deadline date based on verbal claim)
+  verification_notes: ""                            # populated only when verification_required: true — name what to verify and why
 ```
 
 ### Canonical schema — `refusal`

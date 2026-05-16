@@ -9,12 +9,12 @@ One row per case. Most recent first.
 | case_id | client | property | status | agent | last_updated |
 |---------|--------|----------|--------|-------|--------------|
 | 2026-04-28-Henderson-buyer | James + Sarah Henderson | 4521 Speedway Ave, Austin 78751 | option_period | Diana | 2026-05-13 |
-| 2026-05-13-Patel-buyer | Tom + wife Patel | 78704 (Bouldin/South Lamar focus) | closed | Diana | 2026-07-15 |
+| 2026-05-13-Patel-buyer | Tom + Priya Patel | 78704 (Bouldin/South Lamar focus) | closed | Diana | 2026-05-13 |
 
 ## How This File Is Maintained
 
 - **New case opened** — orchestrator prepends a row when the case is first routed to 01.
-- **Status change** — transaction coordinator updates `status` column: `active` → `qualified` → `under_contract` → `option_period` → `pending_close` → `closed` | `terminated`.
+- **Status change** — transaction coordinator updates `status` column: `active` → `under_contract` → `option_period` → `pending_close` → `closed` | `terminated`.
 - **No human edits** to this file outside of those two triggers. The index reflects live deal state.
 
 ## Status definitions

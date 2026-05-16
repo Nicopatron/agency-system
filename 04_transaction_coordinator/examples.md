@@ -400,4 +400,4 @@ This is the system refusing to fish in a populated pipeline without disambiguati
 - `handoff.md` — canonical schemas (deal_state, deal_event, refusal)
 - `domain-fact-pending.md` — TREC day-counts graduated 2026-05-12
 - `../03_client_communication/examples.md` Ex2 — how the inspection-issue / similar deal_event becomes an email
-- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across all 6 specialists
+- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across the 6 pipeline specialists (00→05); 06_daily_brief and 07_nurture_coordinator run separately as morning sync and post-close cadence

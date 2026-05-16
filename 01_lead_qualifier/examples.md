@@ -222,4 +222,4 @@ This is the system working as designed. Jorge did the right thing flagging it; t
 - `handoff.md` — canonical schemas
 - `../02_property_research/examples.md` Ex1 — how the Patel `research_request` lands in 02
 - `../03_client_communication/examples.md` Ex1 — how the Patel `comm_request` becomes a first-touch email
-- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across all 6 specialists
+- `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across the 6 pipeline specialists (00→05); 06_daily_brief and 07_nurture_coordinator run separately as morning sync and post-close cadence

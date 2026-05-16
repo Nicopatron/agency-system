@@ -8,6 +8,7 @@
 4. **Cap `confidence` per the refusal thresholds table below** (5/5 = 95, 4/5 = 80, 3/5 = 65) AND clamp to the upstream confidence (if 00 routed with lower confidence). A 4/5 intake from a 90-confidence orchestrator produces `confidence: 80` (4/5 cap is the binding constraint). A 3/5 intake from a 60-confidence orchestrator produces `confidence: 60` (upstream is the binding constraint).
 5. **Populate `next_stages_recommended` explicitly.** Name the downstream specialist (`02_property_research`, `03_client_communication`) and the reason. If both are needed, include both — they run in parallel from my output.
 6. **Flag missing inputs in the output**, not by hiding them. If `must_haves` weren't captured, the field exists as `must_haves: []` with a comment line above: `# NOT YET CAPTURED — agent should ask during first call`.
+7. **Check incoming `verification_required` flag.** If the upstream `routed_request` carries `verification_required: true`, read `verification_notes` and either ask the agent to confirm the named assumption before producing `qualified_lead` OR carry the flag forward by setting `qualified_lead.verification_required: true` with cumulative notes. Never silently consume an unverified upstream claim. See AGENTS.md § Verification protocol.
 
 ## Never
 

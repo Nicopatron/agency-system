@@ -55,6 +55,8 @@ routed_request:
   # verified_client: reply from existing client with established identity in a prior thread
   # agent_authored: a team agent wrote the content themselves (market question, status check)
   situation_type: "<see controlled vocabulary below>"   # Required when target_specialist is 03_client_communication; omit otherwise
+  verification_required: false                  # set true if the receiving specialist must re-verify a named assumption before acting (see AGENTS.md § Verification protocol)
+  verification_notes: ""                        # populated only when verification_required: true — name what to verify and why
   decision_trace:
     - "<why I picked this specialist — 1-2 signals from input>"
     - "<confidence rationale>"
@@ -84,7 +86,7 @@ If the situation is ambiguous, ask ONE clarifying question before routing. Do no
 refusal:
   routing_id: "<YYYY-MM-DD-HHMM>-<agent>-<short-slug>"
   reason: "out_of_scope" | "unclassifiable"
-  detail: "<what was asked + why it falls outside the team's 6 specialists, OR why the request is too vague to classify after one clarifying question>"
+  detail: "<what was asked + why it falls outside the team's 8 specialists, OR why the request is too vague to classify after one clarifying question>"
   next_action: "<usually 'escalate to Diana' or 'consult [external — RE attorney, broker, lender]' for out_of_scope; 'bounce to 01 for intake gate' for unclassifiable>"
 ```
 

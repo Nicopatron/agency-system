@@ -1,10 +1,10 @@
 # Day 1 Training Case — The Patels
 
-> **What this is:** a canonical end-to-end walkthrough of how a single lead flows through all 6 specialists. New agents on Diana's team should run this scenario on their first day, compare their own outputs to the ones shown here, and ask their senior pair where the divergence happens.
+> **What this is:** a canonical end-to-end walkthrough of how a single lead flows through the 6 pipeline specialists (00 → 05). New agents on Diana's team should run this scenario on their first day, compare their own outputs to the ones shown here, and ask their senior pair where the divergence happens. (06_daily_brief and 07_nurture_coordinator are off-pipeline aggregators — try them on Day 2: run a morning brief, then run nurture for a past client.)
 >
 > **Time required:** ~2 hours, ideally with a senior agent in the room.
 >
-> **Why this works:** the Patels touch every specialist in the system. By Day 2, you'll have seen one complete deal flow through the architecture you'll use for every other deal.
+> **Why this works:** the Patels touch every pipeline specialist in the system. By Day 2, you'll have seen one complete deal flow through the architecture you'll use for every other deal.
 
 ---
 

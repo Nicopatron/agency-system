@@ -87,6 +87,8 @@ qualified_lead:
   confidence: 0-100                              # capped by intake_completeness per refusal thresholds (5/5=95, 4/5=80, 3/5=65) AND clamped to upstream
   content_provenance: "anonymous_inbound" | "verified_client" | "agent_authored"
   # Propagated unchanged from routed_request. Downstream 03 uses this to apply quarantine rules on anonymous content.
+  verification_required: false                   # set true when downstream must re-verify before acting (e.g., out-of-state lender + tight TX close window, unverified pre-approval claim, anonymous_inbound with property-specific request)
+  verification_notes: ""                         # populated only when verification_required: true — name what to verify and why
 ```
 
 ### Canonical schema — `refusal` (intake gate triggered)
