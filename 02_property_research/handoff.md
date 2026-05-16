@@ -92,6 +92,7 @@ research_brief:
   researched_by: "02_property_research"
   research_date: "<YYYY-MM-DD>"
   confidence: 0-100                               # CAPPED at upstream's confidence
+  handoff_reason: forward_normal                  # closed enum (see AGENTS.md § Handoff reason taxonomy)
   verification_required: false                    # set true when 03 must re-verify before drafting comm (e.g., low confidence + property-specific claim, foundation/inspection flag based on listing-agent verbal claim, school catchment ambiguity)
   verification_notes: ""                          # populated only when verification_required: true — name what to verify and why
 ```
@@ -101,6 +102,9 @@ research_brief:
 ```yaml
 refusal:
   research_id: "<YYYY-MM-DD>-out-of-scope"
+  handoff_reason: back_scope_mismatch | back_data_missing
+  # back_scope_mismatch: out_of_area (outside Austin metro)
+  # back_data_missing: scope_too_broad, evidence_thin, missing_inputs
   reason: "scope_too_broad" | "out_of_area" | "evidence_thin" | "missing_inputs"
   detail: "<what was asked + why I can't proceed>"
   next_action: "<usually 'narrow scope to 2-3 areas' or 'refer to RE network in [other market]'>"

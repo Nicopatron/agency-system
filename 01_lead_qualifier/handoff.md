@@ -88,6 +88,7 @@ qualified_lead:
   intake_completeness: <0-5>                     # how many of 5 core inputs were confirmed
   framework_not_commitment: <true | false>       # true ONLY for 3/5 intake (output is a framework, not a commitment per rules.md:38); omit or false for 4/5 and 5/5
   confidence: 0-100                              # capped by intake_completeness per refusal thresholds (5/5=95, 4/5=80, 3/5=65) AND clamped to upstream
+  handoff_reason: forward_normal                 # closed enum, see AGENTS.md § Handoff reason taxonomy. Use forward_urgent when downstream needs deadline-driven escalation (rare on 01→02/03)
   content_provenance: "anonymous_inbound" | "verified_client" | "agent_authored"
   # Propagated unchanged from routed_request. Downstream 03 uses this to apply quarantine rules on anonymous content.
   verification_required: false                   # set true when downstream must re-verify before acting (e.g., out-of-state lender + tight TX close window, unverified pre-approval claim, anonymous_inbound with property-specific request)
@@ -99,7 +100,8 @@ qualified_lead:
 ```yaml
 refusal:
   lead_id: "lead_<short-id>-unverified"          # short-id is a disambiguator: first-name + date (e.g. "lead_mary-2026-05-12-unverified"), or a random anon-id, whatever makes the ID unique
-  reason: "intake_gate_triggered"
+  handoff_reason: back_data_missing              # closed enum, see AGENTS.md § Handoff reason taxonomy
+  reason: "intake_gate_triggered"                # human-readable category (specific to 01); handoff_reason is the cross-specialist enum
   inputs_missing: ["<list of missing — e.g. intent, budget, timeline>"]
   inputs_received: ["<what was present>"]
   intake_completeness: <0-5>
@@ -108,6 +110,8 @@ refusal:
     1. <question 1>
     2. <question 2>
 ```
+
+If intent_classification doesn't match (routed as lead_intake but content is, e.g., transaction status query): emit `handoff_reason: back_scope_mismatch` instead + route back to 00 for re-classification.
 
 ---
 

@@ -172,3 +172,32 @@ Every handoff schema carries a boolean `verification_required` field. When `true
 - Never silently consume — at minimum, surface in `decision_trace`
 
 This makes uncertainty visible at transfer time, not at failure time. A research brief with low confidence + an unverified foundation flag must NOT silently become a confident-sounding client draft.
+
+---
+
+## Handoff reason taxonomy — `handoff_reason` field
+
+Every handoff envelope (forward or back) carries a `handoff_reason` field with one of 6 closed-enum values. The type decides; the `next_action` prose explains.
+
+| Value | When to use |
+|-------|------------|
+| `forward_normal` | Standard forward handoff — accepting input, producing output, routing to next specialist |
+| `forward_urgent` | Deadline pressure (TREC option period expiring, financing deadline within 48h, closing-day comms) — receiver should escalate channels (text Diana, not async digest) |
+| `back_data_missing` | Couldn't process — required input fields incomplete or below intake-gate threshold; payload includes `next_action` listing what to capture before re-routing |
+| `back_scope_mismatch` | Input is valid but not my responsibility — route back to orchestrator for re-classification (e.g., `intent_classification != my_role`) |
+| `back_quality_failure` | Output exists but receiver rejects on quality grounds — voice match insufficient, fact missing, confidence below threshold for the situation type |
+| `back_compliance_block` | Input would require crossing a regulatory boundary (UPL — legal interpretation; Fair Housing — steering on schools; TRELA §1101.559 — intermediary neutrality breach); payload includes a `proposed_draft` with `do_not_send_yet: true` flag for Diana review |
+
+**Closed taxonomy.** Every refusal or routing decision produces one of these 6 values. No handoff.md may produce a `handoff_reason` value outside this list. New refusal categories trigger a versioned extension (see `COMPETITORS-ANALYSIS.md § Triggered modifications`).
+
+**Receiver dispatch.** When receiving a back-handoff:
+- `back_data_missing` → execute `next_action`, capture inputs, re-route forward
+- `back_scope_mismatch` → orchestrator re-classifies + routes to correct specialist
+- `back_quality_failure` → producer re-runs with corrections from payload
+- `back_compliance_block` → escalate to human (Diana); attach `proposed_draft` if present
+
+**Interaction with existing fields:**
+- `handoff_reason` is orthogonal to `severity` (urgency axis, 04→03) and `situation_type` (00→03 archetype) — coexists, not replaces
+- `forward_urgent` typically co-occurs with `severity: urgent` on 04→03; `handoff_reason` classifies the *category* of the handoff, `severity` the *urgency*
+
+**Attribution.** This taxonomy is adapted from JamesMack05's `agency-system` `HANDOFF_SCHEMA.md` Extension 2 (comp-4 peer submission, 2026-05-16). Their 6-value enum + closed-taxonomy invariant is the design source; the field-by-field receiver dispatch table above is our addition.

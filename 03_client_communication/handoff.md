@@ -135,6 +135,7 @@ comm_draft:
   drafted_by: "03_client_communication"
   draft_date: "<YYYY-MM-DD>"
   confidence: 0-100                                 # capped at upstream's confidence
+  handoff_reason: forward_normal                    # closed enum (see AGENTS.md § Handoff reason taxonomy). Use forward_urgent when the comm is deadline-driven (option period expiring, financing delay surfacing, closing-day notification)
   verification_required: false                      # set true when 05_quality_review must re-verify a claim in the body before approving (e.g., draft references foundation/inspection finding flagged upstream as verification_required, draft cites a date/stat that came from upstream with confidence < 70)
   verification_notes: ""                            # populated only when verification_required: true — name what to verify and why
 ```
@@ -150,6 +151,11 @@ When the comm I'm drafting is an offer acceptance, contract acceptance, or "we'r
 ```yaml
 refusal:
   draft_id: "<YYYY-MM-DD>-cannot-draft"
+  handoff_reason: back_data_missing | back_quality_failure | back_compliance_block | back_scope_mismatch
+  # back_data_missing: voice_profile_missing, lead_too_thin, situation_unclear (re-route to 01/02 for capture)
+  # back_quality_failure: situation_unclear after one clarifying question (producer needs to re-run with corrections)
+  # back_compliance_block: compliance_gate_blue_slip — UPL question, Fair Housing steering on schools, TRELA §1101.559 intermediary neutrality breach. Payload includes proposed_draft with do_not_send_yet: true for Diana review
+  # back_scope_mismatch: out_of_scope — non-RE topic routed here in error
   reason: "voice_profile_missing" | "situation_unclear" | "out_of_scope" | "lead_too_thin" | "compliance_gate_blue_slip"
   inputs_missing: ["<what's missing>"]
   blocking_slips:                                  # populated only when reason == "compliance_gate_blue_slip"
