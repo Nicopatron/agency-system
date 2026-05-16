@@ -4,6 +4,8 @@
 
 This file is for someone reviewing the architecture. It explains the load-bearing decisions that aren't obvious from a folder listing. If you're trying to use the system, start with `README.md` (humans) or `AGENTS.md` (agents).
 
+**Note on numbering vs README.** This file documents the 8 load-bearing architectural decisions below. The README's *Real design decisions* section lists 11 — the extras are operational rather than architectural (quality-floor + voice-profile split, define-vs-enforce between team-standards and `05_quality_review`, and the paper fallback for runtime outages). They're cross-linked in the README but not duplicated here. Decision numbers in this file are internal to DESIGN-NOTES and do not map 1-to-1 to the README list.
+
 ---
 
 ## Decision 1 — Two contracts, not one: `handoff` vs `workflow state`
