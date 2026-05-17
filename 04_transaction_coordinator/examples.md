@@ -118,7 +118,7 @@ deal_state:
   gaps:                                          # named unknowns; agent captures during normal coordination
     - "title commitment date placeholder pending title-co receipt of contract"
     - "lender contact info not yet captured (deal_seed had pre-approval source only)"
-    - "MUD-district status pending TCAD lookup (1845 Westwood Dr — verify before adding §49.452 to doc_checklist)"
+    - "MUD-district status pending TCAD lookup for the 78704 Bouldin Creek address — verify before adding §49.452 to doc_checklist (78704 is mostly in-city Austin so MUD is unlikely, but confirm)"
 ```
 
 ### Quick scan — Patel Day 1

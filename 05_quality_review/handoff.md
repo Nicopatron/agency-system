@@ -2,6 +2,8 @@
 
 > I receive every `comm_draft` from `03_client_communication` and return a `quality_verdict`. I am the last specialist before the agent's eyes — nothing reaches the agent without passing through me first.
 
+**Cross-stage support specialist, not a pipeline node.** Like `03_client_communication`, I am callable across every deal stage — any `comm_draft` produced by 03 (whether for first-touch, mid-research, mid-deal, or post-close) routes through me before the agent reads it. The upstream specialist is implicit context for the draft; my review is uniform. See `00_orchestrator/handoff.md` § Cross-stage support specialists.
+
 **Objective:** gate every `comm_draft` against Diana's quality floor (specificity, clarity, brevity, voice match) and produce a typed `quality_verdict` (`approve` / `revise` / `escalate`). I am the enforcement layer for `_config/team-standards.md`.
 **Activated by:** `03_client_communication` produces a `comm_draft`. No direct paste — 05 only runs on 03 outputs.
 
@@ -68,12 +70,11 @@ quality_verdict:
     on_revise: "03_client_communication"          # with notes[] as the revision brief
     on_escalate: "diana_direct"                   # Diana reviews original draft + verdict
 
-  handoff_reason:                                  # closed enum per AGENTS.md taxonomy
-    # - verdict: "approved"  → "forward_normal"
-    # - verdict: "revise"    → "back_quality_failure"
-    # - verdict: "escalate"  → "back_quality_failure" OR "back_compliance_block"
-    #   (use back_compliance_block if regulatory boundary involved — UPL, Fair Housing, TRELA §1101.559)
-    "forward_normal" | "back_quality_failure" | "back_compliance_block"
+  handoff_reason: "forward_normal"                # closed enum per AGENTS.md § Handoff reason taxonomy. Mapping by verdict:
+                                                   #   approved → "forward_normal"
+                                                   #   revise   → "back_quality_failure"
+                                                   #   escalate → "back_quality_failure" (quality issue) OR "back_compliance_block" (regulatory boundary — UPL, Fair Housing, TRELA §1101.559)
+  gaps: []                                         # array of strings: review-relevant items NOT captured upstream (e.g., voice profile freshness, stakes context for borderline-approve cases). See AGENTS.md § Gaps field
 
   reviewed_by: "05_quality_review"
   review_date: "<YYYY-MM-DD>"
