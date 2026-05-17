@@ -206,6 +206,45 @@ comm_draft:
 
 ---
 
+## Stage 4.5 — Paste the `comm_draft` to `05_quality_review` (the quality gate)
+
+**What you do:** Copy the entire `comm_draft` block from Stage 4 output. Open the `05-quality-review` Claude Project. Paste.
+
+**What 05 should output:** a `quality_verdict` block checking the draft against Diana's 4 criteria (specificity, clarity, brevity, voice match).
+
+```yaml
+quality_verdict:
+  verdict_id: "2026-05-13-patel-first-touch-qv"
+  input_draft_id: "2026-05-13-patel-first-touch"
+  verdict: "approved"
+
+  criteria_check:
+    specificity: "pass"      # named Tom + wife, cited 78704 + $750K range, SF relocation context
+    clarity: "pass"          # opens with useful info, asks must-have/deal-breaker directly
+    brevity: "pass"          # well within 200 words, no warmup paragraphs
+    voice: "pass"            # "Quick notes before we set a call" matches Diana's archetype; "— Diana" signature correct
+
+  notes: []                  # empty — draft meets all 4 criteria
+  advisor_flags: []
+  revision_cycle: null
+  escalation_reason: null
+
+  routing:
+    on_approved: "agent_review_and_send"
+
+  handoff_reason: "forward_normal"
+  gaps: []
+
+  reviewed_by: "05_quality_review"
+  review_date: "2026-05-13"
+```
+
+**Why this step exists:** every `comm_draft` produced by 03 routes through 05 before reaching the agent's eyes. 05 is the enforcement layer for `_config/team-standards.md` (Diana's quality floor). If a draft fails any of the 4 criteria, 05 returns `verdict: "revise"` with revision notes back to 03 (max 2 cycles, then escalates to Diana). For the Patel first-touch draft, all criteria pass → agent sees the approved draft and sends.
+
+**Senior agent prompt to junior:** *"This is the quality gate Diana described in onboarding. Look at the `criteria_check` block — that's the same 4 questions you'd ask yourself before hitting send. The system asks them every time, so you can't forget."*
+
+---
+
 ## Stage 4b — Offer accepted: paste back to `03_client_communication` (acceptance archetype + `deal_seed`)
 
 **Skip-ahead context:** Patels did a 1-day Austin scouting trip, viewed three 78704 properties on 2026-05-17-18, made an offer on a Bouldin Creek listing 2026-05-19; offer accepted 2026-05-20 at $710K.
@@ -269,7 +308,7 @@ deal_state:
   deal_id: "2026-05-20-PatelBouldin"
   status: "option_period"
   parties:
-    buyer: "Tom and <wife's name> Patel"
+    buyer: "Tom and Priya Patel"
     seller: "<seller from contract>"
     buyer_agent: "Diana"
     seller_agent: "<co-agent>"
