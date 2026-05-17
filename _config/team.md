@@ -8,12 +8,12 @@
 
 ## Active team
 
-| Name | Role | Joined | Voice profile | Notes |
-|------|------|--------|---------------|-------|
-| Diana | Owner / lead agent | (founding) | `voice-profiles/diana.md` | Final word on anything unusual; high-value buyers, all seller relationships |
-| Marcus | Senior buyer agent | (5 years) | `voice-profiles/marcus.md` | Knows Austin neighborhoods cold — Hyde Park, Mueller, East Austin, Barton Hills, Circle C, Steiner Ranch |
-| Priya | Senior agent / listing coordinator | (5 years) | `voice-profiles/priya.md` | All seller communication and listing prep; marketing lead |
-| Jordan | Junior agent | 2026-04-15 (6 months) | `voice-profiles/jordan.md` (or `signing_agent_fallback` until built) | Still ramping; full system access; system makes Jordan as effective as Diana on day one |
+| Name | Role | Joined | Voice profile | Mode | Notes |
+|------|------|--------|---------------|------|-------|
+| Diana | Owner / lead agent | (founding) | `voice-profiles/diana.md` | `operational` | Final word on anything unusual; high-value buyers, all seller relationships |
+| Marcus | Senior buyer agent | (5 years) | `voice-profiles/marcus.md` | `operational` | Knows Austin neighborhoods cold — Hyde Park, Mueller, East Austin, Barton Hills, Circle C, Steiner Ranch |
+| Priya | Senior agent / listing coordinator | (5 years) | `voice-profiles/priya.md` | `operational` | All seller communication and listing prep; marketing lead |
+| Jordan | Junior agent | 2026-04-15 (6 months) | `voice-profiles/jordan.md` (or `signing_agent_fallback` until built) | `guided` | Still ramping; full system access; system makes Jordan as effective as Diana on day one. `guided` mode means: route through 00, use `signing_agent_fallback` for comms, second-pair review for first 90 days. Diana flips to `operational` when ready. |
 
 ---
 

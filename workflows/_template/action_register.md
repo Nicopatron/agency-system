@@ -1,5 +1,7 @@
 # Action Register
 
+> **Worked example:** [`../Henderson-2026-04-28/action_register.md`](../Henderson-2026-04-28/action_register.md) has both open and completed actions populated across multiple owners (Diana, Marcus, Capitol Federal). Use it as both the schema reference and the worked example.
+
 **Client/Deal:** [name or deal slug]
 **Last updated:** [YYYY-MM-DD HH:MM]
 

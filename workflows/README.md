@@ -35,6 +35,22 @@ workflows/
     ...
 ```
 
+**Worked example:** [`Henderson-2026-04-28/`](./Henderson-2026-04-28/) has all three files fully populated through option period + competing-offer escalation. The `audit_log.md` carries 21 chronological events (routing, slip transitions, quality gate, escalation, resolution). Use it as both the schema reference and the worked example — every field in the templates appears with a real value in that workflow.
+
+---
+
+## Workflow types
+
+The `status.md` `Type` field declares the workflow shape. Same three-file template; different archetype calibration in 03 and different stage progression in 04.
+
+| Type | Description | Stage progression | Archetype calibration |
+|------|-------------|-------------------|------------------------|
+| `buyer_deal` (default) | Inbound buyer lead → tour → offer → option period → close | Lead Qualification → Property Research → Client Communication → Transaction Coordination → Option Period → Pending Close → Closed | `_config/client-archetypes.md` (buyer-side: First-Time Anxious, Relocation Time-Pressed, Investor Analytical, etc.) |
+| `seller_deal` | Listing intake → MLS prep → marketing → offer received → negotiation → close | Lead Qualification → Property Research (CMA) → Listing Prep → Marketing Active → Under Contract → Pending Close → Closed | Seller-side archetypes (Equity-Maxer Patient, Life-Transition Urgent, Investor Disposition, Estate / Probate). Outbound through 03 with seller calibration. 04 handles deadline tracking for executed listings. |
+| `nurture_loop` | Past client or not-ready-yet lead in long-horizon cadence | Owned by `07_nurture_coordinator`; specialist routes drop back to lead/research/comm when the lead reactivates | `_config/client-archetypes.md` past-client variants (Loyal Repeat, Referrer-Active, Cooled-Off) |
+
+We don't ship a separate `listing_manager` specialist because the listing lifecycle maps onto the same six-stage state machine — only the archetype calibration and stage names change. The seller-side `04_transaction_coordinator` workflow runs the same deadline/document/risk tracking; the seller-side `03_client_communication` reads `seller_*` archetypes instead of `buyer_*`.
+
 ---
 
 ## Read-only vs state-changing

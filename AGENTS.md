@@ -125,7 +125,7 @@ Do not write for read-only requests. Do not update `status.md` just because you 
   - **Intake gate** (`01_lead_qualifier`): refuses thin leads upstream of any work (`intake_completeness < 4`)
   - **Hard compliance gate** (`03_client_communication`): refuses drafts when workflow's `status.md` has a raised 🔵 BLUE slip blocking the comm category (buyer-rep unconfirmed, intermediary disclosure missing, TREC form gap, zoning/foundation/floodplain unverified, out-of-area). Catches substantive accuracy + legal/compliance gaps at the moment of drafting.
   - **Quality gate** (`05_quality_review`): runs on all outbound client communications before they reach the agent. Four criteria (specificity, clarity, brevity, voice). Loop-back maximum 2 cycles; escalate to `escalation-log.md` if unresolved.
-  Each fires on a different category. Together they cover intake completeness + substantive accuracy + operator quality.
+  Each fires on a different category. Together they cover intake completeness + substantive accuracy + operator quality. Single auditable index: [`_config/confirmation-gates.md`](./_config/confirmation-gates.md).
 - **Slip color system:** `workflows/[case]/status.md` carries open flags as colored slips — 🔴 RED (Diana review needed), 🟡 YELLOW (info incomplete or work pending), 🔵 BLUE (compliance verification required — HARD GATE), 🟢 GREEN (ready for next action). Slip transitions are logged to `audit_log.md`. See `workflows/_template/status.md` for the full mapping.
 - **Off-pipeline specialists (manual triggers only):**
   - `06_daily_brief` is invoked by typing "Run morning brief" (or equivalent). Read-only aggregation across `workflows/`. Produces a structured markdown rollup. Writes nothing.

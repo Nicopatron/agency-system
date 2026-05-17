@@ -1,5 +1,7 @@
 # Audit Log
 
+> **Worked example:** [`../Henderson-2026-04-28/audit_log.md`](../Henderson-2026-04-28/audit_log.md) carries 21 chronological entries spanning routing, slip transitions, quality gate loop-backs, and Diana escalation. Use it as both the schema reference and the worked example.
+
 **Client/Deal:** [name or deal slug]
 
 ---

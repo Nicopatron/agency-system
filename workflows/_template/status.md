@@ -1,5 +1,7 @@
 # Workflow Status
 
+> **Worked example:** [`../Henderson-2026-04-28/status.md`](../Henderson-2026-04-28/status.md) has every field below populated with real values from a deal that ran through option period + competing-offer escalation. Use it as both the schema reference and the worked example.
+
 **Client/Deal:** [name or deal slug]
 **Created:** [YYYY-MM-DD]
 **Source:** [voicemail / email / web form / referral / agent note]
