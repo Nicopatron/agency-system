@@ -17,6 +17,11 @@
 **Option period** — inspection window (~7 days) during which the buyer can terminate for any reason and get earnest money back.
 **Earnest money** — deposit held in escrow when a contract executes; forfeited if the buyer backs out outside the option period.
 **Comps** — comparable closed sales used to estimate market value and support pricing.
+**SB 1968** — Texas legislation (effective Jan 1, 2026) amending TRELA. Requires written buyer representation agreement BEFORE touring any property; new education + experience hour requirements for brokers. Wired into intake gate (`01_lead_qualifier`).
+**IABS 1-2** — Information About Brokerage Services form (revised effective Jan 1, 2026 per SB 1968). Mandatory disclosure form at first substantive contact with a consumer.
+**MUD Notice** — Statutory disclosure under Texas Water Code §49.452 when a property sits inside a Municipal Utility District. Delivered before contract execution; rescission risk if missed. Common in newer Austin metro suburbs.
+**LBP** — Federal Lead-Based Paint Disclosure (Title X §1018, EPA/HUD). Triggered by pre-1978 housing; includes 10-day inspection period.
+**MFTH / TDHCA** — My First Texas Home down payment assistance program (Texas Department of Housing and Community Affairs). Up to 5% DPA, first-time-buyer focused, supports FHA/VA/USDA/Conventional loans.
 **intake_completeness** — a 0–5 score tracking how complete a prospect's intake is; gates downstream specialist work.
 **Confidence** — a 0–100 score assigned by each specialist; downstream specialists cap their own at the upstream value, so uncertainty propagates honestly.
 

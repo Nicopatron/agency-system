@@ -62,6 +62,19 @@ No prose outside the YAML block. No greetings. No "let me know if you need anyth
 | Lead is asking about an active listing | Capture as research_request with `type: specific_property`; do NOT pre-judge fit |
 | Two clients on one lead (couple, partners) | Single `qualified_lead`; capture both names in `intent_summary` and any divergence in `constraints` |
 
+## Texas 2026 intake flags (verified 2026-05-17)
+
+The following flags must be captured during intake when triggers apply — they propagate downstream to `02_property_research` (context) + `04_transaction_coordinator` (closing checklist). Verification trail in `../VERIFIED.md`.
+
+| Flag | Trigger to ask during intake | Where it propagates |
+|---|---|---|
+| **`property_age_pre_1978: bool`** | Buyer mentions older home, historic neighborhood, pre-WWII area, or specific property year — ask: "Do you know roughly when the home was built? Anything pre-1978 triggers federal lead-based paint disclosure." | → `02` research scope (LBP context); → `04` doc_checklist (Federal LBP §1018 disclosure + 10-day inspection period) |
+| **`first_time_buyer: bool`** | Buyer says "first home", "haven't bought before", "renting now", or has not owned home in past 3 years (per MFTH program rules) | → DPA eligibility surfaced in `constraints.dpa_candidate: true`; `next_stages_recommended` may include lender referral note for [My First Texas Home / TDHCA](https://welcomehome.tdhca.texas.gov/) — up to 5% DPA, supports FHA/VA/USDA/Conventional |
+| **`buyer_rep_agreement_signed: bool`** | Per **SB 1968 effective Jan 1, 2026** (TRELA amendment), buyer must sign written representation agreement BEFORE touring any property. Ask: "Have you signed a buyer representation agreement yet? Required since January 1, 2026 before we can show you homes." | → `02` research scope blocks showings if false; → `04` flagged as compliance gate |
+| **`mud_disclosure_required: bool`** | Property under consideration is within a Municipal Utility District (TCAD lookup confirms district). Common in newer Austin metro suburbs (Pflugerville, Manor, Round Rock outer rings) | → `04` doc_checklist (Texas Water Code §49.452 MUD Notice — delivered before contract execution, recorded at closing) |
+
+**Citation guidance for client comms:** when explaining requirements to clients via `03_client_communication`, cite the statute number once (e.g., "Federal Lead-Based Paint Disclosure rule, Title X §1018") then plain English for the rest. Never quote competitor sources or unverified form numbers — see `../VERIFIED.md` for confirmed citations.
+
 ## See also
 
 - `identity.md` — what I own and what I don't

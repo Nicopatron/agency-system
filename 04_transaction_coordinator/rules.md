@@ -96,6 +96,24 @@ When the agent on this deal ALSO represents the other party (buyer's agent = lis
 
 **If a conflict of interest surfaces mid-deal** (one party's interests materially harm the other's): log as `event_type: "intermediary_conflict"`, escalate to Diana immediately, DO NOT produce any further comms until resolved with broker guidance.
 
+## Texas 2026 regulatory anchors (verified 2026-05-17)
+
+The following statutory + federal requirements apply to Austin RE deals and must be tracked in `doc_checklist` and `risks[]` when the trigger applies. Verified against authoritative sources during pre-delivery audit; full citations in `../VERIFIED.md` (one level up — orchestration artifact).
+
+| Requirement | Trigger | Owner | Doc / action | Risk if missed |
+|---|---|---|---|---|
+| **MUD Notice** ([Texas Water Code §49.452](https://codes.findlaw.com/tx/water-code/water-sect-49-452.html)) | Property within Municipal Utility District boundaries | `seller_agent` | Statutory notice (tax rate + current bond debt + standby fee) delivered to buyer **before contract execution**; separate copy executed at closing + recorded in county deed records | Buyer right to **rescind contract + recover earnest money** under §49.452 |
+| **Federal Lead-Based Paint Disclosure** ([Title X §1018, EPA/HUD](https://www.epa.gov/lead/lead-based-paint-disclosure-rule-section-1018-title-x)) | Property built **pre-1978** (per `01_lead_qualifier` intake check) | `seller_agent` + `seller` | (1) Disclose known LBP info; (2) provide all records/reports; (3) deliver "Protect Your Family from Lead in Your Home" pamphlet; (4) include "Lead Warning Statement" in contract; (5) provide **10-day inspection period** for buyer LBP assessment (extendable/shortenable by written mutual agreement) | Federal civil penalty + voidable contract; HUD/EPA enforcement |
+| **§5.008 Seller's Disclosure Notice** ([Texas Property Code §5.008](https://www.creekstonere.com/texas-sellers-disclosure-and-you/)) | All residential resales (≤1 dwelling unit), narrow statutory exemptions | `seller` | Current TREC forms: **Form OP-H** (statutory) or **Form 55-0** (2023 voluntary use). Note: 2026 revision cycle in progress (water rights, insurance availability, standby generators) — track for updates. Do NOT cite "Form 55-1" (not a current TREC form number). | Buyer can sue for damages + rescission if material defects undisclosed and known to seller |
+| **Travis County property tax dates** ([traviscountytx.gov](https://tax-office.traviscountytx.gov/properties/taxes/important-dates)) | Property in Travis County (Austin proper + most metro) | `buyer` (post-close) | Tax lien attaches automatically on Jan 1 each year; **payment deadline Jan 31** (penalties + interest start 12:01 AM Feb 1); **appraisal protest deadline May 15** (or 30 days after Notice of Appraised Value mailed, whichever later) — file with TCAD | Penalty + interest accrue 6%/year starting Feb 1; protest right forfeited after May 15 |
+
+**Where these wire up in the deal flow:**
+- `01_lead_qualifier` flags pre-1978 property age during intake → propagates to `02_property_research` for LBP context + to `04` for closing checklist
+- `04_transaction_coordinator` adds MUD Notice + LBP disclosure + Seller's Disclosure to `doc_checklist` when triggers fire; Travis tax dates land in `key_dates` for closing reference
+- `03_client_communication` handles any client-facing comm; legal interpretation stays out of scope (refuse + redirect to broker/attorney)
+
+**Auto-extend on weekends:** Texas regulatory deadlines that fall on weekends/holidays extend to the next business day. Flag both the original and the effective date in `notes`.
+
 ---
 
 ## See also

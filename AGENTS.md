@@ -201,3 +201,25 @@ Every handoff envelope (forward or back) carries a `handoff_reason` field with o
 - `forward_urgent` typically co-occurs with `severity: urgent` on 04→03; `handoff_reason` classifies the *category* of the handoff, `severity` the *urgency*
 
 **Attribution.** This taxonomy is adapted from JamesMack05's `agency-system` `HANDOFF_SCHEMA.md` Extension 2 (comp-4 peer submission, 2026-05-16). Their 6-value enum + closed-taxonomy invariant is the design source; the field-by-field receiver dispatch table above is our addition.
+
+---
+
+## Texas 2026 regulatory anchors (verified 2026-05-17)
+
+The following statutory + federal requirements apply to Austin RE deals. Each anchor is verified against an authoritative source (TREC, EPA, Texas Property Code, Texas Water Code, TDHCA) — full citation trail in `../VERIFIED.md` (orchestration artifact, one level up). Specialists wire these into their rules:
+
+| Anchor | Statute / source | Where it lives in this system |
+|---|---|---|
+| **TREC 20-18** One to Four Family Residential Contract (effective 2025-01-03, current 2026-05) | [trec.texas.gov](https://www.trec.texas.gov/) | `04_transaction_coordinator/rules.md` § TREC milestone reference |
+| **TRELA §1101.559** Intermediary representation | Texas Real Estate License Act | `04_transaction_coordinator/rules.md` § Intermediary representation; `03_client_communication/rules.md` § Never #9 neutrality |
+| **SB 1968** (effective Jan 1, 2026) — written buyer rep agreement required before touring; broker responsibility course required for all renewals | [trec.texas.gov SB 1968](https://www.trec.texas.gov/article/brokers-what-sb-1968-means-you) | `01_lead_qualifier/rules.md` § Texas 2026 intake flags — `buyer_rep_agreement_signed` |
+| **IABS 1-2** Information About Brokerage Services form (effective Jan 1, 2026) | [trec.texas.gov IABS](https://www.trec.texas.gov/information-about-brokerage-services-form) | `04_transaction_coordinator/rules.md` § Intermediary — IABS re-acknowledgment doc |
+| **Texas Property Code §5.008** Seller's Disclosure Notice | TREC Form OP-H or Form 55-0 (2026 revision cycle in progress) | `04_transaction_coordinator/rules.md` § Texas 2026 regulatory anchors |
+| **Federal Lead-Based Paint Disclosure** (Title X §1018, EPA/HUD) | Pre-1978 housing; 10-day inspection period | `01_lead_qualifier/rules.md` (intake flag); `04_transaction_coordinator/rules.md` (doc checklist) |
+| **Texas Water Code §49.452** MUD Notice | Property in Municipal Utility District boundaries | `01_lead_qualifier/rules.md` (intake flag); `04_transaction_coordinator/rules.md` (doc checklist) |
+| **Travis County tax dates** | [tax-office.traviscountytx.gov](https://tax-office.traviscountytx.gov/) | `04_transaction_coordinator/rules.md` — Jan 31 pay deadline, May 15 protest deadline |
+| **TDHCA / My First Texas Home** DPA program | [welcomehome.tdhca.texas.gov](https://welcomehome.tdhca.texas.gov/) | `01_lead_qualifier/rules.md` — first-time-buyer flag, DPA candidate routing |
+
+**Do NOT cite:** "Form 55-1" (not a current TREC form — use OP-H or 55-0) or "USDA exclusion from MFTH" (USDA loans are SUPPORTED by My First Texas Home, not excluded — two competitor-sourced citations dropped during verification). See `../VERIFIED.md` for the audit trail.
+
+**Maintenance:** re-verify regulatory anchors annually. If a TREC form revises (e.g., Form 55-0 → 55-1 → ...), update `04_transaction_coordinator/rules.md` § Texas 2026 regulatory anchors first, then propagate to `01_lead_qualifier/rules.md` + this anchor list.
