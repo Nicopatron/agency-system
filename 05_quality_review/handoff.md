@@ -68,6 +68,13 @@ quality_verdict:
     on_revise: "03_client_communication"          # with notes[] as the revision brief
     on_escalate: "diana_direct"                   # Diana reviews original draft + verdict
 
+  handoff_reason:                                  # closed enum per AGENTS.md taxonomy
+    # - verdict: "approved"  → "forward_normal"
+    # - verdict: "revise"    → "back_quality_failure"
+    # - verdict: "escalate"  → "back_quality_failure" OR "back_compliance_block"
+    #   (use back_compliance_block if regulatory boundary involved — UPL, Fair Housing, TRELA §1101.559)
+    "forward_normal" | "back_quality_failure" | "back_compliance_block"
+
   reviewed_by: "05_quality_review"
   review_date: "<YYYY-MM-DD>"
 ```
@@ -153,6 +160,8 @@ quality_verdict:
   routing:
     on_approved: "agent_review_and_send"
 
+  handoff_reason: "forward_normal"                # approved → standard forward to agent
+
   reviewed_by: "05_quality_review"
   review_date: "2026-05-13"
 ```
@@ -194,6 +203,8 @@ quality_verdict:
   routing:
     on_revise: "03_client_communication"
 
+  handoff_reason: "back_quality_failure"          # clarity criterion failed → 03 re-runs with revision_direction
+
   reviewed_by: "05_quality_review"
   review_date: "2026-05-14"
 ```
@@ -230,6 +241,8 @@ quality_verdict:
 
   routing:
     on_escalate: "diana_direct"
+
+  handoff_reason: "back_compliance_block"         # earnest money commitment crosses UPL boundary → Diana must adjudicate legal position
 
   reviewed_by: "05_quality_review"
   review_date: "2026-05-14"
