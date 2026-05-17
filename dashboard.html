@@ -3,151 +3,850 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agency System — Live Status</title>
+<title>Agency System — Live Status (Demo Snapshot)</title>
+<meta name="description" content="Representative deal-state view from Diana's agency-system. Snapshot captured 2026-05-13 during system build — illustrates what the orchestrator surfaces day-1 from typed handoff state.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,0..100;1,9..144,400..700,0..100&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8f8f6; color: #1a1a1a; padding: 32px 24px; }
-  .header { max-width: 900px; margin: 0 auto 32px; }
-  .header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
-  .header .meta { font-size: 13px; color: #6b6b6b; margin-top: 4px; }
-  .section { max-width: 900px; margin: 0 auto 32px; }
-  .section h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #6b6b6b; margin-bottom: 12px; }
-  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6b6b6b; padding: 10px 16px; text-align: left; background: #fafafa; border-bottom: 1px solid #ebebeb; }
-  td { font-size: 14px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  .badge { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 500; }
-  .badge-option_period { background: #fff3cd; color: #856404; }
-  .badge-under_contract { background: #d1ecf1; color: #0c5460; }
-  .badge-active { background: #d4edda; color: #155724; }
-  .badge-pending_close { background: #cce5ff; color: #004085; }
-  .badge-closed { background: #e2e3e5; color: #383d41; }
-  .badge-terminated { background: #f8d7da; color: #721c24; }
-  .urgent { color: #c0392b; font-weight: 600; }
-  .upcoming { color: #e67e22; font-weight: 500; }
-  .ok { color: #27ae60; }
-  .pending { color: #7f8c8d; }
-  .deal-card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; overflow: hidden; }
-  .deal-card-header { padding: 14px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
-  .deal-card-header .deal-title { font-size: 15px; font-weight: 600; }
-  .deal-card-header .deal-price { font-size: 14px; color: #6b6b6b; }
-  .deal-body { padding: 0; }
-  .deadline-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #f8f8f8; font-size: 13px; }
-  .deadline-row:last-child { border-bottom: none; }
-  .deadline-label { color: #3d3d3d; }
-  .deadline-date { color: #6b6b6b; margin-left: 8px; }
-  .risk-banner { background: #fff5f5; border-left: 3px solid #e74c3c; padding: 10px 20px; font-size: 13px; color: #c0392b; font-weight: 500; }
-  .footer { max-width: 900px; margin: 40px auto 0; font-size: 12px; color: #aaa; }
+  /* =========================================================
+     Design system — mirrors onboarding.html for visual coherence
+     ========================================================= */
+  :root {
+    --bg:                 #FAF6F1;
+    --bg-elevated:        #F2EDE5;
+    --bg-paper:           #FFFFFF;
+
+    --fg1:                #1A1512;
+    --fg2:                #4A4340;
+    --fg3:                #8A8178;
+    --fg4:                #C9C1B6;
+
+    --accent:             #FF4D00;
+    --accent-ink:         #CC3D00;
+    --accent-soft:        rgba(255, 77, 0, 0.08);
+
+    --surface-1:          rgba(26, 21, 18, 0.03);
+    --surface-2:          rgba(26, 21, 18, 0.05);
+    --surface-3:          rgba(26, 21, 18, 0.08);
+
+    --border-subtle:      rgba(26, 21, 18, 0.06);
+    --border-default:     rgba(26, 21, 18, 0.10);
+    --border-strong:      rgba(26, 21, 18, 0.20);
+    --border-accent:      rgba(255, 77, 0, 0.40);
+
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-sans:    'Manrope', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-xl: 24px;
+    --r-pill: 9999px;
+
+    --shadow-sm: 0 1px 2px rgba(26, 21, 18, 0.06);
+    --shadow-md: 0 8px 24px rgba(26, 21, 18, 0.08);
+    --shadow-card: 0 1px 2px rgba(26, 21, 18, 0.04), 0 12px 40px rgba(26, 21, 18, 0.08);
+
+    --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 160ms;
+    --dur-base: 300ms;
+
+    --w-content: 1100px;
+    --nav-h: 88px;
+  }
+
+  * { box-sizing: border-box; }
+  *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg1);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    font-feature-settings: "ss01";
+  }
+
+  ::selection { background: rgba(255, 77, 0, 0.18); color: var(--fg1); }
+
+  a { color: var(--fg1); text-decoration: none; }
+  a:hover { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    background: var(--accent-soft);
+    color: var(--fg1);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* Typography */
+  .h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+    font-variation-settings: "opsz" 144, "wght" 540, "SOFT" 30;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--fg1);
+    text-wrap: balance;
+    margin: 0;
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    font-variation-settings: "opsz" 96, "wght" 540, "SOFT" 30;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fg1);
+    margin: 0;
+  }
+  .lead {
+    font-size: clamp(1.02rem, 1.3vw, 1.12rem);
+    line-height: 1.65;
+    color: var(--fg2);
+    text-wrap: pretty;
+    margin: 0;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Layout */
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px);
+    max-width: var(--w-content);
+  }
+
+  section { padding: clamp(48px, 6vw, 80px) 0; position: relative; }
+  .section-head { margin-bottom: clamp(28px, 4vw, 44px); max-width: 700px; }
+  .section-head .eyebrow { display: block; margin-bottom: 14px; }
+  .section-head .h2 + .lead { margin-top: 14px; }
+
+  /* Navbar */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    transition: padding var(--dur-base) var(--ease-out);
+    pointer-events: none;
+  }
+  nav.top[data-scrolled="true"] { padding: 10px 16px; }
+
+  nav.top .pill {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 10px 14px 10px 22px;
+    border-radius: var(--r-pill);
+    transition: box-shadow var(--dur-base) var(--ease-out),
+                background var(--dur-base) var(--ease-out),
+                border-color var(--dur-base) var(--ease-out);
+    background: rgba(250, 246, 241, 0.65);
+    border: 1px solid transparent;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  nav.top[data-scrolled="true"] .pill {
+    background: rgba(250, 246, 241, 0.92);
+    border-color: var(--border-subtle);
+    box-shadow: 0 1px 2px rgba(26, 21, 18, 0.04), 0 8px 28px rgba(26, 21, 18, 0.08);
+  }
+
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--fg1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-brand .pip { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; display: inline-block; }
+
+  .nav-anchors { display: none; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  @media (min-width: 768px) { .nav-anchors { display: flex; } }
+  .nav-anchors a {
+    font-family: var(--font-sans);
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--fg2);
+    transition: color var(--dur-base);
+  }
+  .nav-anchors a:hover { color: var(--fg1); }
+
+  .nav-cta {
+    display: none;
+    background: var(--fg1);
+    color: var(--bg);
+    padding: 9px 18px;
+    border-radius: var(--r-pill);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: transform var(--dur-fast), background var(--dur-base);
+  }
+  @media (min-width: 768px) { .nav-cta { display: inline-flex; align-items: center; gap: 6px; } }
+  .nav-cta:hover { transform: scale(1.03); background: #2C2520; color: var(--bg); }
+  .nav-cta .arr { transition: transform var(--dur-fast); display: inline-block; }
+  .nav-cta:hover .arr { transform: translateX(-2px); }
+
+  /* Hero (compact) */
+  .hero {
+    padding: calc(var(--nav-h) + 36px) 0 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -180px; right: -160px;
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(255, 77, 0, 0.07), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 22px; max-width: 760px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    border-radius: var(--r-pill);
+    background: var(--surface-1);
+    border: 1px solid var(--border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg2);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .hero-badge .pip { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+  .hero-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-variation-settings: "opsz" 36, "wght" 420;
+    font-size: clamp(1.1rem, 1.55vw, 1.35rem);
+    line-height: 1.45;
+    color: var(--fg2);
+    max-width: 620px;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .hero-sub em {
+    font-style: italic;
+    color: var(--accent);
+    font-variation-settings: "opsz" 36, "wght" 500;
+  }
+
+  .hero-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: var(--fg3);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    margin: 6px 0 0;
+    text-transform: uppercase;
+  }
+  .hero-meta .sep { color: var(--fg4); }
+
+  /* Cards & tables */
+  .card {
+    background: var(--bg-paper);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .case-table { width: 100%; border-collapse: collapse; }
+  .case-table thead th {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg3);
+    text-align: left;
+    padding: 14px 20px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .case-table tbody td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+    font-size: 0.92rem;
+    color: var(--fg2);
+  }
+  .case-table tbody tr:last-child td { border-bottom: none; }
+  .case-table tbody tr { transition: background var(--dur-base); }
+  .case-table tbody tr:hover { background: var(--surface-1); }
+  .case-table .case-id { font-family: var(--font-mono); font-size: 0.78rem; color: var(--fg1); }
+  .case-table .case-client { color: var(--fg1); font-weight: 500; }
+  .case-table .case-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--fg3); }
+
+  /* Status pip-row */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg2);
+  }
+  .status .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status.s-option_period .dot { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .status.s-option_period { color: var(--accent-ink); }
+  .status.s-under_contract .dot { background: var(--fg2); }
+  .status.s-closed .dot { background: transparent; border: 1.5px solid var(--fg3); }
+  .status.s-closed { color: var(--fg3); }
+
+  /* Deal card */
+  .deal {
+    background: var(--bg-paper);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .deal-head {
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .deal-head .deal-title { display: flex; flex-direction: column; gap: 6px; }
+  .deal-head .deal-address {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-variation-settings: "opsz" 24, "wght" 600;
+    color: var(--fg1);
+    line-height: 1.25;
+  }
+  .deal-head .deal-meta {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--fg3);
+    letter-spacing: 0.04em;
+  }
+  .deal-head .deal-meta .sep { color: var(--fg4); margin: 0 6px; }
+  .deal-head .deal-price {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+
+  /* URGENT banner */
+  .urgent-banner {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 14px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .urgent-banner .urgent-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .urgent-banner .urgent-body {
+    color: var(--fg1);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  /* Deadlines */
+  .deadlines { padding: 4px 0; }
+  .deadline {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .deadline:last-child { border-bottom: none; }
+  .deadline .d-label {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--fg1);
+    flex: 1 1 50%;
+    min-width: 200px;
+  }
+  .deadline .d-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    text-align: right;
+  }
+  .deadline .d-date {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: var(--fg2);
+    letter-spacing: 0.02em;
+  }
+  .deadline .d-delta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .deadline.d-urgent .d-date { color: var(--accent); }
+  .deadline.d-urgent .d-delta { color: var(--accent-ink); }
+  .deadline .d-note {
+    font-size: 0.78rem;
+    color: var(--fg3);
+    text-align: right;
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* Checklist */
+  .checklist { width: 100%; border-collapse: collapse; }
+  .checklist thead th {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg3);
+    text-align: left;
+    padding: 14px 24px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .checklist tbody td {
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+    font-size: 0.9rem;
+    color: var(--fg2);
+  }
+  .checklist tbody tr:last-child td { border-bottom: none; }
+  .checklist .doc-name { color: var(--fg1); font-weight: 500; }
+  .checklist .doc-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .checklist .doc-status.received { color: var(--fg1); }
+  .checklist .doc-status.pending { color: var(--fg3); }
+  .checklist .doc-status .glyph {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .checklist .doc-status.received .glyph { background: var(--fg1); }
+  .checklist .doc-status.pending .glyph { background: transparent; border: 1.5px solid var(--fg3); }
+  .checklist .doc-note { font-size: 0.82rem; color: var(--fg3); }
+
+  /* Footer */
+  footer {
+    padding: 56px 0 48px;
+    border-top: 1px solid var(--border-default);
+    background: var(--bg-elevated);
+    margin-top: 32px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--fg1);
+    margin-bottom: 12px;
+  }
+  .footer-brand .pip { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+  .footer-tag {
+    color: var(--fg2);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-width: 380px;
+    margin: 0;
+  }
+  .footer-col h5 {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg3);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col li { margin-bottom: 8px; font-size: 0.88rem; }
+  .footer-col a { color: var(--fg2); transition: color var(--dur-base); }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-default);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .footer-meta .sep { color: var(--fg4); margin: 0 6px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Agency System — Live Status</h1>
-  <div class="meta">Diana's Austin RE Team · Austin metro residential · As of 2026-05-13</div>
-</div>
+<!-- ============== NAVBAR ============== -->
+<nav class="top" data-scrolled="false">
+  <div class="pill">
+    <a href="#top" class="nav-brand">
+      <span class="pip"></span>
+      agency-system
+    </a>
+    <ul class="nav-anchors">
+      <li><a href="#cases">Active Cases</a></li>
+      <li><a href="#henderson">Henderson Detail</a></li>
+      <li><a href="#checklist">Checklist</a></li>
+    </ul>
+    <a href="./onboarding.html" class="nav-cta">
+      <span class="arr">&larr;</span> Back to Manual
+    </a>
+  </div>
+</nav>
 
-<!-- CASES INDEX -->
-<div class="section">
-  <h2>Active Cases</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Case ID</th>
-        <th>Client</th>
-        <th>Property</th>
-        <th>Status</th>
-        <th>Agent</th>
-        <th>Last Updated</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code style="font-size:12px">2026-04-28-Henderson-buyer</code></td>
-        <td>James + Sarah Henderson</td>
-        <td>4521 Speedway Ave, Austin 78751</td>
-        <td><span class="badge badge-option_period">option_period</span></td>
-        <td>Diana</td>
-        <td><span class="urgent">2026-05-13 ⚠</span></td>
-      </tr>
-      <tr>
-        <td><code style="font-size:12px">2026-05-13-Patel-buyer</code></td>
-        <td>Tom + wife Patel</td>
-        <td>78704 (Bouldin / South Lamar)</td>
-        <td><span class="badge badge-closed">closed</span></td>
-        <td>Diana</td>
-        <td><span class="ok">2026-07-15</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<!-- ============== HERO ============== -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-inner">
+      <span class="hero-badge">
+        <span class="pip"></span>
+        Demo Snapshot &middot; 2026-05-13
+      </span>
+      <h1 class="h1">Live Status<span style="color:var(--accent);">.</span></h1>
+      <p class="hero-sub">Representative state captured during system build &mdash; illustrates what the <em>00_orchestrator</em> surfaces day-one from typed handoff state. Not live data; the deals below are example archives that ship with the repo.</p>
+      <p class="hero-meta">
+        <span>Diana&rsquo;s Austin RE Team</span><span class="sep">&middot;</span>
+        <span>Austin metro residential</span><span class="sep">&middot;</span>
+        <span>TREC 20-18</span>
+      </p>
+    </div>
+  </div>
+</section>
 
-<!-- HENDERSON DEAL DETAIL -->
-<div class="section">
-  <h2>Deal Detail — Henderson (Active)</h2>
-
-  <div class="deal-card">
-    <div class="deal-card-header">
-      <div>
-        <div class="deal-title">James + Sarah Henderson — 4521 Speedway Ave, Austin 78751</div>
-        <div style="font-size:13px; color:#6b6b6b; margin-top:2px">TREC 20-18 · Contract: 2026-05-05 · Target close: 2026-06-20 · Agent: Diana</div>
-      </div>
-      <div class="deal-price">$695,000</div>
+<!-- ============== ACTIVE CASES ============== -->
+<section id="cases">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Section &middot; 01</span>
+      <h2 class="h2">Active Cases</h2>
+      <p class="lead">One row per case. Status updates only on milestone transitions, written by <code>04_transaction_coordinator</code>. The orchestrator scans this index, not individual case files.</p>
     </div>
 
-    <div class="risk-banner">⚠️ URGENT — Competing offer received 2026-05-13. Response deadline: tomorrow 2026-05-14 at 5pm. Option period ends 2026-05-15 (2 days).</div>
+    <div class="card">
+      <table class="case-table">
+        <thead>
+          <tr>
+            <th>Case ID</th>
+            <th>Client</th>
+            <th>Property</th>
+            <th>Status</th>
+            <th>Agent</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="case-id">2026-04-28-Henderson-buyer</span></td>
+            <td class="case-client">James + Sarah Henderson</td>
+            <td>4521 Speedway Ave, Austin 78751</td>
+            <td><span class="status s-option_period"><span class="dot"></span>Option Period</span></td>
+            <td>Diana</td>
+            <td><span class="case-date" style="color:var(--accent);">2026-05-13</span></td>
+          </tr>
+          <tr>
+            <td><span class="case-id">2026-05-13-Patel-buyer</span></td>
+            <td class="case-client">Tom + Priya Patel</td>
+            <td>78704 (Bouldin / South Lamar focus)</td>
+            <td><span class="status s-closed"><span class="dot"></span>Closed</span></td>
+            <td>Diana</td>
+            <td><span class="case-date">2026-07-15</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
-    <div class="deal-body">
-      <div class="deadline-row">
-        <span class="deadline-label">Option period end / Inspection deadline</span>
-        <span><span class="urgent">2026-05-15 · 2 days ⚠️ URGENT</span><span class="deadline-date">Buyer proceeding as-is after inspection 2026-05-08</span></span>
+<!-- ============== HENDERSON DETAIL ============== -->
+<section id="henderson" style="background: var(--bg-elevated); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Section &middot; 02</span>
+      <h2 class="h2">Henderson &middot; Active</h2>
+      <p class="lead">Deal-state surface produced by <code>04_transaction_coordinator</code>. Risk banner, key dates, and document checklist are all derived from the typed <code>deal_state</code> handoff &mdash; not hand-curated.</p>
+    </div>
+
+    <div class="deal">
+      <div class="deal-head">
+        <div class="deal-title">
+          <div class="deal-address">James + Sarah Henderson &mdash; 4521 Speedway Ave, Austin TX 78751</div>
+          <div class="deal-meta">
+            TREC 20-18<span class="sep">&middot;</span>Contract 2026-05-05<span class="sep">&middot;</span>Target close 2026-06-20<span class="sep">&middot;</span>Diana
+          </div>
+        </div>
+        <div class="deal-price">$695,000</div>
       </div>
-      <div class="deadline-row">
-        <span class="deadline-label">Financing contingency</span>
-        <span><span class="upcoming">2026-05-26 · 13 days</span><span class="deadline-date">Capitol Federal · 21-day conventional</span></span>
+
+      <div class="urgent-banner">
+        <span class="urgent-label">Urgent</span>
+        <div class="urgent-body">
+          Competing offer received 2026-05-13 from a second buyer. Listing agent deadline for response: tomorrow 2026-05-14 at 5&nbsp;p.m. Option period ends 2026-05-15 &mdash; Hendersons have a one-day overlap between competing-offer deadline and termination right. Phone first, then email follow-up.
+        </div>
       </div>
-      <div class="deadline-row">
-        <span class="deadline-label">Appraisal deadline</span>
-        <span><span class="upcoming">2026-05-26 · 13 days</span><span class="deadline-date">Appraiser assigned 2026-05-06</span></span>
-      </div>
-      <div class="deadline-row">
-        <span class="deadline-label">Title commitment due</span>
-        <span><span class="ok">2026-05-25 · 12 days</span><span class="deadline-date">Lonestar Title</span></span>
-      </div>
-      <div class="deadline-row">
-        <span class="deadline-label">Final walkthrough</span>
-        <span><span class="ok">2026-06-19 · 37 days</span><span class="deadline-date">Convention — 1 day before close</span></span>
-      </div>
-      <div class="deadline-row">
-        <span class="deadline-label">Closing</span>
-        <span><span class="ok">2026-06-20 · 38 days</span></span>
+
+      <div class="deadlines">
+        <div class="deadline d-urgent">
+          <span class="d-label">Option period end / Inspection deadline</span>
+          <div class="d-right">
+            <span class="d-date">2026-05-15</span>
+            <span class="d-delta">2 days &middot; Urgent</span>
+            <span class="d-note">Buyer proceeding as-is after inspection 2026-05-08</span>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="d-label">Financing contingency</span>
+          <div class="d-right">
+            <span class="d-date">2026-05-26</span>
+            <span class="d-delta">13 days</span>
+            <span class="d-note">Capitol Federal &middot; 21-day conventional</span>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="d-label">Appraisal deadline</span>
+          <div class="d-right">
+            <span class="d-date">2026-05-26</span>
+            <span class="d-delta">13 days</span>
+            <span class="d-note">Appraiser assigned 2026-05-06</span>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="d-label">Title commitment due</span>
+          <div class="d-right">
+            <span class="d-date">2026-05-25</span>
+            <span class="d-delta">12 days</span>
+            <span class="d-note">Lonestar Title</span>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="d-label">Final walkthrough</span>
+          <div class="d-right">
+            <span class="d-date">2026-06-19</span>
+            <span class="d-delta">37 days</span>
+            <span class="d-note">Convention &mdash; 1 day before close</span>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="d-label">Closing</span>
+          <div class="d-right">
+            <span class="d-date">2026-06-20</span>
+            <span class="d-delta">38 days</span>
+            <span class="d-note">Lonestar Title</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- DOCUMENT CHECKLIST -->
-  <table>
-    <thead>
-      <tr><th>Document</th><th>Status</th><th>Notes</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Earnest money ($6,950)</td><td><span class="ok">✅ Received</span></td><td>Lonestar Title 2026-05-06</td></tr>
-      <tr><td>Option fee ($500)</td><td><span class="ok">✅ Received</span></td><td>Lonestar Title 2026-05-06</td></tr>
-      <tr><td>Inspection report</td><td><span class="ok">✅ Received</span></td><td>Minor cosmetic items; buyer proceeding as-is</td></tr>
-      <tr><td>Updated pre-approval letter</td><td><span class="ok">✅ Received</span></td><td>Capitol Federal $720K — 2026-05-07</td></tr>
-      <tr><td>Survey</td><td><span class="pending">⏳ Pending</span></td><td>Ordered by Lonestar Title</td></tr>
-      <tr><td>Title commitment</td><td><span class="pending">⏳ Pending</span></td><td>Due 2026-05-25</td></tr>
-      <tr><td>Loan commitment letter</td><td><span class="pending">⏳ Pending</span></td><td>Due 2026-05-26</td></tr>
-      <tr><td>Appraisal</td><td><span class="pending">⏳ Pending</span></td><td>Appraiser assigned; due 2026-05-26</td></tr>
-    </tbody>
-  </table>
-</div>
+<!-- ============== CHECKLIST ============== -->
+<section id="checklist">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Section &middot; 03</span>
+      <h2 class="h2">Document Checklist &middot; Henderson</h2>
+      <p class="lead">Mirrors the <code>doc_checklist</code> array in the <code>deal_state</code> handoff. Owner reflects who is on the hook &mdash; not who chases.</p>
+    </div>
 
-<div class="footer">
-  Built by Nico Patron · agency-system · Austin metro residential · TREC 20-18 ·
-  <a href="README.md" style="color:#aaa">README</a> ·
-  <a href="DEMO.md" style="color:#aaa">Run DEMO</a>
-</div>
+    <div class="card">
+      <table class="checklist">
+        <thead>
+          <tr>
+            <th>Document</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="doc-name">Earnest money ($6,950)</td>
+            <td><span class="doc-status received"><span class="glyph"></span>Received</span></td>
+            <td class="doc-note">Delivered to Lonestar Title 2026-05-06</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Option fee ($500)</td>
+            <td><span class="doc-status received"><span class="glyph"></span>Received</span></td>
+            <td class="doc-note">Delivered to Lonestar Title 2026-05-06</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Inspection report</td>
+            <td><span class="doc-status received"><span class="glyph"></span>Received</span></td>
+            <td class="doc-note">Minor cosmetic items only &middot; Buyer proceeding as-is</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Updated pre-approval letter</td>
+            <td><span class="doc-status received"><span class="glyph"></span>Received</span></td>
+            <td class="doc-note">Capitol Federal &middot; $720K &middot; 2026-05-07</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Survey</td>
+            <td><span class="doc-status pending"><span class="glyph"></span>Pending</span></td>
+            <td class="doc-note">Ordered by Lonestar Title</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Title commitment</td>
+            <td><span class="doc-status pending"><span class="glyph"></span>Pending</span></td>
+            <td class="doc-note">Due 2026-05-25</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Loan commitment letter</td>
+            <td><span class="doc-status pending"><span class="glyph"></span>Pending</span></td>
+            <td class="doc-note">Due 2026-05-26</td>
+          </tr>
+          <tr>
+            <td class="doc-name">Appraisal</td>
+            <td><span class="doc-status pending"><span class="glyph"></span>Pending</span></td>
+            <td class="doc-note">Appraiser assigned &middot; due 2026-05-26</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="pip"></span>
+          agency-system
+        </div>
+        <p class="footer-tag">Boutique real estate operations in eight specialists &mdash; six pipeline stages plus two off-pipeline aggregators. This page is a representative deal-state snapshot captured during system build, not live data.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Project</h5>
+        <ul>
+          <li><a href="./onboarding.html">Operating Manual</a></li>
+          <li><a href="https://github.com/Nicopatron/agency-system" target="_blank" rel="noopener">GitHub repo</a></li>
+          <li><a href="./README.md">README</a></li>
+          <li><a href="./DEMO.md">DEMO.md</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Built by</h5>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/nicopatron" target="_blank" rel="noopener">Nico Patron &middot; LinkedIn</a></li>
+          <li><a href="https://github.com/Nicopatron" target="_blank" rel="noopener">@Nicopatron &middot; GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>Snapshot captured 2026-05-13 during build &middot; v1.0.11</span>
+      <span>Austin metro <span class="sep">&middot;</span> TREC 20-18 <span class="sep">&middot;</span> MIT</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.querySelector('nav.top');
+  const setScrolled = () => nav.setAttribute('data-scrolled', window.scrollY > 8 ? 'true' : 'false');
+  setScrolled();
+  window.addEventListener('scroll', setScrolled, { passive: true });
+</script>
 
 </body>
 </html>
