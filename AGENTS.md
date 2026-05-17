@@ -197,8 +197,6 @@ Every handoff schema carries an optional `gaps: [string]` array. Each entry name
 
 **Why an explicit field instead of prose notes?** Diana's newest agent reads YAML on day 1; an explicit `gaps[]` array makes "what we don't know" first-class data, not buried prose. Downstream specialists can dispatch on it (`if gaps is not empty, ask the agent before producing client-facing output`). The field complements `verification_required` (assumptions to validate) + `content_provenance` (input trust level) + `handoff_reason` (handoff category) to make the upstream → downstream contract fully articulated.
 
-**Attribution.** This field is adopted from sparkles-inc's `agency-os` Handoff Card "GAPS" section (comp-4 peer submission, 2026-05-17). Their markdown-card formulation is the design source; our typed `gaps: [string]` YAML adaptation propagates the same concept through the schema-based handoff system.
-
 ---
 
 ## Handoff reason taxonomy — `handoff_reason` field
@@ -214,7 +212,7 @@ Every handoff envelope (forward or back) carries a `handoff_reason` field with o
 | `back_quality_failure` | Output exists but receiver rejects on quality grounds — voice match insufficient, fact missing, confidence below threshold for the situation type |
 | `back_compliance_block` | Input would require crossing a regulatory boundary (UPL — legal interpretation; Fair Housing — steering on schools; TRELA §1101.559 — intermediary neutrality breach); payload includes a `proposed_draft` with `do_not_send_yet: true` flag for Diana review |
 
-**Closed taxonomy.** Every refusal or routing decision produces one of these 6 values. No handoff.md may produce a `handoff_reason` value outside this list. New refusal categories trigger a versioned extension (see `COMPETITORS-ANALYSIS.md § Triggered modifications`).
+**Closed taxonomy.** Every refusal or routing decision produces one of these 6 values. No handoff.md may produce a `handoff_reason` value outside this list. New refusal categories require a versioned extension to this taxonomy.
 
 **Receiver dispatch.** When receiving a back-handoff:
 - `back_data_missing` → execute `next_action`, capture inputs, re-route forward
@@ -225,8 +223,6 @@ Every handoff envelope (forward or back) carries a `handoff_reason` field with o
 **Interaction with existing fields:**
 - `handoff_reason` is orthogonal to `severity` (urgency axis, 04→03) and `situation_type` (00→03 archetype) — coexists, not replaces
 - `forward_urgent` typically co-occurs with `severity: urgent` on 04→03; `handoff_reason` classifies the *category* of the handoff, `severity` the *urgency*
-
-**Attribution.** This taxonomy is adapted from JamesMack05's `agency-system` `HANDOFF_SCHEMA.md` Extension 2 (comp-4 peer submission, 2026-05-16). Their 6-value enum + closed-taxonomy invariant is the design source; the field-by-field receiver dispatch table above is our addition.
 
 ---
 
