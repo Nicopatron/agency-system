@@ -141,6 +141,7 @@ deal_state:
   handoff_reason: forward_normal                   # closed enum (see AGENTS.md § Handoff reason taxonomy). Use forward_urgent when emitting status mid-deadline-risk (option period <48h, financing-delay surfaced, missed deadline)
   verification_required: false                     # set true when downstream specialist or agent must re-verify a tracked field (e.g., contract_date is placeholder pending executed contract, milestone marked verbal-only, intermediary status unconfirmed)
   verification_notes: ""                           # populated only when verification_required: true — name what to verify and why
+  gaps: []                                         # array of strings: deal items NOT captured (title commitment date pending title-co receipt, HOA reserve study pending request, financing contingency date placeholder, MUD-district confirmation pending TCAD lookup); agent captures during normal coordination work. See AGENTS.md § Gaps field
 ```
 
 ### Canonical schema — `deal_event` (sent to `03_client_communication`)
@@ -168,6 +169,7 @@ deal_event:
   handoff_reason: forward_normal                    # closed enum (see AGENTS.md § Handoff reason taxonomy). Use forward_urgent when event_type is missed_deadline, deadline_approaching with <48h, or competing_offer with deadline pressure
   verification_required: false                      # set true when 03 must re-verify a key fact before drafting (e.g., competing-offer detail came from third-hand report, missed-deadline date based on verbal claim)
   verification_notes: ""                            # populated only when verification_required: true — name what to verify and why
+  gaps: []                                          # array of strings: event-relevant items NOT captured (party contact info, deadline source confirmation, third-party verbal-only claims pending written confirmation). See AGENTS.md § Gaps field
 ```
 
 ### Canonical schema — `refusal`

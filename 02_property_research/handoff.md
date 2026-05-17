@@ -95,6 +95,7 @@ research_brief:
   handoff_reason: forward_normal                  # closed enum (see AGENTS.md § Handoff reason taxonomy)
   verification_required: false                    # set true when 03 must re-verify before drafting comm (e.g., low confidence + property-specific claim, foundation/inspection flag based on listing-agent verbal claim, school catchment ambiguity)
   verification_notes: ""                          # populated only when verification_required: true — name what to verify and why
+  gaps: []                                        # array of strings: research items NOT captured (HOA reserve study, foundation report, recent permit history, MUD-district lookup); downstream / agent fills during normal work. See AGENTS.md § Gaps field
 ```
 
 ### Canonical schema — `refusal`

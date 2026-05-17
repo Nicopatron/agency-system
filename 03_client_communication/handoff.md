@@ -138,6 +138,7 @@ comm_draft:
   handoff_reason: forward_normal                    # closed enum (see AGENTS.md § Handoff reason taxonomy). Use forward_urgent when the comm is deadline-driven (option period expiring, financing delay surfacing, closing-day notification)
   verification_required: false                      # set true when 05_quality_review must re-verify a claim in the body before approving (e.g., draft references foundation/inspection finding flagged upstream as verification_required, draft cites a date/stat that came from upstream with confidence < 70)
   verification_notes: ""                            # populated only when verification_required: true — name what to verify and why
+  gaps: []                                          # array of strings: comm-relevant items NOT captured (preferred channel email vs text, client tz, name spelling unconfirmed); empty when upstream context is complete. See AGENTS.md § Gaps field
 ```
 
 ### Optional output — `deal_seed` (only when drafting acceptance comm)

@@ -61,6 +61,7 @@ routed_request:
   handoff_reason: forward_normal                # closed enum (see AGENTS.md § Handoff reason taxonomy). Use forward_urgent when routing for deadline-driven escalation: TREC option period <48h, financing-delay surfaced post-effective-date, closing-day comms
   verification_required: false                  # set true if the receiving specialist must re-verify a named assumption before acting (see AGENTS.md § Verification protocol)
   verification_notes: ""                        # populated only when verification_required: true — name what to verify and why
+  gaps: []                                       # array of strings: things upstream KNOWS it doesn't know about this case; downstream / agent captures during normal work (see AGENTS.md § Gaps field). Empty = nothing unknown left implicit
   decision_trace:
     - "<why I picked this specialist — 1-2 signals from input>"
     - "<confidence rationale>"

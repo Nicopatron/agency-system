@@ -175,6 +175,32 @@ This makes uncertainty visible at transfer time, not at failure time. A research
 
 ---
 
+## Gaps field — `gaps[]`
+
+Every handoff schema carries an optional `gaps: [string]` array. Each entry names a specific piece of information that the upstream specialist **knows it doesn't know** and that downstream work or the agent should capture during normal operation.
+
+**`gaps` vs `verification_required`** — distinct purposes:
+
+| Field | Meaning | Receiver action |
+|---|---|---|
+| `verification_required: true` | A specific claim in the payload IS asserted but needs second-source confirmation before it's acted on | Re-verify the named assumption OR carry the flag forward |
+| `gaps: ["X", "Y", "Z"]` | These items were NOT captured in this payload; upstream is naming the holes honestly | Capture during normal downstream work — agent asks during first call, next specialist scopes the missing piece, etc. No blocking action |
+
+**Example uses:**
+- `routed_request.gaps`: `["client preapproval status", "timeline firmness (said 'around end of summer')"]`
+- `qualified_lead.gaps`: `["must_haves not fully captured during initial paste", "deal-breakers not yet asked"]`
+- `research_brief.gaps`: `["foundation report not yet available", "HOA reserve study not pulled"]`
+- `comm_draft.gaps`: `["client's preferred channel (email vs text) unconfirmed"]`
+- `deal_state.gaps`: `["title commitment date placeholder pending title company receipt"]`
+
+**Default:** `gaps: []` (empty array, meaning "nothing unknown is left implicit"). Always explicit — never omit the field.
+
+**Why an explicit field instead of prose notes?** Diana's newest agent reads YAML on day 1; an explicit `gaps[]` array makes "what we don't know" first-class data, not buried prose. Downstream specialists can dispatch on it (`if gaps is not empty, ask the agent before producing client-facing output`). The field complements `verification_required` (assumptions to validate) + `content_provenance` (input trust level) + `handoff_reason` (handoff category) to make the upstream → downstream contract fully articulated.
+
+**Attribution.** This field is adopted from sparkles-inc's `agency-os` Handoff Card "GAPS" section (comp-4 peer submission, 2026-05-17). Their markdown-card formulation is the design source; our typed `gaps: [string]` YAML adaptation propagates the same concept through the schema-based handoff system.
+
+---
+
 ## Handoff reason taxonomy — `handoff_reason` field
 
 Every handoff envelope (forward or back) carries a `handoff_reason` field with one of 6 closed-enum values. The type decides; the `next_action` prose explains.

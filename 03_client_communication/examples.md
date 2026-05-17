@@ -116,6 +116,9 @@ comm_draft:
   draft_date: "2026-05-13"
   confidence: 65   # capped at research_brief upstream (65)
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:                                          # named unknowns relevant to this comm
+    - "client's preferred channel (email assumed; text might be faster for international relocators)"
+    - "preferred salutation (used 'Priya and Amit' from contact form; honorifics not asked)"
 ```
 
 ### Note for the agent

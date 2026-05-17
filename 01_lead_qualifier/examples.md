@@ -69,6 +69,11 @@ qualified_lead:
   intake_completeness: 4
   confidence: 80
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:                                          # named unknowns; agent captures on first call
+    - "must_haves not fully captured (only inferred from generic 78704 + relocation context)"
+    - "deal_breakers not asked"
+    - "budget firmness (stated $750K — hard ceiling or stretchable?)"
+    - "buyer_rep_agreement signed? (required pre-tour per SB 1968 Jan 2026)"
 ```
 
 ### Note for the agent

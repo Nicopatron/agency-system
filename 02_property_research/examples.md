@@ -81,6 +81,10 @@ research_brief:
   research_date: "2026-05-13"
   confidence: 65   # capped at upstream 80, reduced by −15 for comparables count < 3 (agent has not yet verified MLS pull)
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:                                          # named unknowns; downstream / agent fills during normal work
+    - "MLS comparables pull not yet executed (3 from Redfin only)"
+    - "HOA reserve study not yet requested (none of the 3 comps had condo/HOA dues flagged in listing)"
+    - "MUD-district lookup pending (78704 is mostly in-city; verify before adding §49.452 to doc_checklist)"
 ```
 
 ### Note for the agent

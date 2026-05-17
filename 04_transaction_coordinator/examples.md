@@ -115,6 +115,10 @@ deal_state:
   tracked_by: "04_transaction_coordinator"
   last_update: "2026-05-20"
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:                                          # named unknowns; agent captures during normal coordination
+    - "title commitment date placeholder pending title-co receipt of contract"
+    - "lender contact info not yet captured (deal_seed had pre-approval source only)"
+    - "MUD-district status pending TCAD lookup (1845 Westwood Dr — verify before adding §49.452 to doc_checklist)"
 ```
 
 ### Quick scan — Patel Day 1

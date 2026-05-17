@@ -33,6 +33,9 @@ routed_request:
     Direct from 00, no qualified_lead — agent will route to 01 separately if this client moves to active buying.
   confidence: 90
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:                                          # named unknowns; agent / 02 captures during normal work
+    - "specific child grade levels (says 'elementary' — K-5 generic, not a specific grade)"
+    - "client's prior neighborhood preference (Mueller vs alternatives not yet surfaced)"
   decision_trace:
     - "Property-specific signal (named neighborhood: Mueller) + market-question phrasing ('good neighborhood for elementary schools'); no new-lead intake signals in the paste"
     - "Existing-client framing with no active-deal context rules out 04; school-rating question is pure 02 research scope"

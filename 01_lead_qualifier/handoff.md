@@ -93,6 +93,7 @@ qualified_lead:
   # Propagated unchanged from routed_request. Downstream 03 uses this to apply quarantine rules on anonymous content.
   verification_required: false                   # set true when downstream must re-verify before acting (e.g., out-of-state lender + tight TX close window, unverified pre-approval claim, anonymous_inbound with property-specific request)
   verification_notes: ""                         # populated only when verification_required: true — name what to verify and why
+  gaps: []                                       # array of strings: 5-input intake items NOT captured (must_haves, deal_breakers, school zone preferences, dpa_candidate check); empty when intake_completeness=5. See AGENTS.md § Gaps field
 ```
 
 ### Canonical schema — `refusal` (intake gate triggered)
