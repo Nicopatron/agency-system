@@ -123,6 +123,15 @@ When multiple rows match (the common case):
 
 I always note multi-stage routing in `context_notes` (e.g., *"After 01 qualifies, queue 02 with `research_request` populated from qualified_lead"*) so the downstream chain is explicit.
 
+### Cross-stage support specialists
+
+Two specialists in this system are **cross-stage support**, not pipeline nodes — they can be invoked from any deal stage (intake / research / under-contract / closing) whenever the primary work fits their role:
+
+- **`03_client_communication`** — callable whenever the primary work is drafting outbound client content (email / text / call script / follow-up), regardless of whether the agent is mid-intake, mid-research, mid-deal, or post-close. The `situation_type` controlled vocabulary tells 03 which archetype to use; the upstream specialist (01 / 02 / 04) is implicit context, not a routing gate.
+- **`05_quality_review`** — runs on every `comm_draft` produced by 03, regardless of stage. Last specialist before the agent's eyes.
+
+Precedence rule 4 above (*deal_status beats communication_draft when both are present*) still holds: if the request implies an active deal, route to 04 first to coordinate, then **04 produces a `deal_event` that loops back to 03 via the orchestrator** for the comm draft. The loop pattern (04 → 00 → 03 → 05 → agent) is the canonical flow for any in-deal client comm — see Phase 7 Stage 5b in the Patel scenario for the worked example. The point: 03 is not a stage; 03 is a callable surface.
+
 ---
 
 ## Decision tree (edge cases — when matrix is ambiguous)
