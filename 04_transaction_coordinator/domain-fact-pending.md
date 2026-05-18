@@ -91,4 +91,4 @@ If the agent encounters a contract that is NOT TREC 20-18 (e.g., farm and ranch,
 
 ---
 
-*Mechanism inspired by Voiceprint's `voice-tics-pending.md` (Clief Notes Comp 3 winner). Self-improving discipline: capture deviations + verifications, promote when stable.*
+*Self-improving discipline: capture deviations + verifications inline, then promote to `rules.md` once a fact stabilizes with a cited source. The file shrinks over time as claims graduate.*
