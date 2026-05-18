@@ -1,5 +1,7 @@
 # agency-system
 
+> **Status:** Comp-4 submission complete (tag `comp-4-submission`). This repo is a snapshot of the system as built for the brief; no further changes planned here.
+
 > Boutique real estate operations in 8 specialists working together. Built so the newest agent on your team can pick it up in a day. Refuse-first by design — the system stops on missing context rather than papering over it.
 >
 > **8 specialists, not 5+3 add-ons.** 6 are pipeline stages (00–05); 2 are off-pipeline aggregators (06_daily_brief reads workflow state for the morning sync, 07_nurture_coordinator handles long-horizon cadence for past clients). The pipeline is intentionally tight; the aggregators serve ops continuity that 5-specialist setups push onto Diana's calendar. See [`DESIGN-NOTES.md`](./DESIGN-NOTES.md) § Decision 8.
