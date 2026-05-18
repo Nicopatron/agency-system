@@ -118,7 +118,7 @@ comm_draft:
   handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
   gaps:                                          # named unknowns relevant to this comm
     - "client's preferred channel (email assumed; text might be faster for international relocators)"
-    - "preferred salutation (used 'Priya and Amit' from contact form; honorifics not asked)"
+    - "preferred salutation (used 'Tom and Priya' from contact form; honorifics not asked)"
 ```
 
 ### Note for the agent

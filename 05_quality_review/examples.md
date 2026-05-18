@@ -6,7 +6,7 @@ Three worked reviews showing all three verdict types. Each example includes the 
 
 ## Example 1 — Approved (Patel first-touch email)
 
-**Context:** `03_client_communication` produced a first-touch email for Priya and Amit Patel (relocation buyer, 78704, $650-750K). Diana is the signing agent. Voice profile is current.
+**Context:** `03_client_communication` produced a first-touch email for Tom and Priya Patel (relocation buyer, 78704, $650-750K). Diana is the signing agent. Voice profile is current.
 
 **Draft received (`comm_draft`):**
 
@@ -18,7 +18,7 @@ comm_draft:
   from: "Diana"
   subject: "78704 — quick notes before we talk"
   body: |
-    Hi Priya and Amit,
+    Hi Tom and Priya,
 
     Thanks for reaching out about 78704. Quick notes before we set a call:
 
@@ -35,7 +35,7 @@ comm_draft:
 
     — Diana
   send_checklist:
-    - "Confirm Priya and Amit's email from web form"
+    - "Confirm Tom and Priya's email from web form"
     - "Check inventory hasn't shifted significantly since research brief (30-day data)"
   drafted_by: "03_client_communication"
   draft_date: "2026-05-13"
@@ -73,7 +73,7 @@ quality_verdict:
 ```
 
 **Criteria walkthrough:**
-- **Specificity:** Named Priya and Amit, cited 78704 + $650-750K range, anchored to SF relocation context. The draft could not belong to another team without those specifics.
+- **Specificity:** Named Tom and Priya, cited 78704 + $650-750K range, anchored to SF relocation context. The draft could not belong to another team without those specifics.
 - **Clarity:** Opens with useful data (lot size, inventory reality), not warmup. One direct question. No hedging.
 - **Brevity:** 119 words. Clean open and close. No filler.
 - **Voice:** "Quick notes before we set a call" is a documented Diana archetype phrase. Closes with "— Diana" (em dash + first name). Sentence range within profile.

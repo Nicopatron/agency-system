@@ -117,7 +117,7 @@ comm_draft:
   type: "email"
   from: "Diana"
   body: |
-    Hi Priya and Amit,
+    Hi Tom and Priya,
 
     Thanks for reaching out about 78704. Quick notes before we set a call:
 
@@ -148,7 +148,7 @@ quality_verdict:
   verdict: "approved"
 
   criteria_check:
-    specificity: "pass"      # named Priya and Amit, cited 78704 + $650-750K range, SF relocation context
+    specificity: "pass"      # named Tom and Priya, cited 78704 + $650-750K range, SF relocation context
     clarity: "pass"          # opens with useful info, not warmup; direct about lot size expectation
     brevity: "pass"          # clean, no filler open or close, well within 200-word limit
     voice: "pass"            # "quick notes before we set a call" matches Diana's documented archetype; "— Diana" signature correct
