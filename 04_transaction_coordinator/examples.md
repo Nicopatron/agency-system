@@ -1,6 +1,6 @@
 # 04_transaction_coordinator — examples
 
-3 worked cases showing deal initialization, proactive risk-flag, and reactive deadline handling. All three thread the same Patel deal forward in time — Day 1, Day 7, Day 25 — so the agent sees how the same `deal_state` evolves.
+5 worked cases. Examples 1-3 + 5 thread the same Patel deal forward in time — Day 1, Day 7, Day 13, Day 25 — so the agent sees how the same `deal_state` evolves through initialization, proactive risk-flag, the financing-silent feedback loop, and reactive deadline handling. Example 4 is a refusal. Example 5 is shown after the refusal for diff stability but chronologically slots between Examples 2 and 3.
 
 ---
 
@@ -403,6 +403,109 @@ This is the system refusing to fish in a populated pipeline without disambiguati
 
 ---
 
+## Example 5 — Patel Day 13 (financing-silent feedback loop — proactive `deal_event` to 03)
+
+> **Chronological note:** Day 13 falls between Example 2 (Day 7) and Example 3 (Day 25). Listed after the refusal for diff stability; read in time order Ex1 → Ex2 → **Ex5** → Ex3 for the unbroken Patel timeline.
+
+This example demonstrates the system's feedback loop: **04 watches the clock; 03 writes the comm.** Routine status check on Day 13 trips the "financing contingency approaching + lender silent" risk-flag rule (5+ days before deadline, no lender comm in history — see `handoff.md` § Risk-flagging rules). The output is a `deal_event` to `03_client_communication` consumed in [`../03_client_communication/examples.md`](../03_client_communication/examples.md) Example 5.
+
+### Input I receive (routine status check from agent)
+
+```yaml
+deal_update:
+  deal_id: "2026-05-20-PatelBouldin"
+  update_type: "issue_raised"
+  detail: "Routine check 2026-06-02. No lender comm since 2026-05-25 (lender confirmation date). Financing-contingency deadline 2026-06-10 (8 days out)."
+  updated_by: "Diana"
+  update_date: "2026-06-02"
+```
+
+### Output I produce — updated `deal_state` + `deal_event` to 03
+
+#### Updated `deal_state` (delta from Day 7)
+
+```yaml
+deal_state:
+  deal_id: "2026-05-20-PatelBouldin"
+  status: "under_contract"           # past option period (ended 2026-05-27)
+  current_day_in_contract: 13        # 2026-06-02 = Day 13
+
+  risks:
+    - flag: "FINANCING CONTINGENCY APPROACHING + LENDER SILENT — Frost Bank no comm since 2026-05-25 (8 days); financing-contingency deadline 2026-06-10 (8 days out). Per § Risk-flagging rules, fires at 5+ days before deadline with no lender comm in history. At Day 13 of a conventional financing window, underwriting should be actively requesting docs — silence is a risk signal, not a green light."
+      severity: "high"               # 🔴
+      first_seen: "2026-06-02"
+      action_recommended: "Today: direct outreach to Frost confirming underwriting status + outstanding document list; copy Patels for transparency"
+
+  history:
+    - date: "2026-05-20"
+      event: "Contract executed; option period begins"
+      logged_by: "Diana"
+    - date: "2026-05-23"
+      event: "Earnest + option fee delivered to escrow; receipt confirmed"
+      logged_by: "Diana"
+    - date: "2026-05-25"
+      event: "Lender confirmed: Frost Bank (local) replacing Wells Fargo (SF)"
+      logged_by: "Diana"
+    - date: "2026-05-27"
+      event: "Inspection completed; minor electrical findings, no deal-breakers"
+      logged_by: "Diana"
+    - date: "2026-05-27"
+      event: "Option period ended; status moved to under_contract"
+      logged_by: "Diana"
+    - date: "2026-06-02"
+      event: "Routine status check — Frost Bank silent for 8 days; financing-contingency 8 days out. Watch tripped."
+      logged_by: "Diana"
+
+  events_for_comm:
+    - event_id: "2026-06-02-PatelBouldin-financing-silent"
+      event_type: "financing_delay"
+      created_at: "2026-06-02T10:00"
+
+  last_update: "2026-06-02"
+  confidence: 75                     # all required fields populated; one open watch (Frost silence) flagged for follow-up — not an unverified day-count, so no per-milestone deduction
+  handoff_reason: forward_urgent     # financing_delay event surfaced 8 days before deadline → emit status under deadline pressure
+```
+
+#### `deal_event` sent to `03_client_communication`
+
+```yaml
+deal_event:
+  event_id: "2026-06-02-PatelBouldin-financing-silent"
+  deal_id: "2026-05-20-PatelBouldin"
+  event_type: "financing_delay"
+
+  details: |
+    Frost Bank silent for 8 days; financing-contingency deadline 2026-06-10 (8 days out). At this stage in conventional financing, underwriting should be actively requesting docs — silence is a risk signal, not a green light. Recommended comm: direct outreach to Frost confirming status + document requests outstanding, with a copy to Patel so they see the chase. This is the proactive flag — fired 8 days out, not 3, so the Patels have room to recover if Frost has actually paused.
+
+  parties_to_notify: ["buyer_lender", "buyer"]
+  suggested_comm_type: "phone_then_email"
+  urgency: "high"
+
+  proposed_subject_line: "Patel financing — status check before contingency"
+
+  key_facts_for_draft:
+    - "Financing contingency deadline 2026-06-10 (8 days out)"
+    - "No lender comm since 2026-05-25 (Frost confirmation date) — 8 day silence"
+    - "Need outstanding document list + current underwriting status from Frost"
+    - "Patels (Tom + Priya) copied for transparency — they see the chase, not a surprise later"
+    - "Tone for Frost: professional, direct, no alarm — this is a status check, not an escalation yet"
+
+  sent_by: "04_transaction_coordinator"
+  sent_date: "2026-06-02"
+  handoff_reason: forward_urgent     # financing_delay event + urgency:"high" + phone_then_email channel → forward_urgent per AGENTS.md
+```
+
+### Note for the agent
+
+This is the feedback-loop pattern: 04 detects the clock issue (silence + approaching deadline) and emits a `deal_event` to 03 rather than writing the email itself. Two reasons it matters that 04 does NOT draft: (1) **separation of concerns** — 04 watches deal state, 03 owns voice + archetype matching; the system would be brittle if 04 tried to do both. (2) **8-days-out is the right escalation tier** — flagging at 3 days out is the failure mode Example 3 demonstrates; flagging at 8 days gives Diana room to recover the deal if Frost has actually paused on underwriting.
+
+**Why this meets Diana's standard** (`team-standards.md § 1 + § 4 — hard moments: financing delay`)**:**
+- Flag fires 8 days before deadline, not after. "Every deadline in an active deal is surfaced 48 hours before it passes — never after." 8 days is well within the protective window — Diana can act, Frost can respond, and the deal still has multiple recovery paths. The Day 25 example shows what happens when this Day 13 flag is missed.
+- `urgency: "high"` (not `"urgent"`) — accurate calibration. Urgent is reserved for deadline-already-passed or <48h windows. This is high because action is needed today but the deal is not in crisis. The hard-moments playbook: "proactive at day 20 saves a deal that a reactive one at day 22 cannot" — same principle one tier earlier.
+- `suggested_comm_type: "phone_then_email"` — Frost responds to a phone call faster than email, and the email afterwards documents the doc request list. The system surfaces the right channel; Diana doesn't have to decide.
+
+---
+
 ## See also
 
 - `identity.md` — what I own
@@ -410,4 +513,5 @@ This is the system refusing to fish in a populated pipeline without disambiguati
 - `handoff.md` — canonical schemas (deal_state, deal_event, refusal)
 - `domain-fact-pending.md` — TREC day-counts graduated 2026-05-12
 - `../03_client_communication/examples.md` Ex2 — how the inspection-issue / similar deal_event becomes an email
+- `../03_client_communication/examples.md` Ex5 — how this Day 13 `deal_event` becomes the follow-up email to Frost
 - `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through across the 6 pipeline specialists (00→05); 06_daily_brief and 07_nurture_coordinator run separately as morning sync and post-close cadence

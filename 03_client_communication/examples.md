@@ -1,10 +1,12 @@
 # 03_client_communication — examples
 
-5 worked cases. Ex1-4 cover one archetype each from Diana's voice profile (first-touch follow-up, inspection-issue email to buyer, competing-offer notification to seller, contract-acceptance + `deal_seed` initialization). Ex5 shows the `lead_too_thin` refusal path — the quality floor 03 enforces on downstream-thin inputs. Each draft includes the voice-match notes and decision-trace so the agent sees WHY the draft sounds the way it does, not just what it says.
+6 worked cases. Ex1-4 cover one archetype each from Diana's voice profile (first-touch follow-up, inspection-issue email to buyer, competing-offer notification to seller, contract-acceptance + `deal_seed` initialization). Ex5 shows the `lead_too_thin` refusal path — the quality floor 03 enforces on downstream-thin inputs. Ex6 closes the feedback loop by consuming a `deal_event` from 04 (Day-13 financing-silent — verbatim from `../04_transaction_coordinator/examples.md` Example 5). Each draft includes the voice-match notes and decision-trace so the agent sees WHY the draft sounds the way it does, not just what it says.
 
 Inspection-issue draft (Ex2) is an instructional illustration of the archetype using a hypothetical mold-finding scenario for the Patel deal — the actual Patel timeline in `../04_transaction_coordinator/examples.md` shows minor electrical findings only. Both versions exist to show how the archetype handles different severity levels.
 
 Ex4 is the only example where 03 produces TWO outputs in one invocation: the `comm_draft` AND a `deal_seed` block for `04_transaction_coordinator` to initialize deal tracking. This is the schema bridge between client communication and live deal tracking — it only fires on acceptance comms.
+
+Ex6 is the only example showing the **feedback loop** from 04 → 03: the deal_event input is the verbatim output of `../04_transaction_coordinator/examples.md` Example 5, demonstrating that the system is a loop (04 watches the clock, 03 writes the comm), not a one-way pipeline.
 
 ---
 
@@ -564,6 +566,129 @@ This is the refuse-first design working: 01 produced an output (3/5 is above the
 
 ---
 
+## Example 6 — Patel Day 13 financing-silent follow-up (Diana voice, deal_event consumed from 04)
+
+This example closes the **feedback loop**: 04 detects on Day 13 that Frost Bank has been silent for 8 days with the financing-contingency deadline approaching, emits a `deal_event` (verbatim from `../04_transaction_coordinator/examples.md` Example 5), and 03 turns it into a follow-up email to Frost with Tom and Priya copied. The system is a loop, not a one-way pipeline — 04 watches the clock, 03 owns the voice.
+
+### Input I receive (deal_event from 04 — verbatim from `../04_transaction_coordinator/examples.md` Example 5)
+
+```yaml
+# From 04_transaction_coordinator (deal_event)
+deal_event:
+  event_id: "2026-06-02-PatelBouldin-financing-silent"
+  deal_id: "2026-05-20-PatelBouldin"
+  event_type: "financing_delay"
+
+  details: |
+    Frost Bank silent for 8 days; financing-contingency deadline 2026-06-10 (8 days out). At this stage in conventional financing, underwriting should be actively requesting docs — silence is a risk signal, not a green light. Recommended comm: direct outreach to Frost confirming status + document requests outstanding, with a copy to Patel so they see the chase. This is the proactive flag — fired 8 days out, not 3, so the Patels have room to recover if Frost has actually paused.
+
+  parties_to_notify: ["buyer_lender", "buyer"]
+  suggested_comm_type: "phone_then_email"
+  urgency: "high"
+
+  proposed_subject_line: "Patel financing — status check before contingency"
+
+  key_facts_for_draft:
+    - "Financing contingency deadline 2026-06-10 (8 days out)"
+    - "No lender comm since 2026-05-25 (Frost confirmation date) — 8 day silence"
+    - "Need outstanding document list + current underwriting status from Frost"
+    - "Patels (Tom + Priya) copied for transparency — they see the chase, not a surprise later"
+    - "Tone for Frost: professional, direct, no alarm — this is a status check, not an escalation yet"
+
+  sent_by: "04_transaction_coordinator"
+  sent_date: "2026-06-02"
+  handoff_reason: forward_urgent
+
+# Voice profile reference
+voice_profile_ref:
+  agent_name: "Diana"
+  profile_file_path: "voice-profiles/diana.md"
+```
+
+### Output I produce — `comm_draft`
+
+```yaml
+comm_draft:
+  draft_id: "2026-06-02-Patel-frost-status-check"
+  lead_id: "2026-05-13-Patel-buyer"
+  deal_id: "2026-05-20-PatelBouldin"
+  type: "email"
+  urgency: "high"
+
+  to:
+    recipient_name: "<Frost Bank loan officer — agent fills from contact log>"
+    recipient_role: "lender"
+    contact: "<Frost lender email>"
+  cc:
+    - "Tom and Priya Patel <Patel email>"
+  from: "Diana"
+
+  subject: "Patel financing — status check before contingency"
+
+  body: |
+    Hi <Frost contact first name>,
+
+    Following up on the Patel file (78704 Bouldin Creek, contract effective 2026-05-20). We're at Day 13 of the contract and the financing contingency deadline is 2026-06-10 — eight days out.
+
+    Two things I'd like to confirm:
+
+    Where are we in underwriting today, and is anything outstanding on document requests from Tom or Priya? I want to be sure nothing is sitting in a queue on our side.
+
+    I'll plan to call this afternoon to walk through it; this email is so you have the file context in front of you when we talk. Tom and Priya are copied so they see the chase and can move quickly if you need anything from them today.
+
+    — Diana
+
+  attachments_referenced: []
+
+  send_checklist:
+    - "Confirm Frost loan officer first name + email from contact log (lender confirmation note 2026-05-25)"
+    - "Call Frost loan officer this afternoon BEFORE sending email — phone_then_email per deal_event suggested_comm_type"
+    - "Verify financing-contingency deadline 2026-06-10 against executed contract (TREC 40-11 paragraph 2.B)"
+    - "Confirm Patel email is correct for cc (last touch 2026-05-20 acceptance email)"
+    - "If sending after 5pm Central, schedule for next-morning send"
+
+  voice_match_notes: |
+    Matched Diana's profile (voice-profiles/diana.md):
+      • Opening "Hi <first name>" matches `formality.opening` (lender contact, first-name basis already established)
+      • Body sentences 9-22 words; median around 14 — within Diana's range
+      • ONE direct question (where are we + anything outstanding — two sub-parts, one question) per idiosyncrasy "asks ONE direct follow-up question per email, not a list"
+      • Em dashes 3x for asides instead of parentheses (idiosyncrasy match)
+      • No exclamation marks (idiosyncrasy match)
+      • Closing "— Diana" matches `signature_format`
+      • Avoided "circle back," "reach out," "touch base" — system-level forbidden list
+      • Subject line drops the article and names the action ("Patel financing — status check before contingency") — pattern-match from competing-offer / option-period subject lines in Ex2 + Ex3
+      • Tone is professional-direct, not alarmist — matches deal_event guidance "this is a status check, not an escalation yet"
+
+    No matching archetype in Diana's profile for "lender status check" specifically — used the inspection-issue archetype's structural pattern (name situation in 1 sentence, ask focused question, set up call, close) adapted for B2B-lender-not-client tone. Flagged in decision_trace and reflected in confidence.
+
+  decision_trace:
+    - "Per deal_event.suggested_comm_type 'phone_then_email': email is the follow-up to the phone call, not the primary channel — send-checklist makes this sequencing explicit"
+    - "Tone calibrated to deal_event guidance: 'professional, direct, no alarm — this is a status check, not an escalation yet.' Did NOT use escalation language ('urgent', 'concerning', 'past due')"
+    - "Patels cc'd per deal_event.parties_to_notify and key_facts_for_draft — they see the chase happening, not a surprise later. This is the proactive-vs-reactive principle that Example 3 in 04 (Day 25) shows the cost of missing"
+    - "Did NOT name the 8-day silence to Frost directly ('you've been silent for 8 days' reads as accusatory). Surfaced as 'where are we today' — same information ask, different posture"
+    - "No matching archetype in Diana's profile for lender comms (her archetypes cover buyer/seller comms). Used inspection-issue structural pattern adapted for B2B tone; flagged in voice_match_notes; confidence reduced by −15 per the archetype-fallback rule"
+
+  drafted_by: "03_client_communication"
+  draft_date: "2026-06-02"
+  confidence: 60   # deal_event urgency "high" → voice-match quality only (upstream confidence does not propagate per handoff.md § Confidence propagation). Base voice match strong (75), minus −15 for no matching archetype (B2B lender comm not in Diana's profile) → 60
+  handoff_reason: forward_urgent               # deal_event urgency "high" + phone_then_email channel + 8-day window → forward_urgent (05_quality_review escalates accordingly)
+  verification_required: false
+  verification_notes: ""
+  gaps:
+    - "Frost loan officer first name + email contact details not in deal_event payload; agent fills from lender confirmation note 2026-05-25"
+```
+
+### Note for the agent
+
+This is the feedback loop in motion: 04 detected the silence pattern, 03 wrote the comm. Two things to action before send: (1) phone call FIRST per `suggested_comm_type: "phone_then_email"` — the email is the documentation layer; the phone call is the actual escalation. (2) Confirm the Frost contact info from the 2026-05-25 lender-confirmation entry in deal history. The Patels are cc'd intentionally — proactive transparency at Day 13 is much cheaper than damage control at Day 25 (see Ex3 in `../04_transaction_coordinator/examples.md`).
+
+**Why this meets Diana's standard** (`team-standards.md § 1 + § 4 — hard moments: financing delay`)**:**
+- ONE direct question to Frost — "Where are we in underwriting + is anything outstanding?" Not a list. The lender answers one question clearly; lists get partial responses. Matches Diana's idiosyncrasy "asks ONE direct follow-up question per email, not a list."
+- Proactive posture, not reactive — Day 13 with 8 days of buffer means Diana can ask "where are we?" without alarm. If this flag had been missed and fired at Day 22, the email would read very differently (see Ex3 in `../04_transaction_coordinator/examples.md` for the Day 25 version: "FINANCING CONTINGENCY ALREADY PASSED"). "A proactive conversation at day 20 saves a deal that a reactive one at day 22 cannot" — same principle one tier earlier.
+- Patels cc'd — `team-standards.md § 1`: "Every client communication is specific to that client — their name, their property, their situation." Copying the Patels means they see the chase, not a surprise. Hidden chases are how clients lose confidence; visible ones build it.
+
+---
+
 ## See also
 
 - `identity.md` — what I own
@@ -573,5 +698,5 @@ This is the refuse-first design working: 01 produced an output (3/5 is above the
 - `../voice-profiles/_template.md` — for setting up other agents' profiles
 - `../01_lead_qualifier/examples.md` Ex1 + Ex2 — how Patel and Henderson arrived as qualified_leads
 - `../02_property_research/examples.md` Ex1 — how the Patel research_brief informed Ex1
-- `../04_transaction_coordinator/examples.md` Ex2 + Ex3 — how deal_events from 04 land here (and the actual Patel timeline)
+- `../04_transaction_coordinator/examples.md` Ex2 + Ex3 + Ex5 — how deal_events from 04 land here (Ex5 is the upstream of this folder's Ex6; the actual Patel timeline)
 - `../onboarding/patel-scenario.md` — full end-to-end Patel walk-through
