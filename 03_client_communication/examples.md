@@ -1,6 +1,6 @@
 # 03_client_communication — examples
 
-4 worked drafts — one per archetype in Diana's voice profile (first-touch follow-up, inspection-issue email to buyer, competing-offer notification to seller, contract-acceptance + `deal_seed` initialization). Each draft includes the voice-match notes and decision-trace so the agent sees WHY the draft sounds the way it does, not just what it says.
+5 worked cases. Ex1-4 cover one archetype each from Diana's voice profile (first-touch follow-up, inspection-issue email to buyer, competing-offer notification to seller, contract-acceptance + `deal_seed` initialization). Ex5 shows the `lead_too_thin` refusal path — the quality floor 03 enforces on downstream-thin inputs. Each draft includes the voice-match notes and decision-trace so the agent sees WHY the draft sounds the way it does, not just what it says.
 
 Inspection-issue draft (Ex2) is an instructional illustration of the archetype using a hypothetical mold-finding scenario for the Patel deal — the actual Patel timeline in `../04_transaction_coordinator/examples.md` shows minor electrical findings only. Both versions exist to show how the archetype handles different severity levels.
 
@@ -461,7 +461,7 @@ comm_draft:
 
   drafted_by: "03_client_communication"
   draft_date: "2026-05-20"
-  confidence: 90    # qualified_lead 95 (post-first-call refresh); archetype matched cleanly; no enumerated reductions apply
+  confidence: 95    # qualified_lead 95 (post-first-call refresh); archetype matched cleanly; voice profile fresh; no enumerated reductions apply (rules § Always #5: −10 fallback, −10 stale, −15 missing archetype — none fire here)
   handoff_reason: forward_urgent               # offer-acceptance + Monday closing-prep window → forward_urgent (escalate channels for wire-instructions handoff)
 ```
 
@@ -479,6 +479,8 @@ deal_seed:
     option_fee_usd: 300          # negotiated; varies widely TX
   contract_date: "2026-05-20"
   target_close: "2026-06-30"
+  key_dates:
+    option_period_ends: "2026-05-27"   # TREC 20-18 ¶23: 7-day option period; clock starts day AFTER effective date (Day 1 = 2026-05-21), Day 7 = 2026-05-27
   contract_version: "TREC 20-18 (One to Four Family Residential, effective 2025-01-03)"
 ```
 
@@ -490,6 +492,75 @@ This is the only example where 03 produces TWO outputs in one invocation: the `c
 - Wiring instructions split to a separate email — `decision_trace` item: "security practice: never combine 'we won' with payment instructions in one forwardable message." Wire fraud is a real Austin RE attack vector. The acceptance message is forwardable; wiring instructions are not. This decision is named explicitly, not assumed.
 - `deal_seed` produced in the same invocation — deal tracking starts Day 1, not after a separate reminder. "Every deadline in an active deal is surfaced 48 hours before it passes — never after." 04 can only flag deadlines if the deal_state exists. This example closes the schema bridge.
 - Acceptance is matter-of-fact, not celebratory — Diana's voice profile explicitly blocks "congratulations," "thrilled," "excited." "Every draft reviewed by the agent before send. Nothing auto-sends." The draft is operator-to-operator, not retail. The agent's job is to confirm facts and send; the Patels' job is to close on a house.
+
+---
+
+## Example 5 — Thin-lead refusal (lead_too_thin path)
+
+### Input I receive
+
+Agent pastes a 3/5 intake `qualified_lead` (intent, budget, location captured; timeline + constraints missing) with `framework_not_commitment: true` and `confidence: 65`. Comm request asks for first-touch.
+
+```yaml
+qualified_lead:
+  lead_id: "2026-05-16-Okafor-buyer"
+  client_type: "buyer"
+  intent_summary: "Adaeze Okafor wants to buy a home in north-central Austin, budget around $550K, no timeline given."
+  intake_completeness: 3
+  confidence: 65
+  framework_not_commitment: true        # 3/5 cap per 01/rules.md § Refusal thresholds
+  next_stages_recommended:
+    - target: "03_client_communication"
+      comm_request:
+        purpose: "first_touch"
+        urgency: "normal"
+
+voice_profile_ref:
+  agent_name: "Diana"
+  profile_file_path: "voice-profiles/diana.md"
+```
+
+### Output I produce — `refusal`
+
+```yaml
+refusal:
+  draft_id: "2026-05-16-Okafor-refusal"
+  lead_id: "2026-05-16-Okafor-buyer"
+  reason: "lead_too_thin"                # rules.md § Never #5: confidence < 70 AND intake_completeness < 4
+  handoff_reason: back_data_missing      # closed enum per AGENTS.md — sender re-routes after capturing missing inputs
+  inputs_missing:
+    - "timeline (no decision window, no target date)"
+    - "constraints (no must-haves, deal-breakers, or special situation)"
+  inputs_received:
+    - "intent: buyer (verified)"
+    - "budget: ~$550K (verified)"
+    - "location: north-central Austin (verified — neighborhoods within 78751/78757 implied)"
+  gap_list:
+    - "Without a timeline, the first-touch email can't propose a meeting cadence or scope a research_brief window — 02 also caps research at 3/5 intake"
+    - "Without constraints, the first-touch can't be specific (e.g., 'you mentioned schools matter — let's start there'). A generic 'thanks for reaching out' is exactly what Diana's standard refuses (`team-standards.md § 3`: 'A draft that could belong to any client fails the quality gate.')"
+    - "framework_not_commitment: true means downstream specialists should NOT treat this as a deal-shaped lead — drafting now would propagate that error into a sent email"
+  recovery_questions:
+    - "When are you hoping to be in a new place? (decision window in months, even rough)"
+    - "What's the one thing the right home would need to have? And the one thing that would kill it for you?"
+    - "Have you talked to a lender yet? (financing approach matters for offer strength once we're ready)"
+  next_action: |
+    Agent action: capture answers to the 3 recovery questions in a 5-minute call or email back to Adaeze.
+    Then re-paste the updated qualified_lead through 01 (intake_completeness should hit 5/5; framework_not_commitment
+    drops; confidence climbs to 95 before upstream cap). Re-invoke 03 with the refreshed lead.
+
+  refused_by: "03_client_communication"
+  refusal_date: "2026-05-16"
+  confidence: 0                          # refusal carries no draft-quality signal
+```
+
+### Note for the agent
+
+This is the refuse-first design working: 01 produced an output (3/5 is above the ≤2/5 refusal floor) but flagged it as `framework_not_commitment: true`. 03's quality gate refuses because drafting from a thin profile would either (a) produce a generic email that fails Diana's specificity standard, or (b) invent details that don't match the client. The recovery path is named — 3 specific questions, then re-paste. Five minutes of intake work prevents an email Diana would have rewritten anyway.
+
+**Why this meets Diana's standard** (`team-standards.md § 3 + rules.md § Never #5`)**:**
+- Refusal over fabrication — the same discipline 01 applies to ≤2/5 inputs, 03 applies to thin downstream outputs. Quality floors don't only fire at intake; they fire wherever the work would be unsound.
+- `recovery_questions` are specific and short — 3 questions, not 6. Diana asks ONE follow-up at a time; the refusal models the same restraint so the agent's next call doesn't feel like an interrogation.
+- `gap_list` names WHY each gap blocks the draft — not just what's missing. The agent reads the refusal and immediately understands the cost of proceeding anyway.
 
 ---
 

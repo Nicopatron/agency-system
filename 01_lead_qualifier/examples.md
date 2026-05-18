@@ -1,6 +1,6 @@
 # 01_lead_qualifier — examples
 
-3 worked cases showing the intake gate, refusal discipline, and schema fidelity. The Patel scenario threads through `02`, `03`, and `04` — see those folders' examples for the rest of the chain.
+4 worked cases showing the intake gate, the 3/5 framework-not-commitment boundary, refusal discipline, and schema fidelity. The Patel scenario threads through `02`, `03`, and `04` — see those folders' examples for the rest of the chain.
 
 ---
 
@@ -166,7 +166,90 @@ qualified_lead:
 
 ---
 
-## Example 3 — Mary refusal (thin lead, 1/5 intake)
+## Example 3 — Okafor framework (3/5 intake, framework_not_commitment boundary)
+
+### Input I receive (pasted by Diana)
+
+```
+New buyer lead from referral, 2026-05-16 10:15 CT.
+
+Name: Adaeze Okafor
+Email: a.okafor@<redacted>
+Phone: (512) <redacted>
+Source: Referral from Rachel M. (closed 2024)
+
+Caller's message:
+  "Rachel said you'd be the right person to talk to. I'm starting to
+   look for a place in north-central Austin — north of UT, somewhere
+   in the Hyde Park / Allandale area. Budget around $550K. I haven't
+   really pinned down when, just that it's something I want to do."
+
+Agent notes: didn't ask must-haves or deal-breakers on the call —
+she'd just gotten the referral and wanted to feel out fit before
+deeper intake. Open to a second call when she's ready.
+```
+
+### Output I produce
+
+```yaml
+qualified_lead:
+  lead_id: "2026-05-16-Okafor-buyer"
+  client_type: "buyer"
+  intent_summary: "Adaeze Okafor wants to buy a home in north-central Austin (Hyde Park / Allandale), budget around $550K, no timeline pinned down."
+
+  budget:
+    min_usd: 480000             # INFERRED: typical 13% offer-room buffer below stated $550K — agent should confirm on second call. Without confirmation, downstream caps at confidence 65.
+    max_usd: 550000             # explicitly stated by client
+    financing: "unknown"        # NOT YET CAPTURED — agent should ask: pre-approved? cash? conventional?
+
+  timeline:
+    decision_window_days: null  # NOT YET CAPTURED — "haven't really pinned down when" is not a flexible-with-reason, it's missing
+    target_close: null
+
+  location_preferences:
+    primary_areas: ["78751", "78757"]   # Hyde Park (78751) + Allandale (78757) — verifiable from caller's named areas
+    must_haves: []              # NOT YET CAPTURED — agent should ask during second call
+    deal_breakers: []           # NOT YET CAPTURED — agent should ask during second call
+
+  constraints:
+    - "Referral source: Rachel M. — closed with team 2024; warm lead with trust pre-loaded"
+    - "Caller wanted to feel out fit before deeper intake; expressed willingness to do a second call"
+
+  next_stages_recommended:
+    - target: "03_client_communication"
+      reason: "first_touch_with_intake_followup"
+      comm_request:
+        purpose: "first_touch"
+        urgency: "normal"
+        intake_followup_questions:
+          - "When are you hoping to be in a new place? (decision window in months, even rough)"
+          - "What's the one thing the right home would need to have?"
+          - "Have you talked to a lender yet, or paying cash?"
+
+  qualified_by: "Diana"
+  qualified_date: "2026-05-16"
+  intake_completeness: 3                       # intent + budget + location captured; timeline + constraints missing
+  confidence: 65                               # 3/5 cap per rules.md § Refusal thresholds
+  framework_not_commitment: true               # 3/5 metadata flag per rules.md § Refusal thresholds — downstream MUST NOT treat as deal-shaped lead
+  handoff_reason: forward_normal               # closed enum per AGENTS.md § Handoff reason taxonomy
+  gaps:
+    - "timeline (no decision window, no target date — 'haven't pinned down' is not 'flexible with reason')"
+    - "constraints (no must-haves, deal-breakers, special situation)"
+    - "financing approach (pre-approved? cash? conventional?)"
+```
+
+### Note for the agent
+
+3/5 is the boundary case. Output exists — Adaeze gave intent, budget, location — but `framework_not_commitment: true` tells downstream specialists this is exploratory, not deal-shaped. 03 will see this flag and respond two ways: (1) draft a first-touch that's structured to surface the 3 missing intake items (NOT pitch properties yet), OR (2) refuse if 03 reads `confidence < 70 AND intake_completeness < 4` strictly (see `../03_client_communication/examples.md` Ex5 for the refusal path). Either is correct discipline. After Adaeze answers the 3 follow-up questions, re-paste and intake jumps to 5/5, confidence climbs to 95, and `framework_not_commitment` drops.
+
+**Why this meets Diana's standard** (`team-standards.md § 1 + § 3`)**:**
+- `framework_not_commitment: true` makes the boundary VISIBLE in the schema — not hidden in a comment or inferred from confidence number. A downstream specialist reading the field knows immediately: this is intake-in-progress, not a qualified deal. "Surface what we don't know explicitly. Hidden uncertainty is how deals go wrong and clients lose trust."
+- `intake_followup_questions` are embedded in the `comm_request` — 03 doesn't have to invent them; the next-touch email is scoped to close the gap, not pitch. One direct follow-up question per communication discipline ports forward: 03 will pick one for the email, hold the others for a call.
+- Refusal would be too harsh here (Adaeze is warm, the gap is conversational not commitment-blocking); a thin draft would be too eager (fails specificity). The 3/5 path is the right middle: output, flagged, structured to close the gap. The system has THREE responses to thin intake — output, framework, refuse — and 3/5 is what `framework` looks like in practice.
+
+---
+
+## Example 4 — Mary refusal (thin lead, 1/5 intake)
 
 ### Input I receive
 
