@@ -1,0 +1,9 @@
+# Step-output stub for Henderson workflow. Full deal_event schema instance
+# lives in ../../04_transaction_coordinator/handoff.md § Canonical schema —
+# deal_event. This file is the audit-trail pointer; the populated summary
+# is below.
+actor: "04_transaction_coordinator"
+action: "produced deal_event to 03_client_communication — competing offer surfaced by listing agent (James Carter, Carter Realty) verbal-only"
+output_summary: "event_type competing_offer | urgency urgent | suggested_comm_type phone_then_email | listing_agent_deadline 2026-05-16 17:00 CT | Diana's read: clean second offer at list with shorter option, no all-cash signal, no aggressive escalation push — legitimate but not aggressive; Hendersons have $720K room vs $695K contract, don't need to use it; lane = hold-or-strengthen with confidence | parties_to_notify: [buyer], routed to 03 phone-first"
+timestamp: "2026-05-15 14:22"
+status: "OUTPUT_COMPLETE | confidence 85 (verbal claim from listing agent flagged; verification_required: true on competing-offer price-gap detail) | 03 draft pending (YELLOW DRAFT NEEDED raised 14:25)"

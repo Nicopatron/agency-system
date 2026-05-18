@@ -1,0 +1,8 @@
+# Step-output stub for Henderson workflow. Full schema instance lives in
+# ../../02_property_research/handoff.md § Canonical schema. This file is the
+# audit-trail pointer; the populated research_brief summary is below.
+actor: "02_property_research"
+action: "produced research_brief on 78751 (Hyde Park) — narrowed scope from initial 78704/78751 dual after inventory check showed 78704 single-family under $720K nearly empty in trailing 30 days"
+output_summary: "78751 (Hyde Park): $/sqft median $452 (vs $468 78704 metro), DOM 31 days, comparable trio at $670-705K, Lee Elementary catchment overlaps the south half, walkability 78-92 in target subdivisions; flagged 4521 Speedway + 3 alternates"
+timestamp: "2026-05-02 14:30"
+status: "OUTPUT_COMPLETE | confidence 80 (upstream cap 85 −5 for 30-day comp data freshness flag) | routed to 03_client_communication for showing-briefing comm"

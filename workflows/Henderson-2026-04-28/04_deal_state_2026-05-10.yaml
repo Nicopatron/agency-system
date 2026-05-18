@@ -1,0 +1,9 @@
+# Step-output stub for Henderson workflow. Full deal_state schema instance
+# lives in ../../04_transaction_coordinator/handoff.md § Canonical schema —
+# deal_state. This file is the audit-trail pointer; the populated summary
+# is below.
+actor: "04_transaction_coordinator"
+action: "initialized deal_state from 03 acceptance comm deal_seed — contract executed snapshot"
+output_summary: "deal_id 2026-05-10-HendersonSpeedway | TREC 20-18 + TREC 40-11 (Third Party Financing) | effective 2026-05-10 | contract $695K | option fee $150 + earnest $7,000 → Heritage Title | option period 10 days ends 2026-05-20 17:00 CT | financing-contingency 25 days = 2026-06-04 | target close 2026-06-12 (Carter Realty counter-accepted)"
+timestamp: "2026-05-10 14:45"
+status: "OUTPUT_COMPLETE | confidence 90 (all required fields populated, TREC 20-18 + 40-11 confirmed, lender + title-co identified) | tracking active; next watch fires 2026-05-15 (option period < 5 days)"

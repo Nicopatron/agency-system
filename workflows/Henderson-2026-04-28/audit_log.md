@@ -50,9 +50,14 @@ Read-only events — do not log these:
 [2026-04-29 11:45] ROUTED — Sent to 02_property_research | Reason: qualified_lead with explicit target areas; research_request scope = 78704 + 78751.
 [2026-04-29 14:00] AGENT ACTION — Diana signed Buyer Rep Agreement with Hendersons (10% commission, 6 months).
 [2026-05-02 14:30] OUTPUT — 02_property_research produced research_brief on 78751 (Hyde Park) | Key finding: $/sqft median $452 (vs $468 78704 metro), DOM 31 days, comparable trio at $670-705K — confidence 80.
+[2026-05-02 17:10] OUTPUT — 03_client_communication produced first-touch comm_draft | Key finding: relocation-with-timeline-pressure archetype matched; one direct scheduling question (showings week of 5/6 vs 5/13); confidence 80 (research_brief upstream cap).
+[2026-05-02 17:42] QUALITY REVIEW — 05_quality_review [PASS] | First-touch draft: specificity PASS (named Lee Elementary catchment + Capitol Federal pre-approval), clarity PASS (one direct question), brevity PASS (4 short paragraphs), voice PASS (Diana profile, no exclamation, em-dash signature). Approved for send.
+[2026-05-03 09:05] AGENT ACTION — Diana sent first-touch email to Sara + James (scheduled overnight per send-checklist — drafted after 17:00 Central).
 [2026-05-06 16:40] AGENT ACTION — Showed 4 properties (4521 Speedway, 4203 Ave G, 4117 Avenue H, 4602 Speedway). Hendersons strong preference for 4521 Speedway Ave (lot size, school proximity).
 [2026-05-08 10:00] AGENT ACTION — Offer submitted at $695K (list price). 7-day option period requested.
 [2026-05-08 17:00] AGENT ACTION — Listing agent (James Carter, Carter Realty) countered on closing date only (negotiated 2026-06-12). Hendersons accepted via Diana same evening.
+[2026-05-08 19:30] OUTPUT — 03_client_communication produced acceptance-confirmation comm_draft for Hendersons | Key finding: contract-acceptance archetype; deal_seed block included for 04 initialization; one direct question (wire timing — Mon 5/11 vs Tue 5/12); confidence 95.
+[2026-05-08 19:55] QUALITY REVIEW — 05_quality_review [PASS] | Acceptance confirmation: specificity PASS (named closing date $695K + Heritage Title), clarity PASS, brevity PASS, voice PASS. deal_seed schema-valid (parties, contract_date, target_close, key_dates.option_period_ends all populated). Approved for send.
 [2026-05-10 14:25] AGENT ACTION — Contract executed (TREC 20-18 + TREC 40-11 Third Party Financing). Effective date 2026-05-10. Option period 10 days = ends 2026-05-20 at 5pm CT. Closing 2026-06-12.
 [2026-05-10 14:30] SLIP TRANSITION — 🟢 GREEN → Stage moved to Transaction Coordination | Reason: contract executed; 04 takes over.
 [2026-05-11 09:15] AGENT ACTION — Hendersons wired option fee ($150) + earnest money ($7,000) to Heritage Title. Maria Reyes (title officer) confirmed receipt same day.
